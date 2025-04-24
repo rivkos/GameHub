@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Добавить Игру</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <h1 class="site-title">Добавить Игра</h1>
+  <form id="gameForm">
+    <input type="text" id="title" placeholder="Название игры" required><br>
+    <input type="text" id="link" placeholder="Ссылка на скачивание" required><br>
+    <input type="text" id="icon" placeholder="Ссылка на иконку" required><br>
+    <button type="submit">Добавить Игру</button>
+  </form>
+
+  <h2>Сгенерированный JSON:</h2>
+  <textarea id="generatedJSON" readonly placeholder="Здесь будет код для вставки в games.json"></textarea>
+
+  <script>
+    document.getElementById('gameForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const title = document.getElementById('title').value;
+      const link = document.getElementById('link').value;
+      const icon = document.getElementById('icon').value;
+
+      const game = {
+        title: title,
+        link: link,
+        icon: icon
+      };
+
+      const generatedJSON = JSON.stringify(game, null, 2);
+      document.getElementById('generatedJSON').value = generatedJSON;
+
+      // Очистка полей после добавления
+      document.getElementById('title').value = '';
+      document.getElementById('link').value = '';
+      document.getElementById('icon').value = '';
+    });
+  </script>
+</body>
+</html>
