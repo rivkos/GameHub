@@ -14,97 +14,39 @@
       -ms-user-select: none;
       user-select: none;
     }
-
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background-color: #fff0f0;
-    }
-
-    h1.site-title {
-      text-align: center;
-      padding: 20px;
-      margin: 0;
-      background-color: #c40000;
-      color: white;
-      font-size: 2rem;
-    }
-
+    
+    /* Прокрутка контейнера игр на случай большого количества карточек */
     .games-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      padding: 20px;
       max-height: 100vh;
       overflow-y: auto;
-      box-sizing: border-box;
     }
-
-    .game-card {
-      flex: 0 0 calc((100% - 4 * 20px) / 5); /* 5 карточек в ряд */
-      background-color: white;
-      padding: 15px;
-      text-align: center;
-      border-radius: 10px;
-      border: 2px solid #c40000;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: transform 0.2s;
-    }
-
-    .game-card:hover {
-      transform: scale(1.03);
-    }
-
-    .game-icon {
-      max-width: 100%;
-      max-height: 100px;
-      object-fit: contain;
-      margin-bottom: 10px;
-    }
-
-    .download-btn {
-      margin-top: auto;
-      padding: 10px 15px;
-      background-color: #c40000;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-    }
-
-    .download-btn:hover {
-      background-color: #a00000;
-    }
-
-    /* Скролл стили */
+    
+    /* Стили скроллбара для .games-container (если требуется) */
     .games-container::-webkit-scrollbar {
       width: 10px;
     }
-
     .games-container::-webkit-scrollbar-thumb {
-      background-color: #c40000;
+      background-color: #ff4444;
       border-radius: 5px;
     }
-
     .games-container::-webkit-scrollbar-thumb:hover {
-      background-color: #a00000;
+      background-color: #ff8888;
     }
   </style>
 </head>
 <body>
   <h1 class="site-title">Game Hub</h1>
   <div class="games-container" id="gamesList">
-    <!-- Игры подгружаются скриптом -->
+    <!-- Карточки игр подгружаются скриптом loadGames.js -->
   </div>
 
   <script>
-    // Защита от правого клика и копирования
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('keydown', e => {
-      if (e.ctrlKey && (e.key === 'c' || e.key === 'x') || e.key === 'Insert') {
+    // Отключаем контекстное меню и сочетания клавиш для копирования
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey && (e.key === 'c' || e.key === 'x')) || e.key === 'Insert') {
         e.preventDefault();
       }
     });
