@@ -1,11 +1,16 @@
 [
   {
+    "title": "Minecraft",
+    "link": "https://www.dropbox.com/scl/fi/eb9gpxmltm4axxkm1j593/MinecraftInstaller.exe?rlkey=pxo5c1nwd6cqranw2igfl3zmm&st=0rswoz3x&dl=0",
+    "icon": "icons/minecraft.png"
+  },
+  {
     "title": "Gorebox",
     "link": "https://www.dropbox.com/scl/fi/6r0m9ok1pifizj82dh089/GoreBox.exe?rlkey=87mzkq3j2g67m77rlsirc7tne&st=m5lo17qe&dl=11kmT1c34upHC5KGDMW&ust=1745506271408000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCICv-Nyz7owDFQAAAAAdAAAAABAE",
     "icon": "icons/Gorebox.png"
   },
   {
-    "title": "Geometry dash",
+    "title": "Geometry Dash",
     "link": "https://www.dropbox.com/scl/fi/qjad9fxpqnmssltqdwnzd/GeometryDash.exe?rlkey=lkjjttsmzq4k2a8hyqvl3fq4i&st=ip6kvrl7&dl=1",
     "icon": "icons/Geometrydash.png"
   }
