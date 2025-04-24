@@ -17,23 +17,9 @@
             font-size: 2em;
             color: red;
             text-align: center;
-            margin: 100px 0;
-            animation: fadeInOut 5s infinite;
-        }
-
-        @keyframes fadeInOut {
-            0% {
-                opacity: 0;
-            }
-            25% {
-                opacity: 1;
-            }
-            75% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
+            margin: 50px 0;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
         }
 
         .credits {
@@ -47,7 +33,6 @@
         .credits span {
             display: block;
             margin: 20px 0;
-            color: white;
         }
 
         .redirect-message {
@@ -61,11 +46,13 @@
 </head>
 <body>
 
-    <div class="song-text">
-        <p>Песня начинается...</p>
-        <p>Вот текст песни, который будет плавно исчезать.</p>
-        <p>Этот текст исчезает и появляется снова.</p>
-        <p>Вот конец текста песни.</p>
+    <div id="song-container">
+        <div class="song-text">Never gonna give you up</div>
+        <div class="song-text">Never gonna let you down</div>
+        <div class="song-text">Never gonna run around and desert you</div>
+        <div class="song-text">Never gonna make you cry</div>
+        <div class="song-text">Never gonna say goodbye</div>
+        <div class="song-text">Never gonna tell a lie and hurt you</div>
     </div>
 
     <div class="credits">
@@ -83,14 +70,26 @@
     </div>
 
     <script>
-        setTimeout(function() {
-            document.querySelector('.song-text').style.display = 'none';
-            document.querySelector('.credits').style.display = 'block';
-        }, 8000); // Показываем титры через 8 секунд
+        const songLines = document.querySelectorAll('.song-text');
+        let delay = 0;
 
+        songLines.forEach((line, index) => {
+            setTimeout(() => {
+                line.style.opacity = 0; // Скрываем строку
+            }, delay);
+            delay += 3000; // Увеличиваем задержку между строками (по 3 секунды)
+        });
+
+        // После исчезновения всех строк показываем титры
         setTimeout(function() {
-            window.location.href = 'GameHub/index.html'; // Перенаправление на страницу
-        }, 12000); // Перенаправление через 12 секунд
+            document.querySelector('.credits').style.display = 'block';
+        }, delay);
+
+        // Перенаправление на другую страницу
+        setTimeout(function() {
+            window.location.href = 'GameHub/index.html'; // Перенаправление через 12 секунд
+        }, delay + 5000); // Добавляем 5 секунд для показа титров
     </script>
+
 </body>
 </html>
