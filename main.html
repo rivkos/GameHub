@@ -1,55 +1,36 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Game Hub</title>
-  <link rel="stylesheet" href="style.css?v=1.2">
-  <script defer src="scripts/loadGames.js"></script>
-  <style>
-    /* Защита от копирования */
-    body, .games-container {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-    
-    /* Прокрутка контейнера игр на случай большого количества карточек */
-    .games-container {
-      max-height: 100vh;
-      overflow-y: auto;
-    }
-    
-    /* Стили скроллбара для .games-container (если требуется) */
-    .games-container::-webkit-scrollbar {
-      width: 10px;
-    }
-    .games-container::-webkit-scrollbar-thumb {
-      background-color: #ff4444;
-      border-radius: 5px;
-    }
-    .games-container::-webkit-scrollbar-thumb:hover {
-      background-color: #ff8888;
-    }
-  </style>
-</head>
-<body>
-  <h1 class="site-title">Game Hub</h1>
-  <div class="games-container" id="gamesList">
-    <!-- Карточки игр подгружаются скриптом loadGames.js -->
-  </div>
 
+  <!-- Orbitron шрифт -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="style.css?v=1.2" />
+
+  <!-- Скрипт -->
+  <script defer src="scripts/loadGames.js"></script>
+
+  <!-- Защита от копирования -->
   <script>
-    // Отключаем контекстное меню и сочетания клавиш для копирования
-    document.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-    });
-    document.addEventListener('keydown', function(e) {
-      if ((e.ctrlKey && (e.key === 'c' || e.key === 'x')) || e.key === 'Insert') {
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("keydown", e => {
+      if (
+        (e.ctrlKey && (e.key === "c" || e.key === "x")) ||
+        e.key === "Insert"
+      ) {
         e.preventDefault();
       }
     });
   </script>
+</head>
+<body>
+  <h1 class="site-title">Game Hub</h1>
+  <div class="games-container" id="gamesList">
+    <!-- Игры подгружаются из JS -->
+  </div>
 </body>
 </html>
