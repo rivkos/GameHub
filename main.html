@@ -4,45 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Game Hub</title>
+  <link rel="stylesheet" href="style.css?v=1.2">
   <script defer src="scripts/loadGames.js"></script>
   <style>
-    /* Отключаем выделение текста */
+    /* Защита от копирования */
     body, .games-container {
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
+    }
+
+    body {
       margin: 0;
       font-family: sans-serif;
-      background-color: #f0f0f0;
+      background-color: #fff0f0;
     }
 
     h1.site-title {
       text-align: center;
       padding: 20px;
       margin: 0;
-      background-color: #333;
+      background-color: #c40000;
       color: white;
       font-size: 2rem;
     }
 
     .games-container {
       display: flex;
-      flex-wrap: wrap;               /* разрешаем перенос на следующую строку */
-      gap: 20px;                     /* расстояние между карточками */
+      flex-wrap: wrap;
+      gap: 20px;
       padding: 20px;
-      max-height: 100vh;             /* прокрутка по высоте окна */
+      max-height: 100vh;
       overflow-y: auto;
       box-sizing: border-box;
     }
 
     .game-card {
-      flex: 0 0 calc((100% - 4 * 20px) / 5);
-      /* 5 карточек в ряд: вычитаем 4 пробела по 20px, остальное делим на 5 */
+      flex: 0 0 calc((100% - 4 * 20px) / 5); /* 5 карточек в ряд */
       background-color: white;
       padding: 15px;
       text-align: center;
       border-radius: 10px;
+      border: 2px solid #c40000;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       display: flex;
       flex-direction: column;
@@ -64,7 +68,7 @@
     .download-btn {
       margin-top: auto;
       padding: 10px 15px;
-      background-color: #007bff;
+      background-color: #c40000;
       color: white;
       text-decoration: none;
       border-radius: 5px;
@@ -72,34 +76,33 @@
     }
 
     .download-btn:hover {
-      background-color: #0056b3;
+      background-color: #a00000;
     }
 
-    /* Стили скролла */
+    /* Скролл стили */
     .games-container::-webkit-scrollbar {
       width: 10px;
     }
 
     .games-container::-webkit-scrollbar-thumb {
-      background-color: #aaa;
+      background-color: #c40000;
       border-radius: 5px;
     }
 
     .games-container::-webkit-scrollbar-thumb:hover {
-      background-color: #777;
+      background-color: #a00000;
     }
   </style>
 </head>
 <body>
   <h1 class="site-title">Game Hub</h1>
   <div class="games-container" id="gamesList">
-    <!-- сюда loadGames.js подгрузит карточки -->
+    <!-- Игры подгружаются скриптом -->
   </div>
 
   <script>
-    // Отключаем правый клик
+    // Защита от правого клика и копирования
     document.addEventListener('contextmenu', e => e.preventDefault());
-    // Блокируем Ctrl+C, Ctrl+X, Insert
     document.addEventListener('keydown', e => {
       if (e.ctrlKey && (e.key === 'c' || e.key === 'x') || e.key === 'Insert') {
         e.preventDefault();
