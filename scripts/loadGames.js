@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
   // Загружаем данные из JSON файла
-  fetch("data/games.json")
+  fetch("data/games.json")  // Проверь путь к файлу, это зависит от того, где у тебя находится games.json
     .then(response => response.json())
     .then(games => {
       const gamesContainer = document.getElementById("gamesList");
