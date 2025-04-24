@@ -6,20 +6,60 @@
   <title>Game Hub</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="scripts/loadGames.js"></script>
-  <script defer src="scripts/searchGames.js"></script>
+  <style>
+    /* Отключаем выделение текста */
+    body, .games-container {
+      -webkit-user-select: none; /* Для браузеров на базе WebKit */
+      -moz-user-select: none; /* Для Firefox */
+      -ms-user-select: none; /* Для IE/Edge */
+      user-select: none; /* Для остальных браузеров */
+    }
+
+    /* Запрещаем правый клик мыши */
+    body {
+      user-select: none;
+    }
+
+    /* Стиль для контейнера игр с прокруткой */
+    .games-container {
+      max-height: 100vh; /* Ограничиваем высоту блока контейнера */
+      overflow-y: auto; /* Включаем вертикальную прокрутку */
+      padding-right: 20px; /* Добавим отступ, чтобы не перекрывать скролл */
+    }
+
+    /* Чтобы скролл выглядел красиво */
+    .games-container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .games-container::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 4px;
+    }
+
+    .games-container::-webkit-scrollbar-thumb:hover {
+      background-color: #555;
+    }
+  </style>
 </head>
-<body oncontextmenu="return false" oncopy="return false" oncut="return false" onpaste="return false">
+<body>
   <h1 class="site-title">Game Hub</h1>
-
-  <!-- Поисковая строка -->
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="Поиск игры...">
-  </div>
-
-  <!-- Контейнер с играми -->
   <div class="games-container" id="gamesList">
     <!-- Игры будут загружаться сюда -->
   </div>
+
+  <script>
+    // Отключаем правый клик мыши
+    document.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
+
+    // Отключаем копирование текста с клавиатуры (Ctrl+C, Ctrl+X)
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey && (e.key === 'c' || e.key === 'x')) || e.key === 'Insert') {
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>
- 
