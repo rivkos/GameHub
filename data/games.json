@@ -15,8 +15,18 @@
     "icon": "icons/Geometrydash.png"
   },
   {
-    "title": "Roblox",
+    "title": "Роблокс",
     "link": "https://www.dropbox.com/scl/fi/z51fwe6nc9brtort74jh5/RobloxPlayerInstaller.exe?rlkey=kni1x7axljbjbfr5mx1eytxg5&st=1nhfajpx&dl=0",
     "icon": "icons/Roblox.png"
+  },
+  {
+    "title": "War Thunder",
+    "link": "https://drive.google.com/file/d/1zgRAra2yG18saBH4Bxka5Fp1i0WvhRaX/view?usp=sharing",
+    "icon": "icons/WarThunder.png"
+  },
+  {
+    "title": "World of Tanks",
+    "link": "https://drive.google.com/file/d/1s8g8t9ukoPNL3Lop1MYf6wbJ6A01U6IN/view?usp=sharing",
+    "icon": "icons/WT.png"
   }
 ]
