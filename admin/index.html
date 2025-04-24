@@ -12,14 +12,43 @@
             background-color: #222;
             color: #fff;
         }
-        
-        .song-text {
+
+        /* Контейнер для текста песни */
+        #song-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
             font-size: 2em;
             color: red;
-            text-align: center;
-            margin: 50px 0;
+            overflow: hidden;
+            height: 80%;
+            width: 80%;
+        }
+
+        /* Анимация для каждой строки текста */
+        .song-text {
             opacity: 1;
-            transition: opacity 1s ease-in-out;
+            transform: translateY(0);
+            animation: moveUp 6s ease-in-out forwards;
+            margin-bottom: 20px;
+        }
+
+        /* Анимация движения текста вверх */
+        @keyframes moveUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-100px);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px);
+            }
         }
 
         .credits {
@@ -41,7 +70,7 @@
             text-align: center;
             margin-top: 100px;
         }
-        
+
     </style>
 </head>
 <body>
@@ -58,7 +87,6 @@
         <div class="song-text">Never gonna make you cry</div>
         <div class="song-text">Never gonna say goodbye</div>
         <div class="song-text">Never gonna tell a lie and hurt you</div>
-        <div class="song-text">Походу рикролл :(</div>
     </div>
 
     <div class="credits">
@@ -72,29 +100,30 @@
     </div>
 
     <div class="redirect-message">
-        <p>Скоро...</p>
+        <p>Скоро будет перенаправление на страницу GameHub...</p>
     </div>
 
     <script>
         const songLines = document.querySelectorAll('.song-text');
         let delay = 0;
 
+        // Задержка для появления каждой строки с анимацией
         songLines.forEach((line, index) => {
             setTimeout(() => {
-                line.style.opacity = 0; // Скрываем строку
-            }, delay);
-            delay += 3000; // Увеличиваем задержку между строками (по 3 секунды)
+                line.style.animationDelay = `${delay}s`; // Устанавливаем задержку для каждой строки
+            }, delay * 1000);  // Увеличиваем задержку для каждой строки
+            delay += 3; // Увеличиваем задержку для каждой следующей строки (по 3 секунды)
         });
 
         // После исчезновения всех строк показываем титры
         setTimeout(function() {
             document.querySelector('.credits').style.display = 'block';
-        }, delay);
+        }, delay * 1000); // Показываем титры после всех строк
 
         // Перенаправление на другую страницу
         setTimeout(function() {
             window.location.href = 'https://rivkos.github.io/GameHub/'; // Перенаправление через 12 секунд
-        }, delay + 5000); // Добавляем 5 секунд для показа титров
+        }, delay * 1000 + 5000); // Добавляем 5 секунд для показа титров
     </script>
 
 </body>
