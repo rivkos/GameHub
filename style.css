@@ -15,6 +15,30 @@ body {
   text-shadow: 0 0 10px white;
 }
 
+.search-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.search-box input {
+  padding: 10px 20px;
+  font-size: 18px;
+  border: 2px solid red;
+  border-radius: 20px;
+  background-color: #1a1a1a;
+  color: white;
+  box-shadow: 0 0 10px red;
+  outline: none;
+  transition: 0.3s;
+  font-family: 'Orbitron', sans-serif;
+  width: 60%;
+}
+
+.search-box input:focus {
+  box-shadow: 0 0 20px red;
+}
+
 .games-container {
   display: flex;
   flex-wrap: wrap;
@@ -59,31 +83,6 @@ body {
 .download-btn:hover {
   background-color: white;
   color: red;
-  box-shadow: 0 0 20px red;
-}
-
-/* Стиль строки поиска */
-.search-box {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-}
-
-.search-box input {
-  padding: 10px 20px;
-  font-size: 18px;
-  border: 2px solid red;
-  border-radius: 20px;
-  background-color: #1a1a1a;
-  color: white;
-  box-shadow: 0 0 10px red;
-  outline: none;
-  transition: 0.3s;
-  font-family: 'Orbitron', sans-serif;
-  width: 60%;
-}
-
-.search-box input:focus {
   box-shadow: 0 0 20px red;
 }
 
