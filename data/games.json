@@ -2,7 +2,7 @@
   {
     "title": "Minecraft",
     "link": "https://www.dropbox.com/scl/fi/eb9gpxmltm4axxkm1j593/MinecraftInstaller.exe?rlkey=pxo5c1nwd6cqranw2igfl3zmm&st=0rswoz3x&dl=0",
-    "icon": "icons/Minecraft.png"
+    "icon": "icons/minecraft.png"
   },
   {
     "title": "Gorebox",
@@ -13,5 +13,10 @@
     "title": "Geometry Dash",
     "link": "https://www.dropbox.com/scl/fi/qjad9fxpqnmssltqdwnzd/GeometryDash.exe?rlkey=lkjjttsmzq4k2a8hyqvl3fq4i&st=ip6kvrl7&dl=1",
     "icon": "icons/Geometrydash.png"
+  },
+  {
+    "title": "Roblox",
+    "link": "https://www.dropbox.com/scl/fi/z51fwe6nc9brtort74jh5/RobloxPlayerInstaller.exe?rlkey=kni1x7axljbjbfr5mx1eytxg5&st=1nhfajpx&dl=0",
+    "icon": "icons/Roblox.png"
   }
 ]
