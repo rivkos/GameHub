@@ -81,6 +81,7 @@
     </audio>
 
     <div id="song-container">
+        <div class="song-text">———————————————————————</div>
         <div class="song-text">Never gonna give you up</div>
         <div class="song-text">Never gonna let you down</div>
         <div class="song-text">Never gonna run around and desert you</div>
@@ -108,8 +109,8 @@
         songLines.forEach((line, index) => {
             setTimeout(() => {
                 line.style.animationDelay = `${delay}s`; // Устанавливаем задержку для каждой строки
-            }, delay * 1000);  // Увеличиваем задержку для каждой строки
-            delay += 3; // Увеличиваем задержку для каждой следующей строки (по 3 секунды)
+            }, delay * 500);  // Увеличиваем задержку для каждой строки
+            delay += 1; // Увеличиваем задержку для каждой следующей строки (по 3 секунды)
         });
 
         // После исчезновения всех строк показываем титры
@@ -120,7 +121,7 @@
         // Перенаправление на другую страницу
         setTimeout(function() {
             window.location.href = 'https://rivkos.github.io/GameHub/'; // Перенаправление через 12 секунд
-        }, delay * 1000 + 5000); // Добавляем 5 секунд для показа титров
+        }, delay * 1000 + 18000); // Добавляем 5 секунд для показа титров
     </script>
 
 </body>
