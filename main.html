@@ -1,110 +1,110 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game Hub</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="scripts/loadGames.js"></script>
-  <style>
-    body, .games-container {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      margin: 0;
-      font-family: sans-serif;
-      background-color: #f0f0f0;
-    }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Hub</title>
+  <script defer src="scripts/loadGames.js"></script>
+  <style>
+    /* Отключаем выделение текста */
+    body, .games-container {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #f0f0f0;
+    }
 
-    h1.site-title {
-      text-align: center;
-      padding: 20px;
-      margin: 0;
-      background-color: #333;
-      color: white;
-      font-size: 2rem;
-    }
+    h1.site-title {
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+      background-color: #333;
+      color: white;
+      font-size: 2rem;
+    }
 
-    .games-container {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 20px;
-      padding: 20px;
-      max-height: 100vh;
-      overflow-y: auto;
-      box-sizing: border-box;
-    }
+    .games-container {
+      display: flex;
+      flex-wrap: wrap;               /* разрешаем перенос на следующую строку */
+      gap: 20px;                     /* расстояние между карточками */
+      padding: 20px;
+      max-height: 100vh;             /* прокрутка по высоте окна */
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
 
-    .game-card {
-      background-color: white;
-      padding: 15px;
-      text-align: center;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: transform 0.2s;
-    }
+    .game-card {
+      flex: 0 0 calc((100% - 4 * 20px) / 5);
+      /* 5 карточек в ряд: вычитаем 4 пробела по 20px, остальное делим на 5 */
+      background-color: white;
+      padding: 15px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s;
+    }
 
-    .game-card:hover {
-      transform: scale(1.03);
-    }
+    .game-card:hover {
+      transform: scale(1.03);
+    }
 
-    .game-icon {
-      width: 100%;
-      height: auto;
-      max-height: 100px;
-      object-fit: contain;
-      margin-bottom: 10px;
-    }
+    .game-icon {
+      max-width: 100%;
+      max-height: 100px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
 
-    .download-btn {
-      margin-top: auto;
-      display: inline-block;
-      padding: 10px 15px;
-      background-color: #007bff;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-    }
+    .download-btn {
+      margin-top: auto;
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
 
-    .download-btn:hover {
-      background-color: #0056b3;
-    }
+    .download-btn:hover {
+      background-color: #0056b3;
+    }
 
-    .games-container::-webkit-scrollbar {
-      width: 10px;
-    }
+    /* Стили скролла */
+    .games-container::-webkit-scrollbar {
+      width: 10px;
+    }
 
-    .games-container::-webkit-scrollbar-thumb {
-      background-color: #aaa;
-      border-radius: 5px;
-    }
+    .games-container::-webkit-scrollbar-thumb {
+      background-color: #aaa;
+      border-radius: 5px;
+    }
 
-    .games-container::-webkit-scrollbar-thumb:hover {
-      background-color: #777;
-    }
-  </style>
+    .games-container::-webkit-scrollbar-thumb:hover {
+      background-color: #777;
+    }
+  </style>
 </head>
 <body>
-  <h1 class="site-title">Game Hub</h1>
-  <div class="games-container" id="gamesList">
-    <!-- Контент загружается через loadGames.js -->
-  </div>
+  <h1 class="site-title">Game Hub</h1>
+  <div class="games-container" id="gamesList">
+    <!-- сюда loadGames.js подгрузит карточки -->
+  </div>
 
-  <script>
-    document.addEventListener('contextmenu', function (e) {
-      e.preventDefault();
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if ((e.ctrlKey && (e.key === 'c' || e.key === 'x')) || e.key === 'Insert') {
-        e.preventDefault();
-      }
-    });
-  </script>
+  <script>
+    // Отключаем правый клик
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    // Блокируем Ctrl+C, Ctrl+X, Insert
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey && (e.key === 'c' || e.key === 'x') || e.key === 'Insert') {
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>
