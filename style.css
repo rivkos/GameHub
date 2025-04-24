@@ -1,98 +1,96 @@
 body {
-  background-color: #1a1a1a;
-  color: white;
-  font-family: 'Orbitron', sans-serif;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  user-select: none;
+  background-color: #1a1a1a;
+  color: white;
+  font-family: 'Orbitron', sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  user-select: none;
 }
 
 .site-title {
-  font-size: 48px;
-  margin: 30px 0;
-  color: red;
-  text-shadow: 0 0 10px white;
+  font-size: 3rem;
+  color: #ff4444;
+  text-shadow: 0 0 15px white;
+  margin-top: 2rem;
 }
 
-/* Поисковая строка — добавлена, в стиле сайта */
+/* Поисковая строка */
 .search-box {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 .search-box input {
-  padding: 10px 20px;
-  font-size: 18px;
-  border: 2px solid red;
-  border-radius: 20px;
-  background-color: #1a1a1a;
-  color: white;
-  box-shadow: 0 0 10px red;
-  outline: none;
-  transition: 0.3s;
-  font-family: 'Orbitron', sans-serif;
-  width: 50%;
-  text-align: center;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: 2px solid #ff4444;
+  border-radius: 15px;
+  background-color: #1a1a1a;
+  color: white;
+  box-shadow: 0 0 10px #ff4444;
+  outline: none;
+  width: 50%;
+  font-family: 'Orbitron', sans-serif;
+  text-align: center;
 }
 
 .search-box input::placeholder {
-  color: #ffcccc;
+  color: #ffaaaa;
 }
 
 .search-box input:focus {
-  box-shadow: 0 0 20px red;
+  box-shadow: 0 0 20px #ff4444;
 }
 
 .games-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 40px;
-  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 2rem;
 }
 
 .game-card {
-  background-color: #2c2c2c;
-  border-radius: 20px;
-  padding: 20px;
-  width: 250px;
-  box-shadow: 0 0 15px white;
-  transition: 0.3s;
+  background-color: #2a2a2a;
+  border: 2px solid #fff;
+  box-shadow: 0 0 12px white;
+  border-radius: 20px;
+  width: 280px;
+  margin: 1.5rem;
+  padding: 1.5rem;
+  text-align: left;
+  transition: transform 0.2s ease;
 }
 
 .game-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px red;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #ff4444;
 }
 
 .game-icon {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  margin-bottom: 15px;
+  width: 64px;
+  height: 64px;
 }
 
 .download-btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: red;
-  color: white;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: bold;
-  box-shadow: 0 0 10px white;
-  transition: 0.3s;
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #ff4444;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  box-shadow: 0 0 10px white;
 }
 
 .download-btn:hover {
-  background-color: white;
-  color: red;
-  box-shadow: 0 0 20px red;
+  background-color: white;
+  color: #ff4444;
 }
 
-/* Подсветка совпадений */
+/* Подсветка при поиске */
 .highlight {
-  box-shadow: 0 0 25px limegreen !important;
+  box-shadow: 0 0 25px limegreen !important;
 }
