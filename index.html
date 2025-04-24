@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Капча</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      text-align: center;
+    }
+
+    .site-title {
+      font-size: 2.5em;
+      margin-top: 50px;
+      color: #333;
+    }
+
+    .captcha-form {
+      margin-top: 20px;
+    }
+
+    .captcha-form input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      background-color: red;
+      color: white;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 12px;
+      text-decoration: none;
+      cursor: pointer;
+      opacity: 0.5; /* Initially disabled */
+    }
+
+    .download-btn.active {
+      opacity: 1; /* Active button */
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="site-title">Подтвердите, что вы не робот</h1>
+  
+  <form class="captcha-form">
+    <input type="checkbox" id="captcha"> Я не робот<br><br>
+    <a href="main.html" id="continueBtn" class="download-btn" onclick="return validateCaptcha()">Продолжить</a>
+  </form>
+
+  <script>
+    // Валидация капчи
+    document.getElementById('captcha').addEventListener('change', function() {
+      const continueBtn = document.getElementById('continueBtn');
+      if (this.checked) {
+        continueBtn.classList.add('active');
+      } else {
+        continueBtn.classList.remove('active');
+      }
+    });
+
+    // Функция для проверки капчи
+    function validateCaptcha() {
+      const captchaChecked = document.getElementById('captcha').checked;
+      if (!captchaChecked) {
+        alert("Пожалуйста, подтвердите, что вы не робот.");
+        return false; // Останавливает переход
+      }
+      return true; // Переход будет выполнен
+    }
+  </script>
+
+</body>
+</html>
