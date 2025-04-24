@@ -1,45 +1,96 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Добавить Игру</title>
-  <link rel="stylesheet" href="../style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница администратора</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #222;
+            color: #fff;
+        }
+        
+        .song-text {
+            font-size: 2em;
+            color: red;
+            text-align: center;
+            margin: 100px 0;
+            animation: fadeInOut 5s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+            }
+            75% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .credits {
+            display: none;
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 50px;
+            color: white;
+        }
+
+        .credits span {
+            display: block;
+            margin: 20px 0;
+            color: white;
+        }
+
+        .redirect-message {
+            font-size: 1.5em;
+            color: white;
+            text-align: center;
+            margin-top: 100px;
+        }
+        
+    </style>
 </head>
 <body>
-  <h1 class="site-title">Добавить Игра</h1>
-  <form id="gameForm">
-    <input type="text" id="title" placeholder="Название игры" required><br>
-    <input type="text" id="link" placeholder="Ссылка на скачивание" required><br>
-    <input type="text" id="icon" placeholder="Ссылка на иконку" required><br>
-    <button type="submit">Добавить Игру</button>
-  </form>
 
-  <h2>Сгенерированный JSON:</h2>
-  <textarea id="generatedJSON" readonly placeholder="Здесь будет код для вставки в games.json"></textarea>
+    <div class="song-text">
+        <p>Песня начинается...</p>
+        <p>Вот текст песни, который будет плавно исчезать.</p>
+        <p>Этот текст исчезает и появляется снова.</p>
+        <p>Вот конец текста песни.</p>
+    </div>
 
-  <script>
-    document.getElementById('gameForm').addEventListener('submit', function(event) {
-      event.preventDefault();
+    <div class="credits">
+        <h2>Титры</h2>
+        <span>Сайт создан:</span>
+        <span>1. Dmitry</span>
+        <span>Технологии:</span>
+        <span>1. HTML</span>
+        <span>2. CSS</span>
+        <span>3. JavaScript</span>
+    </div>
 
-      const title = document.getElementById('title').value;
-      const link = document.getElementById('link').value;
-      const icon = document.getElementById('icon').value;
+    <div class="redirect-message">
+        <p>Скоро будет перенаправление на страницу GameHub...</p>
+    </div>
 
-      const game = {
-        title: title,
-        link: link,
-        icon: icon
-      };
+    <script>
+        setTimeout(function() {
+            document.querySelector('.song-text').style.display = 'none';
+            document.querySelector('.credits').style.display = 'block';
+        }, 8000); // Показываем титры через 8 секунд
 
-      const generatedJSON = JSON.stringify(game, null, 2);
-      document.getElementById('generatedJSON').value = generatedJSON;
-
-      // Очистка полей после добавления
-      document.getElementById('title').value = '';
-      document.getElementById('link').value = '';
-      document.getElementById('icon').value = '';
-    });
-  </script>
+        setTimeout(function() {
+            window.location.href = 'GameHub/index.html'; // Перенаправление на страницу
+        }, 12000); // Перенаправление через 12 секунд
+    </script>
 </body>
 </html>
