@@ -17,7 +17,6 @@
       height: 100%;
     }
 
-    /* Космос */
     .stars, .stars2, .stars3 {
       position: fixed;
       top: 0;
@@ -52,7 +51,6 @@
       100% { transform: translate(-50%, -50%); }
     }
 
-    /* Туман */
     .fog {
       position: fixed;
       top: 0;
@@ -69,7 +67,6 @@
       100% { transform: translateX(-50%); }
     }
 
-    /* Горизонтальный терминал */
     .terminal-container {
       position: absolute;
       top: 20%;
@@ -100,7 +97,6 @@
       border-radius: 5px;
       margin-bottom: 10px;
       max-height: 300px;
-      animation: typingEffect 4s steps(80, end);
     }
 
     .cursor {
@@ -117,12 +113,6 @@
       50.1%, 100% { opacity: 0; }
     }
 
-    @keyframes typingEffect {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-
-    /* Эффект кнопки ввода */
     .input-container {
       display: flex;
       justify-content: space-between;
@@ -155,7 +145,6 @@
       background-color: #ff1a1a;
     }
 
-    /* Бинарный поток */
     .binary-stream {
       position: absolute;
       bottom: 10px;
@@ -185,7 +174,6 @@
       background: none;
     }
 
-    /* Для мобильных устройств */
     @media screen and (max-width: 600px) {
       .terminal-container {
         width: 100%;
@@ -211,13 +199,11 @@
 </head>
 <body oncontextmenu="return false" onkeydown="return disableKeys(event)">
 
-  <!-- Фон (космос) -->
   <div class="stars"></div>
   <div class="stars2"></div>
   <div class="stars3"></div>
   <div class="fog"></div>
 
-  <!-- Горизонтальный терминал -->
   <div class="terminal-container">
     <div class="terminal" id="terminal">
       Подключение к серверу...<br>
@@ -232,63 +218,59 @@
       <span class="cursor"></span>
     </div>
 
-    <!-- Ввод команды -->
     <div class="input-container">
       <input type="text" id="userInput" placeholder="Введите команду..." autocomplete="off" autofocus>
       <button id="sendButton">Отправить</button>
     </div>
   </div>
 
-  <!-- Бинарный поток -->
   <div class="binary-stream">
     <span class="binary-text" id="binaryText">0101010101010101010101010101010101010101010101010101010101</span>
   </div>
 
   <script>
-    // Защита от копирования
     function disableKeys(e) {
       const blocked = ['u', 'c', 'x', 'v', 'a', 's'];
       if (e.ctrlKey && blocked.includes(e.key.toLowerCase())) return false;
       if (e.key === 'F12') return false;
     }
 
-    // Эмулируем команду ввода в терминале
-    let terminal = document.getElementById('terminal');
-    let cursor = document.querySelector('.cursor');
-    let userInput = document.getElementById('userInput');
-    let sendButton = document.getElementById('sendButton');
+    const restrictedCommands = ['ban', 'console', 'cd', 'settings', 'publish', 'delete', 'admin', 'html', 'control'];
+    const terminal = document.getElementById('terminal');
+    const cursor = document.querySelector('.cursor');
+    const userInput = document.getElementById('userInput');
+    const sendButton = document.getElementById('sendButton');
 
-    // Симуляция ввода команды
     function simulateTerminalInput(command) {
-      terminal.innerHTML += '<br/>$ ' + command;
+      const cleanCmd = command.trim().toLowerCase();
+      terminal.innerHTML += `<br/>$ ${command}`;
+
       setTimeout(() => {
-        if (command === 'ls') {
-          terminal.innerHTML += '<br/>Невозможно выполнить команду: недостаточно прав.';
+        if (restrictedCommands.includes(cleanCmd)) {
+          terminal.innerHTML += `<br/>Ошибка: недостаточно прав для выполнения команды "${command}".`;
         } else {
-          terminal.innerHTML += '<br/>Команда не найдена.';
+          terminal.innerHTML += `<br/>Команда "${command}" не найдена.`;
         }
-        terminal.innerHTML += '<br/>';
-        terminal.scrollTop = terminal.scrollHeight; // Автопрокрутка
-      }, 1000);
+        terminal.innerHTML += '<br/>$ ';
+        terminal.scrollTop = terminal.scrollHeight;
+      }, 500);
     }
 
-    // Обработчик отправки команды
     sendButton.addEventListener('click', () => {
-      let command = userInput.value;
+      const command = userInput.value;
       if (command) {
         simulateTerminalInput(command);
-        userInput.value = ''; // Очищаем поле
+        userInput.value = '';
       }
     });
 
-    // Слушаем Enter для отправки команды
     userInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         sendButton.click();
       }
     });
 
-    terminal.innerHTML += '<br/>$ '; // Начало
+    terminal.innerHTML += '<br/>$ ';
   </script>
 
 </body>
