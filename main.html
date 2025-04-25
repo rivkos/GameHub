@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>502 Bad Gateway</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="https://img.icons8.com/ios-filled/50/ffffff/error.png" />
   <style>
     html, body {
       margin: 0;
@@ -13,12 +14,14 @@
       font-family: 'Courier New', Courier, monospace;
       overflow: hidden;
       user-select: none;
+      height: 100%;
     }
 
     /* Космос */
     .stars, .stars2, .stars3 {
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 200%;
       height: 200%;
       background-repeat: repeat;
@@ -66,11 +69,12 @@
       100% { transform: translateX(-50%); }
     }
 
+    /* Контейнер с текстом */
     .container {
       position: absolute;
-      top: 50%;
+      top: 10%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
       text-align: left;
       padding: 30px;
       max-width: 800px;
@@ -88,19 +92,27 @@
     }
 
     .terminal {
-      background: transparent;
+      background-color: #000;
       color: #fff;
       font-size: 1em;
       line-height: 1.6em;
       white-space: pre-wrap;
+      padding: 20px;
+      border-radius: 5px;
+      border: 1px solid #ff4d4d;
+      margin-bottom: 20px;
+      width: 100%;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
       animation: typingEffect 4s steps(80, end);
+      box-shadow: 0 0 15px #ff4d4d;
     }
 
     .cursor {
       display: inline-block;
       width: 10px;
       height: 1em;
-      background: #fff;
+      background: #ff4d4d;
       margin-left: 5px;
       animation: blink 1s steps(1) infinite;
     }
@@ -148,24 +160,36 @@
     *::selection {
       background: none;
     }
+
+    /* Для мобильных устройств */
+    @media screen and (max-width: 600px) {
+      .container {
+        width: 90%;
+        padding: 20px;
+      }
+
+      .terminal {
+        font-size: 0.9em;
+      }
+    }
   </style>
 </head>
 <body oncontextmenu="return false" onkeydown="return disableKeys(event)">
 
-  <!-- Фон -->
+  <!-- Фон (космос) -->
   <div class="stars"></div>
   <div class="stars2"></div>
   <div class="stars3"></div>
   <div class="fog"></div>
 
-  <!-- Контент -->
+  <!-- Контейнер с текстом -->
   <div class="container">
     <h1>502 Bad Gateway</h1>
     <div class="terminal" id="terminal">
-      Подключение к серверу... ⏳<br>
+      Подключение к серверу...<br>
       Ответ не получен...<br>
-      🔒 Запрос повторяется...<br>
-      ❌ Ошибка шлюза 502.<br>
+      Запрос повторяется...<br>
+      Ошибка шлюза 502.<br>
       Возможные причины:<br>
       • Перегрузка сервера<br>
       • Неправильная маршрутизация<br>
@@ -181,22 +205,44 @@
   </div>
 
   <script>
-    // Защита
+    // Защита от копирования
     function disableKeys(e) {
       const blocked = ['u', 'c', 'x', 'v', 'a', 's'];
       if (e.ctrlKey && blocked.includes(e.key.toLowerCase())) return false;
       if (e.key === 'F12') return false;
     }
 
-    setTimeout(() => {
-      const binaryText = document.getElementById('binaryText');
-      if (binaryText) binaryText.innerText = '';
-    }, 5000);
+    // Эмулируем команду ввода в терминале
+    let terminal = document.getElementById('terminal');
+    let cursor = document.querySelector('.cursor');
 
-    document.addEventListener('copy', e => e.preventDefault());
-    document.addEventListener('cut', e => e.preventDefault());
-    document.addEventListener('paste', e => e.preventDefault());
-    document.addEventListener('selectstart', e => e.preventDefault());
+    // Симуляция ввода команды
+    function simulateTerminalInput(command) {
+      terminal.innerHTML += '<br/>$ ' + command;
+      setTimeout(() => {
+        if (command === 'ls') {
+          terminal.innerHTML += '<br/>Невозможно выполнить команду: недостаточно прав.';
+        } else {
+          terminal.innerHTML += '<br/>Команда не найдена.';
+        }
+        terminal.innerHTML += '<br/>';
+        terminal.scrollTop = terminal.scrollHeight; // Автопрокрутка
+      }, 1000);
+    }
+
+    // Слушаем ввод команды
+    window.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        let command = terminal.textContent.split('$ ').pop();
+        simulateTerminalInput(command);
+        terminal.innerHTML += '<br/>$ ';
+      } else if (e.key !== 'Shift' && e.key !== 'Control') {
+        terminal.innerHTML += e.key;
+      }
+      terminal.scrollTop = terminal.scrollHeight; // Автопрокрутка
+    });
+
+    terminal.innerHTML += '<br/>$ '; // Начало
   </script>
 
 </body>
