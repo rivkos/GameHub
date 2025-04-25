@@ -13,41 +13,29 @@
       font-family: 'Courier New', Courier, monospace;
       overflow: hidden;
       user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
     }
 
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-    }
-
-    /* Космос фон */
+    /* Космос */
     .stars, .stars2, .stars3 {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 200%;
       height: 200%;
       background-repeat: repeat;
-      z-index: -1;
+      z-index: -3;
       animation: moveStars 200s linear infinite;
     }
 
     .stars {
       background-image: radial-gradient(#fff 1px, transparent 1px);
       background-size: 2px 2px;
-      opacity: 0.4;
+      opacity: 0.3;
     }
 
     .stars2 {
       background-image: radial-gradient(#ff4d4d 1px, transparent 1px);
       background-size: 3px 3px;
-      opacity: 0.3;
+      opacity: 0.2;
     }
 
     .stars3 {
@@ -61,64 +49,91 @@
       100% { transform: translate(-50%, -50%); }
     }
 
+    /* Туман */
+    .fog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.03), rgba(255,0,0,0.05));
+      animation: fogMove 60s linear infinite;
+      z-index: -2;
+    }
+
+    @keyframes fogMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
     .container {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      text-align: center;
+      text-align: left;
+      padding: 30px;
+      max-width: 800px;
+      background: rgba(255, 255, 255, 0.02);
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+      border: 1px solid rgba(255, 0, 0, 0.2);
       animation: fadeIn 2s ease-out;
     }
 
-    .icon {
-      width: 80px;
-      height: 80px;
-      margin-bottom: 20px;
-      fill: #ff4d4d;
-      animation: bounce 2s infinite;
-    }
-
     h1 {
-      font-size: 3em;
+      font-size: 2.5em;
       color: #ff4d4d;
-      margin: 0;
+      margin-bottom: 10px;
       text-shadow: 0 0 10px red;
     }
 
-    p {
-      font-size: 1.2em;
+    .terminal {
+      background: transparent;
       color: #fff;
-      margin: 15px 0 30px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      font-size: 1em;
       line-height: 1.6em;
-      animation: slideUp 2s ease-out;
+      white-space: pre-wrap;
+      animation: typingEffect 4s steps(80, end);
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1em;
+      background: #fff;
+      margin-left: 5px;
+      animation: blink 1s steps(1) infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      50.1%, 100% { opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes typingEffect {
+      from { width: 0; }
+      to { width: 100%; }
     }
 
     .binary-stream {
       position: absolute;
-      bottom: 20px;
+      bottom: 10px;
       width: 100%;
       text-align: center;
-      color: #ff4d4d;
       font-size: 1.1em;
+      color: #ff4d4d;
       white-space: nowrap;
       overflow: hidden;
     }
 
     .binary-text {
       display: inline-block;
-      animation: typing 3s steps(60, end), fadeOut 1s ease-in 4.5s forwards;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    @keyframes fadeOut {
-      to { opacity: 0; }
+      animation: typing 3s steps(60, end), fadeOut 1s ease-in 5s forwards;
     }
 
     @keyframes typing {
@@ -126,14 +141,8 @@
       to { width: 100%; }
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    @keyframes fadeOut {
+      to { opacity: 0; }
     }
 
     *::selection {
@@ -143,27 +152,36 @@
 </head>
 <body oncontextmenu="return false" onkeydown="return disableKeys(event)">
 
-  <!-- Космос фон -->
+  <!-- Фон -->
   <div class="stars"></div>
   <div class="stars2"></div>
   <div class="stars3"></div>
+  <div class="fog"></div>
 
+  <!-- Контент -->
   <div class="container">
-    <svg class="icon" viewBox="0 0 64 64">
-      <path d="M32 0C14.4 0 0 14.4 0 32s14.4 32 32 32 32-14.4 32-32S49.6 0 32 0zm0 58C17 58 6 47 6 32S17 6 32 6s26 11 26 26-11 26-26 26z"/>
-      <path d="M30 16h4v20h-4zm0 24h4v4h-4z"/>
-    </svg>
     <h1>502 Bad Gateway</h1>
-    <p>Сервер получил недопустимый ответ от вышестоящего сервера. <br>
-    Это может быть временная ошибка — попробуйте позже или перезагрузите страницу.</p>
+    <div class="terminal" id="terminal">
+      Подключение к серверу... ⏳<br>
+      Ответ не получен...<br>
+      🔒 Запрос повторяется...<br>
+      ❌ Ошибка шлюза 502.<br>
+      Возможные причины:<br>
+      • Перегрузка сервера<br>
+      • Неправильная маршрутизация<br>
+      • Отказ вышестоящего сервера<br><br>
+      Попробуйте позже или сообщите администратору.
+      <span class="cursor"></span>
+    </div>
   </div>
 
+  <!-- Бинарный поток -->
   <div class="binary-stream">
     <span class="binary-text" id="binaryText">0101010101010101010101010101010101010101010101010101010101</span>
   </div>
 
   <script>
-    // Блокировка копирования и клавиш
+    // Защита
     function disableKeys(e) {
       const blocked = ['u', 'c', 'x', 'v', 'a', 's'];
       if (e.ctrlKey && blocked.includes(e.key.toLowerCase())) return false;
