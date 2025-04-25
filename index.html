@@ -93,30 +93,6 @@
       transform: scale(1.05);
     }
 
-    .mini-game-container {
-      margin-top: 30px;
-      text-align: left;
-      padding: 20px;
-      background-color: rgba(0, 0, 0, 0.6);
-      border-radius: 12px;
-      box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.3);
-    }
-
-    .mini-game-btn {
-      background-color: #ff4747;
-      color: #fff;
-      border-radius: 12px;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-top: 10px;
-      transition: background-color 0.3s;
-    }
-
-    .mini-game-btn:hover {
-      background-color: #e64a4a;
-    }
-
     /* Анимации */
     @keyframes fadeIn {
       0% { opacity: 0; }
@@ -131,11 +107,6 @@
     .captcha-form, .site-title {
       animation: fadeIn 1s ease;
     }
-
-    .mini-game-container {
-      animation: fadeInUp 1.2s ease;
-    }
-
   </style>
 </head>
 <body ondragstart="return false;" onselectstart="return false;">
@@ -152,13 +123,6 @@
     <input type="checkbox" id="captcha"> Я не робот<br><br>
     <a href="main.html" id="continueBtn" class="download-btn" onclick="return validateCaptcha()">Продолжить</a>
   </form>
-
-  <!-- Мини-игра -->
-  <div class="mini-game-container">
-    <p><strong>Задача:</strong> Сложите 5 + 3.</p>
-    <input type="text" id="answer" placeholder="Введите ответ" />
-    <button class="mini-game-btn" onclick="validateGameAnswer()">Проверить ответ</button>
-  </div>
 
   <script>
     // Валидация капчи и активация кнопки
@@ -179,18 +143,6 @@
         return false; // Останавливает переход
       }
       return true; // Переход будет выполнен
-    }
-
-    // Мини-игра: Проверка ответа
-    function validateGameAnswer() {
-      const answer = document.getElementById('answer').value;
-      if (answer === '8') {
-        alert("Ответ правильный! Вы прошли проверку.");
-        document.getElementById('captcha').checked = true; // Автоматическая активация капчи
-        document.getElementById('continueBtn').classList.add('active');
-      } else {
-        alert("Неверный ответ, попробуйте снова.");
-      }
     }
 
     // Защита от копирования кода
