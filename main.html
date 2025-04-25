@@ -26,7 +26,6 @@
       overflow-x: hidden;
       perspective: 1000px;
       transition: background-color 0.3s ease;
-      position: relative;
       display: flex;
       flex-direction: column;
     }
@@ -177,7 +176,7 @@
 
     .content {
       flex: 1;
-      overflow-y: scroll;
+      overflow-y: auto;  /* Сделаем прокрутку только для контента */
       padding-bottom: 60px;
       margin-bottom: 60px; /* пространство под контентом для футера */
     }
