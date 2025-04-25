@@ -6,16 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Game Hub</title>
 
-  <!-- Orbitron font -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
-
-  <!-- Font Awesome for icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-  <!-- Основные стили -->
-  <link rel="stylesheet" href="style.css?v=1.2" />
-
-  <!-- Встроенные стили и анимации -->
   <style>
     * {
       box-sizing: border-box;
@@ -29,27 +22,41 @@
       color: #fff;
       min-height: 100vh;
       overflow-x: hidden;
-      scroll-behavior: smooth;
+      perspective: 1000px;
     }
 
-    body.loaded .loading-bar-wrapper {
-      display: none;
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255,0,0,0.2) 0%, transparent 70%),
+                  repeating-linear-gradient(45deg, rgba(255,0,0,0.05) 0px, rgba(255,0,0,0.05) 1px, transparent 1px, transparent 20px);
+      animation: moveBackground 30s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes moveBackground {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-50%, -50%); }
     }
 
     header {
       text-align: center;
-      margin-top: 30px;
+      padding: 50px 20px 20px;
     }
 
     .site-title {
-      font-size: 36px;
+      font-size: 40px;
       color: #fff;
+      text-shadow: 0 0 10px red;
       opacity: 0;
-      transform: translateY(-50px);
-      animation: titleAnimation 1s forwards;
+      animation: fadeSlideDown 1s ease-out forwards;
     }
 
-    @keyframes titleAnimation {
+    @keyframes fadeSlideDown {
       to {
         opacity: 1;
         transform: translateY(0);
@@ -58,35 +65,64 @@
 
     .games-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 25px;
-      padding: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 40px 20px 60px;
       max-width: 1200px;
       margin: 0 auto;
-      animation: fadeInGrid 1.5s forwards;
-    }
-
-    @keyframes fadeInGrid {
-      to {
-        opacity: 1;
-      }
     }
 
     .game-item {
-      background: #111;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      background: rgba(20, 20, 20, 0.95);
+      border: 2px solid red;
+      border-radius: 16px;
+      padding: 30px 20px;
       text-align: center;
-      transition: all 0.3s ease;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+      transform-style: preserve-3d;
       opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.6s forwards;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards;
     }
 
     .game-item:hover {
-      transform: translateY(-10px) scale(1.05);
-      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+      transform: rotateY(8deg) rotateX(4deg) scale(1.04);
+      box-shadow: 0 0 35px rgba(255, 0, 0, 0.5);
+    }
+
+    .game-item i {
+      font-size: 38px;
+      color: red;
+      margin-bottom: 15px;
+    }
+
+    .game-item h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .game-item p {
+      font-size: 14px;
+      color: #ddd;
+      margin-bottom: 20px;
+    }
+
+    .game-item button {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .game-item button:hover {
+      background-color: #ff1a1a;
+      transform: scale(1.08);
     }
 
     @keyframes fadeInUp {
@@ -96,91 +132,28 @@
       }
     }
 
-    .game-item button {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      margin-top: 15px;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-      cursor: pointer;
-    }
-
-    .game-item button:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
-    }
-
-    .icon {
-      font-size: 24px;
-      margin-right: 8px;
-    }
-
-    .loading-bar-wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background-color: #333;
-      z-index: 9999;
-    }
-
-    .loading-bar {
-      width: 0;
-      height: 100%;
-      background-color: #fff;
-      animation: loadAnimation 3s forwards;
-    }
-
-    @keyframes loadAnimation {
-      0% { width: 0; }
-      100% { width: 100%; }
-    }
-
-    .loaded .loading-bar {
-      animation: loadFadeOut 1s forwards;
-    }
-
-    @keyframes loadFadeOut {
-      0% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-
-    /* Прокрутка */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #555;
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #888;
-    }
+    .game-item:nth-child(1) { animation-delay: 0.3s; }
+    .game-item:nth-child(2) { animation-delay: 0.6s; }
 
     @media screen and (max-width: 768px) {
       .site-title {
-        font-size: 28px;
+        font-size: 30px;
       }
 
       .game-item {
-        padding: 15px;
+        padding: 20px;
       }
 
       .game-item button {
-        padding: 8px 16px;
+        font-size: 13px;
+      }
+
+      .game-item i {
+        font-size: 32px;
       }
     }
   </style>
 
-  <!-- Скрипт -->
-  <script defer src="scripts/loadGames.js"></script>
-
-  <!-- Защита -->
   <script>
     document.addEventListener("contextmenu", e => e.preventDefault());
     document.addEventListener("keydown", e => {
@@ -196,24 +169,23 @@
 </head>
 
 <body>
-  <!-- Полоса загрузки -->
-  <div class="loading-bar-wrapper">
-    <div class="loading-bar"></div>
-  </div>
-
   <header>
-    <h1 class="site-title"><i class="fas fa-gamepad icon"></i>Game Hub</h1>
+    <h1 class="site-title"><i class="fas fa-gamepad"></i> Game Hub</h1>
   </header>
 
   <div class="games-container" id="gamesList">
-    <!-- Примеры (удали или заменяй через JS) -->
     <div class="game-item">
-      <h3>Игра 1</h3>
-      <button>Играть</button>
+      <i class="fab fa-telegram-plane"></i>
+      <h3>Телеграм Канал</h3>
+      <p>Следи за новостями и обновлениями. Всё в одном месте!</p>
+      <button onclick="window.open('https://t.me/c_xac3', '_blank')">Зайти</button>
     </div>
+
     <div class="game-item">
-      <h3>Игра 2</h3>
-      <button>Играть</button>
+      <i class="fas fa-user-secret"></i>
+      <h3>Связь с Владельцем</h3>
+      <p>Напиши напрямую владельцу, если возникли вопросы.</p>
+      <button onclick="window.open('https://t.me/dmitry_shadow', '_blank')">Написать</button>
     </div>
   </div>
 </body>
