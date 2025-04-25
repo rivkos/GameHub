@@ -22,29 +22,11 @@
 
     html, body {
       font-family: 'Orbitron', sans-serif;
-      background-color: #000;
+      background-color: #000; /* Черный фон */
       color: #fff;
       min-height: 100vh;
       overflow-x: hidden;
       perspective: 1000px;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at center, rgba(255, 0, 0, 0.4) 0%, transparent 70%),
-                  repeating-linear-gradient(45deg, rgba(255, 0, 0, 0.05) 0px, rgba(255, 0, 0, 0.05) 1px, transparent 1px, transparent 20px);
-      animation: moveBackground 20s linear infinite;
-      z-index: -1;
-    }
-
-    @keyframes moveBackground {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-50%, -50%); }
     }
 
     header {
@@ -77,7 +59,7 @@
     }
 
     .game-item {
-      background: rgba(20, 20, 20, 0.9);
+      background: #fff; /* Белый фон для карточек */
       border: 2px solid red;
       border-radius: 16px;
       padding: 30px 20px;
@@ -111,13 +93,13 @@
     .game-item h3 {
       font-size: 24px;
       margin-bottom: 15px;
-      color: #fff;
+      color: #000; /* Черный цвет текста для заголовков */
       text-shadow: 0 0 10px red;
     }
 
     .game-item p {
       font-size: 16px;
-      color: #ddd;
+      color: #000; /* Черный цвет текста для описания */
       margin-bottom: 20px;
     }
 
@@ -176,7 +158,6 @@
         font-size: 40px;
       }
     }
-
   </style>
 
   <!-- Скрипт для загрузки данных -->
@@ -242,230 +223,5 @@
   <div class="footer">
     <p>© 2025 XAC3. Все права защищены. <a href="https://github.com">GitHub</a></p>
   </div>
-</body>
-</html>
-    }
-    .game-item.selected {
-      outline: 3px solid #fff;
-    }
-    .game-item i {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: var(--primary);
-      animation: bounce 1.5s infinite;
-    }
-    @keyframes bounce {
-      0%,100% { transform: translateY(0); }
-      50%   { transform: translateY(-10px); }
-    }
-    .game-item h3 { font-family: 'Russo One', sans-serif; margin-bottom: .5rem; }
-    .game-item p { margin-bottom: 1rem; color: #ccc; }
-    .game-item button {
-      padding: .7rem 1.5rem;
-      border: none;
-      border-radius: .5rem;
-      background: var(--primary);
-      color: #fff;
-      font-family: 'Raleway', sans-serif;
-      transition: transform var(--transition);
-    }
-    .game-item button:active { transform: scale(1.1); }
-
-    .footer {
-      text-align: center;
-      padding: 2rem 0;
-      font-size: .9rem;
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Game Hub</title>
-
-  <!-- Шрифты -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Raleway:wght@400;600&family=Russo+One&display=swap" rel="stylesheet" />
-
-  <!-- Иконки -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
-  <!-- Основные стили -->
-  <style>
-    :root {
-      --primary: #e00;
-      --bg-dark: #000;
-      --bg-light: rgba(255,255,255,0.1);
-      --text-light: #fff;
-      --transition: 0.3s ease;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { 
-      font-family: 'Orbitron', sans-serif;
-      background: var(--bg-dark) url('https://i.imgur.com/3lKQXAp.jpg') center/cover no-repeat fixed;
-      color: var(--text-light);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* Starfield parallax */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background: url('https://i.imgur.com/7I3pQF7.png') repeat;
-      animation: starFall 60s linear infinite;
-      opacity: 0.4;
-      z-index: -1;
-    }
-    @keyframes starFall {
-      from { background-position: 0 0; }
-      to { background-position: 0 10000px; }
-    }
-
-    header { text-align: center; padding: 60px 20px; }
-    .site-title {
-      font-size: 4rem;
-      color: var(--text-light);
-      text-shadow: 0 0 20px var(--primary);
-      animation: shimmer 2.5s infinite;
-    }
-    @keyframes shimmer {
-      0%,100% { text-shadow: 0 0 20px var(--primary); }
-      50% { text-shadow: 0 0 40px #fff; }
-    }
-
-    .games-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 2rem;
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .game-item {
-      background: rgba(20,20,20,0.8);
-      border: 2px solid var(--primary);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(224,0,0,0.3);
-      transform: translateY(50px);
-      opacity: 0;
-      transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
-      position: relative;
-      cursor: pointer;
-    }
-    .game-item.visible { 
-      transform: translateY(0);
-      opacity: 1;
-    }
-    .game-item:hover {
-      background: var(--bg-light);
-      box-shadow: 0 0 40px rgba(255,255,255,0.5);
-    }
-    .game-item.selected {
-      outline: 3px solid #fff;
-    }
-    .game-item i {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: var(--primary);
-      animation: bounce 1.5s infinite;
-    }
-    @keyframes bounce {
-      0%,100% { transform: translateY(0); }
-      50%   { transform: translateY(-10px); }
-    }
-    .game-item h3 { font-family: 'Russo One', sans-serif; margin-bottom: .5rem; }
-    .game-item p { margin-bottom: 1rem; color: #ccc; }
-    .game-item button {
-      padding: .7rem 1.5rem;
-      border: none;
-      border-radius: .5rem;
-      background: var(--primary);
-      color: #fff;
-      font-family: 'Raleway', sans-serif;
-      transition: transform var(--transition);
-    }
-    .game-item button:active { transform: scale(1.1); }
-
-    .footer {
-      text-align: center;
-      padding: 2rem 0;
-      font-size: .9rem;
-      color: #bbb;
-    }
-    .footer a { color: var(--primary); text-decoration: none; }
-
-    /* Responsive */
-    @media(max-width:768px) {
-      .site-title { font-size: 2.5rem; }
-      .game-item { padding: 1rem; }
-      .game-item i { font-size: 2.5rem; }
-    }
-  </style>
-
-  <!-- Скрипты -->
-  <script defer>
-    // IntersectionObserver для анимации появления
-    document.addEventListener('DOMContentLoaded', () => {
-      const items = document.querySelectorAll('.game-item');
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            obs.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.3 });
-      items.forEach(i => obs.observe(i));
-
-      // Выбор элемента
-      items.forEach(item => {
-        item.addEventListener('click', () => {
-          items.forEach(el => el.classList.remove('selected'));
-          item.classList.toggle('selected');
-        });
-      });
-
-      // Блокировка контекста, выделения и перетаскивания
-      ['contextmenu','selectstart','copy','dragstart','dragover','drop'].forEach(evt =>
-        document.addEventListener(evt, e => e.preventDefault())
-      );
-
-      // Cookie banner
-      if (!localStorage.getItem('cookiesAccepted')) {
-        const b = document.createElement('div');
-        b.id = 'cookie-banner';
-        b.innerHTML = `Этот сайт использует cookies для лучшего опыта. <button id='accept-cookies'>Принять</button>`;
-        Object.assign(b.style, {position:'fixed',bottom:0,left:0,width:'100%',padding:'1rem',background:'#222',color:'#fff',textAlign:'center'});
-        document.body.append(b);
-        document.getElementById('accept-cookies').onclick = () => { localStorage.setItem('cookiesAccepted','1'); b.remove(); };
-      }
-    });
-  </script>
-</head>
-<body>
-  <header><h1 class="site-title"><i class="fas fa-gamepad"></i> Game Hub</h1></header>
-
-  <div class="games-container" id="games-list">
-    <div class="game-item">
-      <i class="fab fa-telegram-plane"></i>
-      <h3>Телеграм Канал</h3>
-      <p>Все новости в одном месте</p>
-      <button onclick="window.open('https://t.me/c_xac3','_blank')">Перейти</button>
-    </div>
-    <div class="game-item">
-      <i class="fas fa-user-secret"></i>
-      <h3>Связь с Владельцем</h3>
-      <p>Вопрос? Напиши владельцу.</p>
-      <button onclick="window.open('https://t.me/dmitry_shadow','_blank')">Написать</button>
-    </div>
-  </div>
-
-  <footer class="footer">
-    © 2025 XAC3. Все права защищены. <a href="https://github.com/XAC3">GitHub</a>
-  </footer>
 </body>
 </html>
