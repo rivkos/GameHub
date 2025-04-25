@@ -6,99 +6,44 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Game Hub</title>
 
-  <!-- Шрифт Orbitron для сайта -->
+  <!-- Orbitron font -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
-  
-  <!-- Font Awesome для иконок -->
+
+  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-  <!-- Стили -->
+  <!-- Основные стили -->
   <link rel="stylesheet" href="style.css?v=1.2" />
 
-  <!-- Добавление анимаций с помощью CSS -->
+  <!-- Встроенные стили и анимации -->
   <style>
-    /* Анимация появления элементов */
-    .game-item {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.5s forwards;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    html, body {
+      font-family: 'Orbitron', sans-serif;
+      background-color: #000;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
     }
 
-    /* Плавные переходы для кнопок */
-    .game-item:hover {
-      transform: scale(1.05);
-      transition: transform 0.3s ease-in-out;
-    }
-
-    /* Защита от выделения текста */
-    body {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    /* Стиль для иконок в меню */
-    .icon {
-      font-size: 24px;
-      margin-right: 8px;
-    }
-
-    /* Анимация полосы загрузки */
-    .loading-bar-wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background-color: #ccc;
-      z-index: 9999;
-    }
-
-    .loading-bar {
-      width: 0;
-      height: 100%;
-      background-color: #fff;
-      animation: loadAnimation 3s forwards;
-    }
-
-    @keyframes loadAnimation {
-      0% {
-        width: 0;
-      }
-      100% {
-        width: 100%;
-      }
-    }
-
-    /* Скрытие полосы после завершения анимации */
-    .loaded .loading-bar {
-      animation: loadFadeOut 1s forwards;
-    }
-
-    @keyframes loadFadeOut {
-      0% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-      }
-    }
-
-    /* Скрытие полосы загрузки после завершения */
-    .loaded .loading-bar-wrapper {
+    body.loaded .loading-bar-wrapper {
       display: none;
     }
 
-    /* Анимация для заголовков */
+    header {
+      text-align: center;
+      margin-top: 30px;
+    }
+
     .site-title {
+      font-size: 36px;
+      color: #fff;
       opacity: 0;
       transform: translateY(-50px);
       animation: titleAnimation 1s forwards;
@@ -111,13 +56,13 @@
       }
     }
 
-    /* Анимация для секций с играми */
     .games-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 20px;
-      opacity: 0;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
       animation: fadeInGrid 1.5s forwards;
     }
 
@@ -127,70 +72,125 @@
       }
     }
 
-    /* Анимация кнопок при наведении */
-    .game-item button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      border-radius: 5px;
+    .game-item {
+      background: #111;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      text-align: center;
+      transition: all 0.3s ease;
       opacity: 0;
-      transform: translateY(10px);
-      animation: fadeInButton 0.5s forwards 1.5s; /* Задержка для кнопок */
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s forwards;
     }
 
-    @keyframes fadeInButton {
+    .game-item:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+    }
+
+    @keyframes fadeInUp {
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
 
-    /* Анимация на мобильных устройствах */
+    .game-item button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      margin-top: 15px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .game-item button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .icon {
+      font-size: 24px;
+      margin-right: 8px;
+    }
+
+    .loading-bar-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: #333;
+      z-index: 9999;
+    }
+
+    .loading-bar {
+      width: 0;
+      height: 100%;
+      background-color: #fff;
+      animation: loadAnimation 3s forwards;
+    }
+
+    @keyframes loadAnimation {
+      0% { width: 0; }
+      100% { width: 100%; }
+    }
+
+    .loaded .loading-bar {
+      animation: loadFadeOut 1s forwards;
+    }
+
+    @keyframes loadFadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* Прокрутка */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #888;
+    }
+
     @media screen and (max-width: 768px) {
-      .game-item {
-        transform: scale(0.9);
-        transition: transform 0.3s ease;
-      }
-
-      .game-item:hover {
-        transform: scale(1);
-      }
-
       .site-title {
         font-size: 28px;
       }
-    }
 
+      .game-item {
+        padding: 15px;
+      }
+
+      .game-item button {
+        padding: 8px 16px;
+      }
+    }
   </style>
 
-  <!-- Скрипт для загрузки игр -->
+  <!-- Скрипт -->
   <script defer src="scripts/loadGames.js"></script>
 
-  <!-- Защита от копирования -->
+  <!-- Защита -->
   <script>
-    // Запрещаем правый клик
-    document.addEventListener("contextmenu", (e) => e.preventDefault());
-
-    // Блокируем комбинации клавиш для копирования/вырезания
-    document.addEventListener("keydown", (e) => {
-      if (
-        (e.ctrlKey && (e.key === "c" || e.key === "x")) ||
-        e.key === "Insert"
-      ) {
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("keydown", e => {
+      if ((e.ctrlKey && (e.key === "c" || e.key === "x")) || e.key === "Insert") {
         e.preventDefault();
       }
     });
-
-    // Защита от перетаскивания
-    document.addEventListener('dragstart', function (e) {
-      e.preventDefault();
-    });
-
-    // Запрещаем доступ через источник
+    document.addEventListener("dragstart", e => e.preventDefault());
     window.addEventListener('load', () => {
-      document.body.classList.add('loaded'); // Скрываем полоску при загрузке
+      document.body.classList.add('loaded');
     });
   </script>
 </head>
@@ -202,13 +202,19 @@
   </div>
 
   <header>
-    <h1 class="site-title">
-      <i class="fas fa-gamepad icon"></i>Game Hub
-    </h1>
+    <h1 class="site-title"><i class="fas fa-gamepad icon"></i>Game Hub</h1>
   </header>
-  
+
   <div class="games-container" id="gamesList">
-    <!-- Игры подгружаются из JS -->
+    <!-- Примеры (удали или заменяй через JS) -->
+    <div class="game-item">
+      <h3>Игра 1</h3>
+      <button>Играть</button>
+    </div>
+    <div class="game-item">
+      <h3>Игра 2</h3>
+      <button>Играть</button>
+    </div>
   </div>
 </body>
 </html>
