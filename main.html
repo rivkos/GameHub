@@ -3,21 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Game Hub</title>
 
-  <!-- Orbitron шрифт -->
+  <!-- Шрифт Orbitron для сайта -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  
+  <!-- Font Awesome для иконок -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
   <!-- Стили -->
   <link rel="stylesheet" href="style.css?v=1.2" />
 
-  <!-- Скрипт -->
+  <!-- Добавление анимаций с помощью CSS -->
+  <style>
+    /* Анимация появления элементов */
+    .game-item {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Плавные переходы для кнопок */
+    .game-item:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    /* Защита от выделения текста */
+    body {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* Стиль для иконок в меню */
+    .icon {
+      font-size: 24px;
+      margin-right: 8px;
+    }
+  </style>
+
+  <!-- Скрипт для загрузки игр -->
   <script defer src="scripts/loadGames.js"></script>
 
   <!-- Защита от копирования -->
   <script>
-    document.addEventListener("contextmenu", e => e.preventDefault());
-    document.addEventListener("keydown", e => {
+    // Запрещаем правый клик
+    document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+    // Блокируем комбинации клавиш для копирования/вырезания
+    document.addEventListener("keydown", (e) => {
       if (
         (e.ctrlKey && (e.key === "c" || e.key === "x")) ||
         e.key === "Insert"
@@ -25,10 +69,28 @@
         e.preventDefault();
       }
     });
+
+    // Защита от перетаскивания
+    document.addEventListener('dragstart', function (e) {
+      e.preventDefault();
+    });
+
+    // Запрещаем доступ через источник
+    window.addEventListener('load', () => {
+      if (document.referrer) {
+        document.location = 'about:blank';
+      }
+    });
   </script>
 </head>
+
 <body>
-  <h1 class="site-title">Game Hub</h1>
+  <header>
+    <h1 class="site-title">
+      <i class="fas fa-gamepad icon"></i>Game Hub
+    </h1>
+  </header>
+  
   <div class="games-container" id="gamesList">
     <!-- Игры подгружаются из JS -->
   </div>
