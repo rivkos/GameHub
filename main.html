@@ -27,6 +27,7 @@
       perspective: 1000px;
     }
 
+    /* Фоновая анимация */
     body::before {
       content: "";
       position: fixed;
@@ -48,6 +49,18 @@
     header {
       text-align: center;
       padding: 50px 20px 20px;
+      animation: fadeInHeader 2s ease-in-out;
+    }
+
+    @keyframes fadeInHeader {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .site-title {
@@ -86,7 +99,13 @@
       opacity: 0;
       transform: translateY(30px);
       animation: fadeInUp 1s ease forwards;
-      cursor: move;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .game-item:hover {
@@ -128,17 +147,12 @@
       transform: scale(1.08);
     }
 
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    /* Анимация при нажатии на кнопку "Скачать" */
+    .game-item button:active {
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
     }
 
-    .game-item:nth-child(1) { animation-delay: 0.3s; }
-    .game-item:nth-child(2) { animation-delay: 0.6s; }
-
-    /* Фиксация копирайта внизу */
     .footer {
       position: fixed;
       bottom: 0;
@@ -149,11 +163,18 @@
       text-align: center;
       padding: 10px 0;
       z-index: 999;
+      animation: fadeInFooter 2s ease-in-out;
     }
 
-    /* Ограничение прокрутки */
-    body {
-      overflow-y: hidden; /* Блокируем прокрутку */
+    @keyframes fadeInFooter {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Стили для блока, который будет прокручиваться */
@@ -163,6 +184,31 @@
       padding-bottom: 60px; /* Отступ снизу, чтобы не перекрывать копирайт */
     }
 
+    /* Отключение выделения текста */
+    ::selection {
+      background: transparent;
+    }
+
+    /* Запрещаем выделение текста */
+    body {
+      user-select: none; /* Отключает выделение текста */
+    }
+
+    /* Запрещаем перетаскивание изображений */
+    img {
+      -webkit-user-drag: none; /* Запрещает перетаскивание изображений */
+      user-drag: none;
+    }
+
+    /* Блокировка прокрутки страницы */
+    body {
+      overflow-y: hidden; /* Блокируем прокрутку */
+    }
+
+    .content {
+      overflow-y: scroll;
+      height: calc(100vh - 60px);
+    }
   </style>
 
   <script defer src="scripts/loadGames.js"></script>
@@ -186,18 +232,6 @@
       }
     });
 
-    // Предотвращение использования "Сохранить как"
-    document.addEventListener("keydown", (e) => {
-      if ((e.ctrlKey && (e.key === "s" || e.key === "p")) || e.key === "F12") {
-        e.preventDefault();
-      }
-    });
-
-    // Применяем защиту при загрузке
-    window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
-    });
-
     // Защита от индексации и кэширования
     (function() {
       var meta = document.createElement('meta');
@@ -205,6 +239,16 @@
       meta.content = 'noindex, nofollow';
       document.head.appendChild(meta);
     })();
+
+    // Анимация при выходе со страницы
+    window.addEventListener('beforeunload', () => {
+      document.body.style.animation = 'fadeOut 1s ease';
+    });
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
   </script>
 </head>
 
