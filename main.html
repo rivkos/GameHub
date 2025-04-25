@@ -50,6 +50,119 @@
       font-size: 24px;
       margin-right: 8px;
     }
+
+    /* Анимация полосы загрузки */
+    .loading-bar-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: #ccc;
+      z-index: 9999;
+    }
+
+    .loading-bar {
+      width: 0;
+      height: 100%;
+      background-color: #fff;
+      animation: loadAnimation 3s forwards;
+    }
+
+    @keyframes loadAnimation {
+      0% {
+        width: 0;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+
+    /* Скрытие полосы после завершения анимации */
+    .loaded .loading-bar {
+      animation: loadFadeOut 1s forwards;
+    }
+
+    @keyframes loadFadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    /* Скрытие полосы загрузки после завершения */
+    .loaded .loading-bar-wrapper {
+      display: none;
+    }
+
+    /* Анимация для заголовков */
+    .site-title {
+      opacity: 0;
+      transform: translateY(-50px);
+      animation: titleAnimation 1s forwards;
+    }
+
+    @keyframes titleAnimation {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Анимация для секций с играми */
+    .games-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      opacity: 0;
+      animation: fadeInGrid 1.5s forwards;
+    }
+
+    @keyframes fadeInGrid {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Анимация кнопок при наведении */
+    .game-item button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeInButton 0.5s forwards 1.5s; /* Задержка для кнопок */
+    }
+
+    @keyframes fadeInButton {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Анимация на мобильных устройствах */
+    @media screen and (max-width: 768px) {
+      .game-item {
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+      }
+
+      .game-item:hover {
+        transform: scale(1);
+      }
+
+      .site-title {
+        font-size: 28px;
+      }
+    }
+
   </style>
 
   <!-- Скрипт для загрузки игр -->
@@ -77,14 +190,17 @@
 
     // Запрещаем доступ через источник
     window.addEventListener('load', () => {
-      if (document.referrer) {
-        document.location = 'about:blank';
-      }
+      document.body.classList.add('loaded'); // Скрываем полоску при загрузке
     });
   </script>
 </head>
 
 <body>
+  <!-- Полоса загрузки -->
+  <div class="loading-bar-wrapper">
+    <div class="loading-bar"></div>
+  </div>
+
   <header>
     <h1 class="site-title">
       <i class="fas fa-gamepad icon"></i>Game Hub
