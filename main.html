@@ -24,8 +24,6 @@
       color: #fff;
       min-height: 100vh;
       overflow-x: hidden;
-      perspective: 1000px;
-      transition: background-color 0.3s ease;
       display: flex;
       flex-direction: column;
     }
@@ -179,6 +177,7 @@
       overflow-y: auto;  /* Сделаем прокрутку только для контента */
       padding-bottom: 60px;
       margin-bottom: 60px; /* пространство под контентом для футера */
+      padding-top: 60px; /* пространство над контентом, чтобы не перекрывалась шапка */
     }
 
     .content .game-item {
@@ -218,6 +217,17 @@
         transform: translateY(0);
       }
     }
+
+    /* Запрещаем прокрутку ниже футера */
+    body {
+      overflow: hidden; /* Запрещаем прокрутку на всей странице */
+    }
+
+    .content {
+      overflow-y: scroll; /* Прокрутка доступна только для .content */
+      -webkit-overflow-scrolling: touch; /* Поддержка на мобильных устройствах */
+    }
+
   </style>
 
   <script defer src="scripts/loadGames.js"></script>
@@ -254,15 +264,10 @@
       document.body.style.animation = 'fadeOut 1s ease';
     });
 
-    // Анимация выхода
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes fadeOut {
-        0% { opacity: 1; }
-        100% { opacity: 0; }
-      }
-    `;
-    document.head.appendChild(style);
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
   </script>
 </head>
 
