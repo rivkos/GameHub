@@ -1,21 +1,27 @@
-document.addEventListener("DOMContentLoaded", function() {
-  // Загружаем данные из JSON файла
-  fetch("data/games.json")  // Проверь путь к файлу, это зависит от того, где у тебя находится games.json
-    .then(response => response.json())
-    .then(games => {
-      const gamesContainer = document.getElementById("gamesList");
-
-      // Для каждой игры создаём карточку
-      games.forEach(game => {
-        const div = document.createElement("div");
-        div.classList.add("game-card");
-        div.innerHTML = `
-          <img src="${game.icon}" class="game-icon" alt="${game.title}">
-          <h2>${game.title}</h2>
-          <a href="${game.link}" class="download-btn" target="_blank">Скачать</a>
-        `;
-        gamesContainer.appendChild(div);
-      });
-    })
-    .catch(error => console.error("Ошибка загрузки игр:", error));
+window.addEventListener('DOMContentLoaded', () => {
+  fetch('data/games.json')
+    .then(res => res.json())
+    .then(data => renderGames(data))
+    .catch(err => console.error('Ошибка загрузки JSON:', err));
 });
+
+function renderGames(games) {
+  const container = document.getElementById('gamesList');
+
+  games.forEach((game, index) => {
+    const card = document.createElement('div');
+    card.className = 'game-item';
+    card.style.animationDelay = `${0.3 + index * 0.2}s`;
+
+    card.innerHTML = `
+      <i class="${game.icon || 'fas fa-gamepad'}"></i>
+      <h3>${game.title}</h3>
+      <p>${game.description || ''}</p>
+      <button onclick="window.open('${game.link}', '_blank')">
+        ${game.buttonText || 'Играть'}
+      </button>
+    `;
+
+    container.appendChild(card);
+  });
+}
