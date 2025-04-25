@@ -6,9 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Game Hub</title>
 
+  <!-- Orbitron font -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
+  <!-- Основные стили -->
   <style>
     * {
       box-sizing: border-box;
@@ -154,6 +158,10 @@
     }
   </style>
 
+  <!-- Скрипт для загрузки данных -->
+  <script defer src="scripts/loadGames.js"></script>
+
+  <!-- Защита -->
   <script>
     document.addEventListener("contextmenu", e => e.preventDefault());
     document.addEventListener("keydown", e => {
@@ -174,19 +182,23 @@
   </header>
 
   <div class="games-container" id="gamesList">
-    <div class="game-item">
+    <!-- Ручные блоки -->
+    <div class="game-item" style="animation-delay: 0.1s;">
       <i class="fab fa-telegram-plane"></i>
       <h3>Телеграм Канал</h3>
       <p>Следи за новостями и обновлениями. Всё в одном месте!</p>
       <button onclick="window.open('https://t.me/c_xac3', '_blank')">Зайти</button>
     </div>
 
-    <div class="game-item">
+    <div class="game-item" style="animation-delay: 0.2s;">
       <i class="fas fa-user-secret"></i>
       <h3>Связь с Владельцем</h3>
       <p>Напиши напрямую владельцу, если возникли вопросы.</p>
       <button onclick="window.open('https://t.me/dmitry_shadow', '_blank')">Написать</button>
     </div>
   </div>
+
+  <!-- Сюда будут динамически загружаться игры -->
+  <div class="games-container" id="gamesList"></div>
 </body>
 </html>
