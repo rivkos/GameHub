@@ -4,67 +4,100 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Борис Копытов — XAC3</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
 
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(145deg, #000000, #1c1c1c);
-      color: #f8f8f8;
+      background: #000;
+      color: #fff;
       overflow-x: hidden;
+      user-select: none;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://i.gifer.com/7VE.gif') repeat;
+      opacity: 0.08;
+      z-index: 0;
     }
 
     header {
-      background: #c40000;
-      padding: 40px 20px;
+      background: #b30000;
       text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 5px 15px #b3000055;
       animation: fadeInDown 1s ease;
     }
 
     header h1 {
       font-size: 3em;
-      margin-bottom: 10px;
+      margin: 0;
+    }
+
+    header p {
+      font-size: 1.2em;
+      margin-top: 10px;
+      color: #ffcccc;
     }
 
     .container {
-      padding: 40px 20px;
       max-width: 1000px;
       margin: auto;
-      animation: fadeInUp 1s ease;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 1.2s ease;
     }
 
     h2 {
       color: #ff3c3c;
-      margin-top: 40px;
       border-bottom: 1px solid #ff3c3c;
-      padding-bottom: 10px;
+      padding-bottom: 5px;
+      margin-top: 40px;
     }
 
     .label {
+      color: #ff5e5e;
       font-weight: bold;
-      color: #ff3c3c;
     }
 
     a {
-      color: #ff6f6f;
+      color: #ff9999;
       text-decoration: none;
+      transition: 0.3s;
     }
 
     a:hover {
-      text-decoration: underline;
+      color: white;
+      text-shadow: 0 0 10px red;
     }
 
     ul {
       list-style: none;
-      padding: 0;
+      padding-left: 0;
     }
 
     ul li {
       margin-bottom: 10px;
       display: flex;
       align-items: center;
+      transition: 0.3s ease;
+    }
+
+    ul li:hover {
+      color: #ff3c3c;
+      transform: translateX(10px);
     }
 
     ul li i {
@@ -72,45 +105,50 @@
       color: #ff3c3c;
     }
 
-    .tutorial-image {
-      text-align: center;
-      margin-top: 20px;
-    }
-
     .tutorial-image img {
-      max-width: 100%;
+      width: 100%;
+      max-width: 600px;
       border: 3px solid #ff3c3c;
       border-radius: 10px;
-      box-shadow: 0 0 20px #ff3c3c55;
+      box-shadow: 0 0 25px #ff3c3c44;
     }
 
     footer {
       text-align: center;
-      margin-top: 50px;
       color: #888;
-      padding-bottom: 20px;
+      margin: 40px 0 20px;
+      z-index: 1;
+      position: relative;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes fadeInUp {
-      from { transform: translateY(30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    @keyframes fadeInDown {
-      from { transform: translateY(-30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .section {
-      margin-bottom: 50px;
-    }
-
-    .bio p, .info p {
-      line-height: 1.7;
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
+
+  <script>
+    // 🔒 Анти-правый клик, копирование, Ctrl+U, Ctrl+S, Ctrl+C
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey && ['u', 's', 'c'].includes(e.key.toLowerCase())) || e.keyCode === 123) {
+        e.preventDefault();
+      }
+    });
+  </script>
 </head>
-<body>
+<body ondragstart="return false;" onselectstart="return false;">
+
+<!-- 🔊 Звук -->
+<audio autoplay loop>
+  <source src="https://files.catbox.moe/27yn62.mp3" type="audio/mpeg">
+</audio>
 
 <header>
   <h1><i class="fa-solid fa-user-astronaut"></i> Борис Копытов</h1>
@@ -118,57 +156,43 @@
 </header>
 
 <div class="container">
-  <section class="section info">
-    <h2><i class="fa-solid fa-address-card"></i> Информация</h2>
+  <section>
+    <h2><i class="fa-solid fa-circle-info"></i> Информация</h2>
     <p><span class="label"><i class="fa-solid fa-code-branch"></i> Каста:</span> Дизайнер</p>
-    <p><span class="label"><i class="fa-brands fa-telegram"></i> Юзернейм:</span> <a href="https://t.me/BorisK202">@BorisK202</a></p>
-    <p><span class="label"><i class="fa-solid fa-birthday-cake"></i> Возраст:</span> 16 лет</p>
-    <p><span class="label"><i class="fa-solid fa-calendar-plus"></i> Появился:</span> 21 сентября 2024</p>
-    <p><span class="label"><i class="fa-solid fa-bolt"></i> Первая активность:</span> октябрь 2025</p>
-    <p><span class="label"><i class="fa-solid fa-lock"></i> Антиснос:</span> установлен</p>
+    <p><span class="label"><i class="fa-brands fa-telegram"></i> Телеграм:</span> <a href="https://t.me/BorisK202">@BorisK202</a></p>
+    <p><span class="label"><i class="fa-solid fa-bolt"></i> Первая активность:</span> Октябрь 2025</p>
+    <p><span class="label"><i class="fa-solid fa-calendar-day"></i> Появился:</span> 21 Сентября 2024</p>
+    <p><span class="label"><i class="fa-solid fa-shield-halved"></i> Антиснос:</span> Установлен</p>
+    <p><span class="label"><i class="fa-solid fa-cake-candles"></i> Возраст:</span> 16 лет</p>
   </section>
 
-  <section class="section bio">
-    <h2><i class="fa-solid fa-book"></i> Биография</h2>
-    <p>Копытов Борис Александрович — владелец хакерской группировки <strong>XAC3</strong>. По касте он дизайнер. Известен под ником <a href="https://t.me/BorisK202">@BorisK202</a> в Telegram. Представитель цифрового подполья, сочетающий креативность с радикальным визуальным подходом. Возраст: 16 лет.</p>
+  <section>
+    <h2><i class="fa-solid fa-user-secret"></i> Биография</h2>
+    <p>Копытов Борис Александрович — владелец хакерской группировки <strong>XAC3</strong>. По касте — дизайнер. Известен в Telegram как <a href="https://t.me/BorisK202">@BorisK202</a>. Является представителем цифрового подполья. Креатив + визуал + контроль = XAC3.</p>
   </section>
 
-  <section class="section tutorial">
-    <h2><i class="fa-solid fa-circle-info"></i> Тутор: как правильно написать</h2>
-    <p>Пример удачного и неудачного обращения в Telegram:</p>
+  <section>
+    <h2><i class="fa-solid fa-pen-to-square"></i> Как правильно написать</h2>
     <div class="tutorial-image">
       <img src="tutorial_example.jpg" alt="Пример как правильно написать">
-      <p style="margin-top:10px; color: #999;">Пример оформления обращения</p>
     </div>
   </section>
 
-  <section class="section extra">
-    <h2><i class="fa-solid fa-sparkles"></i> Дополнительно</h2>
+  <section>
+    <h2><i class="fa-solid fa-fire-flame-curved"></i> Дополнительно</h2>
     <ul>
-     
-      <li><i class="fa-solid fa-shield-halved"></i> XAC3 — философия цифровой свободы</li>
+      <li><i class="fa-solid fa-code"></i> Хакерская эстетика</li>
+      <li><i class="fa-solid fa-terminal"></i> Терминал как дом</li>
+      <li><i class="fa-solid fa-brain"></i> Креативность в дизайне</li>
+      <li><i class="fa-solid fa-shield"></i> Безопасность превыше всего</li>
+      <li><i class="fa-solid fa-rocket"></i> Визуальные эффекты — часть стиля</li>
     </ul>
   </section>
 </div>
 
 <footer>
-  <p>© 2025 XAC3</p>
+  <p>© 2025 XAC3 | Boris Kopытов</p>
 </footer>
 
 </body>
-</html>      ❌ Несколько сообщений, бессвязных и не по делу
-    </div>
-    <div class="example right">
-      ✅ Одно сообщение, чётко сформулированное с темой и просьбой
-    </div>
-  </section>
-
-  <section class="extra">
-    <h2>✨ Дополнительно</h2>
-    <p><i class="fa-solid fa-bolt"></i> Дизайн с упором на стиль, анархию и простоту. Каждый элемент несёт смысл и эстетику.</p>
-    <p><i class="fa-solid fa-shield-halved"></i> XAC3 — не просто команда, это философия цифровой свободы.</p>
-  </section>
-</div>
-
-</body>
-                                              </html>
+</html>
