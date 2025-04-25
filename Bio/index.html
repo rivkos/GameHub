@@ -6,87 +6,157 @@
   <title>Борис Копытов — XAC3</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #fff;
-      color: #111;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(145deg, #000000, #1c1c1c);
+      color: #f8f8f8;
+      overflow-x: hidden;
     }
 
     header {
-      background-color: #c40000;
-      color: white;
-      padding: 20px;
+      background: #c40000;
+      padding: 40px 20px;
       text-align: center;
+      animation: fadeInDown 1s ease;
+    }
+
+    header h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
     }
 
     .container {
-      padding: 30px;
-      max-width: 800px;
+      padding: 40px 20px;
+      max-width: 1000px;
       margin: auto;
+      animation: fadeInUp 1s ease;
     }
 
-    .info, .bio, .tutorial, .extra {
-      margin-bottom: 40px;
+    h2 {
+      color: #ff3c3c;
+      margin-top: 40px;
+      border-bottom: 1px solid #ff3c3c;
+      padding-bottom: 10px;
     }
 
     .label {
       font-weight: bold;
-      color: #c40000;
+      color: #ff3c3c;
     }
 
-    .tutorial {
-      background-color: #111;
-      color: white;
-      padding: 20px;
+    a {
+      color: #ff6f6f;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    ul li i {
+      margin-right: 12px;
+      color: #ff3c3c;
+    }
+
+    .tutorial-image {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .tutorial-image img {
+      max-width: 100%;
+      border: 3px solid #ff3c3c;
       border-radius: 10px;
-    }
-
-    .example {
-      margin-top: 15px;
-    }
-
-    .example.wrong {
-      color: #ff4c4c;
-    }
-
-    .example.right {
-      color: #4caf50;
+      box-shadow: 0 0 20px #ff3c3c55;
     }
 
     footer {
       text-align: center;
       margin-top: 50px;
-      color: #999;
+      color: #888;
+      padding-bottom: 20px;
+    }
+
+    @keyframes fadeInUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeInDown {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .section {
+      margin-bottom: 50px;
+    }
+
+    .bio p, .info p {
+      line-height: 1.7;
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1><i class="fa-solid fa-user-secret"></i> Борис Копытов</h1>
-  <p>Дизайнер / Владелец XAC3</p>
+  <h1><i class="fa-solid fa-user-astronaut"></i> Борис Копытов</h1>
+  <p><i class="fa-solid fa-crown"></i> Владелец XAC3 • <i class="fa-solid fa-palette"></i> Дизайнер</p>
 </header>
 
 <div class="container">
-  <section class="info">
-    <p><span class="label">Каста:</span> Дизайнер</p>
-    <p><span class="label">Юзернейм:</span> <a href="https://t.me/BorisK202">@BorisK202</a></p>
-    <p><span class="label">Возраст:</span> 16 лет</p>
-    <p><span class="label">Появился:</span> 21 сентября 2024</p>
-    <p><span class="label">Первая активность:</span> февраль 2025</p>
-    <p><span class="label">Антиснос:</span> установлен</p>
+  <section class="section info">
+    <h2><i class="fa-solid fa-address-card"></i> Информация</h2>
+    <p><span class="label"><i class="fa-solid fa-code-branch"></i> Каста:</span> Дизайнер</p>
+    <p><span class="label"><i class="fa-brands fa-telegram"></i> Юзернейм:</span> <a href="https://t.me/BorisK202">@BorisK202</a></p>
+    <p><span class="label"><i class="fa-solid fa-birthday-cake"></i> Возраст:</span> 16 лет</p>
+    <p><span class="label"><i class="fa-solid fa-calendar-plus"></i> Появился:</span> 21 сентября 2024</p>
+    <p><span class="label"><i class="fa-solid fa-bolt"></i> Первая активность:</span> октябрь 2025</p>
+    <p><span class="label"><i class="fa-solid fa-lock"></i> Антиснос:</span> установлен</p>
   </section>
 
-  <section class="bio">
-    <h2>Биография</h2>
-    <p>Копытов Борис Александрович — владелец группировки XAC3. По касте он дизайнер. Известен как @BorisK202 в Telegram. Один из ярких представителей цифрового подполья. Обладает творческим видением и жёстким стилем. Возраст — 16 лет.</p>
+  <section class="section bio">
+    <h2><i class="fa-solid fa-book"></i> Биография</h2>
+    <p>Копытов Борис Александрович — владелец хакерской группировки <strong>XAC3</strong>. По касте он дизайнер. Известен под ником <a href="https://t.me/BorisK202">@BorisK202</a> в Telegram. Представитель цифрового подполья, сочетающий креативность с радикальным визуальным подходом. Возраст: 16 лет.</p>
   </section>
 
-  <section class="tutorial">
-    <h2>📩 Тутор: как правильно написать в Telegram</h2>
-    <div class="example wrong">
-      ❌ Несколько сообщений, бессвязных и не по делу
+  <section class="section tutorial">
+    <h2><i class="fa-solid fa-circle-info"></i> Тутор: как правильно написать</h2>
+    <p>Пример удачного и неудачного обращения в Telegram:</p>
+    <div class="tutorial-image">
+      <img src="tutorial_example.jpg" alt="Пример как правильно написать">
+      <p style="margin-top:10px; color: #999;">Пример оформления обращения</p>
+    </div>
+  </section>
+
+  <section class="section extra">
+    <h2><i class="fa-solid fa-sparkles"></i> Дополнительно</h2>
+    <ul>
+     
+      <li><i class="fa-solid fa-shield-halved"></i> XAC3 — философия цифровой свободы</li>
+    </ul>
+  </section>
+</div>
+
+<footer>
+  <p>© 2025 XAC3</p>
+</footer>
+
+</body>
+</html>      ❌ Несколько сообщений, бессвязных и не по делу
     </div>
     <div class="example right">
       ✅ Одно сообщение, чётко сформулированное с темой и просьбой
