@@ -1,226 +1,226 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Game Hub</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Game Hub</title>
 
-  <!-- Orbitron font -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
+  <!-- Orbitron font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
 
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-  <!-- Основные стили -->
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  <!-- Основные стили -->
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    html, body {
-      font-family: 'Orbitron', sans-serif;
-      background-color: #000;
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
-      perspective: 1000px;
-    }
+    html, body {
+      font-family: 'Orbitron', sans-serif;
+      background-color: #000;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      perspective: 1000px;
+    }
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at center, rgba(255,0,0,0.2) 0%, transparent 70%),
-                  repeating-linear-gradient(45deg, rgba(255,0,0,0.05) 0px, rgba(255,0,0,0.05) 1px, transparent 1px, transparent 20px);
-      animation: moveBackground 30s linear infinite;
-      z-index: -1;
-    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255,0,0,0.2) 0%, transparent 70%),
+                  repeating-linear-gradient(45deg, rgba(255,0,0,0.05) 0px, rgba(255,0,0,0.05) 1px, transparent 1px, transparent 20px);
+      animation: moveBackground 30s linear infinite;
+      z-index: -1;
+    }
 
-    @keyframes moveBackground {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-50%, -50%); }
-    }
+    @keyframes moveBackground {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-50%, -50%); }
+    }
 
-    header {
-      text-align: center;
-      padding: 50px 20px 20px;
-    }
+    header {
+      text-align: center;
+      padding: 50px 20px 20px;
+    }
 
-    .site-title {
-      font-size: 40px;
-      color: #fff;
-      text-shadow: 0 0 10px red;
-      opacity: 0;
-      animation: fadeSlideDown 1s ease-out forwards;
-    }
+    .site-title {
+      font-size: 40px;
+      color: #fff;
+      text-shadow: 0 0 10px red;
+      opacity: 0;
+      animation: fadeSlideDown 1s ease-out forwards;
+    }
 
-    @keyframes fadeSlideDown {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    @keyframes fadeSlideDown {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-    .games-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      padding: 40px 20px 60px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    .games-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 40px 20px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-    .game-item {
-      background: rgba(20, 20, 20, 0.95);
-      border: 2px solid red;
-      border-radius: 16px;
-      padding: 30px 20px;
-      text-align: center;
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
-      transform-style: preserve-3d;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 1s ease forwards;
-    }
+    .game-item {
+      background: rgba(20, 20, 20, 0.95);
+      border: 2px solid red;
+      border-radius: 16px;
+      padding: 30px 20px;
+      text-align: center;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+      transform-style: preserve-3d;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards;
+    }
 
-    .game-item:hover {
-      transform: rotateY(8deg) rotateX(4deg) scale(1.04);
-      box-shadow: 0 0 35px rgba(255, 0, 0, 0.5);
-    }
+    .game-item:hover {
+      transform: rotateY(8deg) rotateX(4deg) scale(1.04);
+      box-shadow: 0 0 35px rgba(255, 0, 0, 0.5);
+    }
 
-    .game-item i {
-      font-size: 38px;
-      color: red;
-      margin-bottom: 15px;
-    }
+    .game-item i {
+      font-size: 38px;
+      color: red;
+      margin-bottom: 15px;
+    }
 
-    .game-item h3 {
-      font-size: 22px;
-      margin-bottom: 12px;
-      color: #fff;
-    }
+    .game-item h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #fff;
+    }
 
-    .game-item p {
-      font-size: 14px;
-      color: #ddd;
-      margin-bottom: 20px;
-    }
+    .game-item p {
+      font-size: 14px;
+      color: #ddd;
+      margin-bottom: 20px;
+    }
 
-    .game-item button {
-      background-color: red;
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
+    .game-item button {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
 
-    .game-item button:hover {
-      background-color: #ff1a1a;
-      transform: scale(1.08);
-    }
+    .game-item button:hover {
+      background-color: #ff1a1a;
+      transform: scale(1.08);
+    }
 
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-    .game-item:nth-child(1) { animation-delay: 0.3s; }
-    .game-item:nth-child(2) { animation-delay: 0.6s; }
+    .game-item:nth-child(1) { animation-delay: 0.3s; }
+    .game-item:nth-child(2) { animation-delay: 0.6s; }
 
-    @media screen and (max-width: 768px) {
-      .site-title {
-        font-size: 30px;
-      }
+    @media screen and (max-width: 768px) {
+      .site-title {
+        font-size: 30px;
+      }
 
-      .game-item {
-        padding: 20px;
-      }
+      .game-item {
+        padding: 20px;
+      }
 
-      .game-item button {
-        font-size: 13px;
-      }
+      .game-item button {
+        font-size: 13px;
+      }
 
-      .game-item i {
-        font-size: 32px;
-      }
-    }
-  </style>
+      .game-item i {
+        font-size: 32px;
+      }
+    }
+  </style>
 
-  <!-- Скрипт для загрузки данных -->
-  <script defer src="scripts/loadGames.js"></script>
+  <!-- Скрипт для загрузки данных -->
+  <script defer src="scripts/loadGames.js"></script>
 
-  <!-- Защита -->
-  <script>
-    // Блокировка контекстного меню
-    document.addEventListener("contextmenu", e => e.preventDefault());
+  <!-- Защита -->
+  <script>
+    // Блокировка контекстного меню
+    document.addEventListener("contextmenu", e => e.preventDefault());
 
-    // Блокировка горячих клавиш (Ctrl+C, Ctrl+X, Insert, и т.д.)
-    document.addEventListener("keydown", e => {
-      if ((e.ctrlKey && (e.key === "c" || e.key === "x")) || e.key === "Insert" || e.key === "U" || e.key === "F12") {
-        e.preventDefault();
-      }
-    });
+    // Блокировка горячих клавиш (Ctrl+C, Ctrl+X, Insert, и т.д.)
+    document.addEventListener("keydown", e => {
+      if ((e.ctrlKey && (e.key === "c" || e.key === "x")) || e.key === "Insert" || e.key === "U" || e.key === "F12") {
+        e.preventDefault();
+      }
+    });
 
-    // Блокировка перетаскивания
-    document.addEventListener("dragstart", e => e.preventDefault());
+    // Блокировка перетаскивания
+    document.addEventListener("dragstart", e => e.preventDefault());
 
-    // Предотвращение использования "Сохранить как"
-    document.addEventListener("keydown", (e) => {
-      if ((e.ctrlKey && (e.key === "s" || e.key === "p")) || e.key === "F12") {
-        e.preventDefault();
-      }
-    });
+    // Предотвращение использования "Сохранить как"
+    document.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey && (e.key === "s" || e.key === "p")) || e.key === "F12") {
+        e.preventDefault();
+      }
+    });
 
-    // Применяем защиту при загрузке
-    window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
-    });
+    // Применяем защиту при загрузке
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
 
-    // Защита от индексации и кэширования
-    (function() {
-      var meta = document.createElement('meta');
-      meta.name = 'robots';
-      meta.content = 'noindex, nofollow';
-      document.head.appendChild(meta);
-    })();
-  </script>
+    // Защита от индексации и кэширования
+    (function() {
+      var meta = document.createElement('meta');
+      meta.name = 'robots';
+      meta.content = 'noindex, nofollow';
+      document.head.appendChild(meta);
+    })();
+  </script>
 </head>
 
 <body>
-  <header>
-    <h1 class="site-title"><i class="fas fa-gamepad"></i> Game Hub</h1>
-  </header>
+  <header>
+    <h1 class="site-title"><i class="fas fa-gamepad"></i> Game Hub</h1>
+  </header>
 
-  <div class="games-container" id="gamesList">
-    <!-- Ручные блоки -->
-    <div class="game-item" style="animation-delay: 0.1s;">
-      <i class="fab fa-telegram-plane"></i>
-      <h3>Телеграм Канал</h3>
-      <p>Следи за новостями и обновлениями. Всё в одном месте!</p>
-      <button onclick="window.open('https://t.me/c_xac3', '_blank')">Зайти</button>
-    </div>
+  <div class="games-container" id="gamesList">
+    <!-- Ручные блоки -->
+    <div class="game-item" style="animation-delay: 0.1s;">
+      <i class="fab fa-telegram-plane"></i>
+      <h3>Телеграм Канал</h3>
+      <p>Следи за новостями и обновлениями. Всё в одном месте!</p>
+      <button onclick="window.open('https://t.me/c_xac3', '_blank')">Зайти</button>
+    </div>
 
-    <div class="game-item" style="animation-delay: 0.2s;">
-      <i class="fas fa-user-secret"></i>
-      <h3>Связь с Владельцем</h3>
-      <p>Напиши напрямую владельцу, если возникли вопросы.</p>
-      <button onclick="window.open('https://t.me/dmitry_shadow', '_blank')">Написать</button>
-    </div>
-  </div>
+    <div class="game-item" style="animation-delay: 0.2s;">
+      <i class="fas fa-user-secret"></i>
+      <h3>Связь с Владельцем</h3>
+      <p>Напиши напрямую владельцу, если возникли вопросы.</p>
+      <button onclick="window.open('https://t.me/dmitry_shadow', '_blank')">Написать</button>
+    </div>
+  </div>
 
-  <!-- Сюда будут динамически загружаться игры -->
-  <div class="games-container" id="gamesList"></div>
+  <!-- Сюда будут динамически загружаться игры -->
+  <div class="games-container" id="gamesList"></div>
 </body>
 </html>
