@@ -72,7 +72,7 @@
     /* Горизонтальный терминал */
     .terminal-container {
       position: absolute;
-      top: 40%;
+      top: 20%;
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
@@ -195,6 +195,17 @@
       .terminal {
         font-size: 1em;
       }
+
+      input[type="text"] {
+        width: 75%;
+        font-size: 1em;
+        padding: 8px;
+      }
+
+      button {
+        padding: 8px 12px;
+        font-size: 1em;
+      }
     }
   </style>
 </head>
@@ -277,8 +288,4 @@
       }
     });
 
-    terminal.innerHTML += '<br/>$ '; // Начало
-  </script>
-
-</body>
-</html>
+    terminal.innerHTML += '<br/>$ '; // Нач
