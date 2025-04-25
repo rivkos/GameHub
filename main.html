@@ -202,6 +202,28 @@
       meta.content = 'noindex, nofollow';
       document.head.appendChild(meta);
     })();
+
+    // Анимация при выходе
+    window.addEventListener("beforeunload", () => {
+      document.body.style.opacity = "0";
+      document.body.style.transition = "opacity 1s ease";
+    });
+
+    // Защита от выделения текста
+    document.addEventListener('selectstart', function(e) {
+      e.preventDefault();
+    });
+
+    // Защита от выделения и копирования текста
+    document.addEventListener('copy', function(e) {
+      e.preventDefault();
+    });
+
+    // Защита от перетаскивания
+    document.addEventListener("dragstart", (e) => {
+      e.preventDefault();
+    });
+
   </script>
 </head>
 
