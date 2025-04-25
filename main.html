@@ -69,49 +69,44 @@
       100% { transform: translateX(-50%); }
     }
 
-    /* Контейнер с текстом */
-    .container {
+    /* Горизонтальный терминал */
+    .terminal-container {
       position: absolute;
-      top: 10%;
+      top: 40%;
       left: 50%;
       transform: translateX(-50%);
-      text-align: left;
-      padding: 30px;
+      width: 90%;
       max-width: 800px;
-      background: rgba(255, 255, 255, 0.02);
-      box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
-      border: 1px solid rgba(255, 0, 0, 0.2);
-      animation: fadeIn 2s ease-out;
-    }
-
-    h1 {
-      font-size: 2.5em;
-      color: #ff4d4d;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px red;
+      text-align: left;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 15px;
+      border: 2px solid #ff4d4d;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+      overflow: hidden;
     }
 
     .terminal {
       background-color: #000;
       color: #fff;
-      font-size: 1em;
+      font-size: 1.2em;
       line-height: 1.6em;
       white-space: pre-wrap;
       padding: 20px;
-      border-radius: 5px;
-      border: 1px solid #ff4d4d;
-      margin-bottom: 20px;
+      font-family: 'Courier New', Courier, monospace;
+      border: none;
       width: 100%;
       overflow-x: auto;
-      font-family: 'Courier New', Courier, monospace;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      max-height: 300px;
       animation: typingEffect 4s steps(80, end);
-      box-shadow: 0 0 15px #ff4d4d;
     }
 
     .cursor {
       display: inline-block;
-      width: 10px;
-      height: 1em;
+      width: 12px;
+      height: 1.2em;
       background: #ff4d4d;
       margin-left: 5px;
       animation: blink 1s steps(1) infinite;
@@ -122,16 +117,45 @@
       50.1%, 100% { opacity: 0; }
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     @keyframes typingEffect {
       from { width: 0; }
       to { width: 100%; }
     }
 
+    /* Эффект кнопки ввода */
+    .input-container {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 10px;
+    }
+
+    input[type="text"] {
+      background: #000;
+      color: #fff;
+      border: 2px solid #ff4d4d;
+      padding: 10px;
+      width: 85%;
+      font-size: 1.1em;
+      font-family: 'Courier New', Courier, monospace;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #ff4d4d;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 1.1em;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff1a1a;
+    }
+
+    /* Бинарный поток */
     .binary-stream {
       position: absolute;
       bottom: 10px;
@@ -163,13 +187,13 @@
 
     /* Для мобильных устройств */
     @media screen and (max-width: 600px) {
-      .container {
-        width: 90%;
-        padding: 20px;
+      .terminal-container {
+        width: 100%;
+        padding: 10px;
       }
 
       .terminal {
-        font-size: 0.9em;
+        font-size: 1em;
       }
     }
   </style>
@@ -182,9 +206,8 @@
   <div class="stars3"></div>
   <div class="fog"></div>
 
-  <!-- Контейнер с текстом -->
-  <div class="container">
-    <h1>502 Bad Gateway</h1>
+  <!-- Горизонтальный терминал -->
+  <div class="terminal-container">
     <div class="terminal" id="terminal">
       Подключение к серверу...<br>
       Ответ не получен...<br>
@@ -196,6 +219,12 @@
       • Отказ вышестоящего сервера<br><br>
       Попробуйте позже или сообщите администратору.
       <span class="cursor"></span>
+    </div>
+
+    <!-- Ввод команды -->
+    <div class="input-container">
+      <input type="text" id="userInput" placeholder="Введите команду..." autocomplete="off" autofocus>
+      <button id="sendButton">Отправить</button>
     </div>
   </div>
 
@@ -215,6 +244,8 @@
     // Эмулируем команду ввода в терминале
     let terminal = document.getElementById('terminal');
     let cursor = document.querySelector('.cursor');
+    let userInput = document.getElementById('userInput');
+    let sendButton = document.getElementById('sendButton');
 
     // Симуляция ввода команды
     function simulateTerminalInput(command) {
@@ -230,16 +261,20 @@
       }, 1000);
     }
 
-    // Слушаем ввод команды
-    window.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') {
-        let command = terminal.textContent.split('$ ').pop();
+    // Обработчик отправки команды
+    sendButton.addEventListener('click', () => {
+      let command = userInput.value;
+      if (command) {
         simulateTerminalInput(command);
-        terminal.innerHTML += '<br/>$ ';
-      } else if (e.key !== 'Shift' && e.key !== 'Control') {
-        terminal.innerHTML += e.key;
+        userInput.value = ''; // Очищаем поле
       }
-      terminal.scrollTop = terminal.scrollHeight; // Автопрокрутка
+    });
+
+    // Слушаем Enter для отправки команды
+    userInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        sendButton.click();
+      }
     });
 
     terminal.innerHTML += '<br/>$ '; // Начало
