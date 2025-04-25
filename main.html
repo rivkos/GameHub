@@ -8,8 +8,6 @@
 
   <!-- Orbitron font and others -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Raleway:wght@400;600&family=Russo+One&display=swap" rel="stylesheet" />
-
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
   <!-- Основные стили -->
@@ -22,11 +20,29 @@
 
     html, body {
       font-family: 'Orbitron', sans-serif;
-      background-color: #000; /* Черный фон */
+      background-color: #000;
       color: #fff;
       min-height: 100vh;
       overflow-x: hidden;
       perspective: 1000px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255,0,0,0.2) 0%, transparent 70%),
+                  repeating-linear-gradient(45deg, rgba(255,0,0,0.05) 0px, rgba(255,0,0,0.05) 1px, transparent 1px, transparent 20px);
+      animation: moveBackground 30s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes moveBackground {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-50%, -50%); }
     }
 
     header {
@@ -59,47 +75,40 @@
     }
 
     .game-item {
-      background: #fff; /* Белый фон для карточек */
+      background: rgba(20, 20, 20, 0.95);
       border: 2px solid red;
       border-radius: 16px;
       padding: 30px 20px;
       text-align: center;
       transition: transform 0.5s ease, box-shadow 0.5s ease;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
       transform-style: preserve-3d;
       opacity: 0;
       transform: translateY(30px);
       animation: fadeInUp 1s ease forwards;
+      cursor: move; /* Указатель на перетаскивание */
     }
 
     .game-item:hover {
-      transform: rotateY(10deg) rotateX(6deg) scale(1.05);
-      box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
-      cursor: pointer;
+      transform: rotateY(8deg) rotateX(4deg) scale(1.04);
+      box-shadow: 0 0 35px rgba(255, 0, 0, 0.5);
     }
 
     .game-item i {
-      font-size: 48px;
+      font-size: 38px;
       color: red;
-      margin-bottom: 20px;
-      animation: bounce 1.5s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      margin-bottom: 15px;
     }
 
     .game-item h3 {
-      font-size: 24px;
-      margin-bottom: 15px;
-      color: #000; /* Черный цвет текста для заголовков */
-      text-shadow: 0 0 10px red;
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #fff;
     }
 
     .game-item p {
-      font-size: 16px;
-      color: #000; /* Черный цвет текста для описания */
+      font-size: 14px;
+      color: #ddd;
       margin-bottom: 20px;
     }
 
@@ -109,14 +118,14 @@
       border: none;
       padding: 12px 28px;
       border-radius: 8px;
-      font-size: 16px;
+      font-size: 14px;
       cursor: pointer;
       transition: transform 0.3s ease, background-color 0.3s ease;
     }
 
     .game-item button:hover {
       background-color: #ff1a1a;
-      transform: scale(1.1);
+      transform: scale(1.08);
     }
 
     @keyframes fadeInUp {
@@ -129,74 +138,85 @@
     .game-item:nth-child(1) { animation-delay: 0.3s; }
     .game-item:nth-child(2) { animation-delay: 0.6s; }
 
-    .footer {
-      text-align: center;
-      font-size: 14px;
-      color: #bbb;
-      margin-top: 50px;
-    }
+    /* Перетаскивание */
+    let draggedItem = null;
 
-    .footer a {
-      color: red;
-      text-decoration: none;
-    }
+    document.querySelectorAll('.game-item').forEach(item => {
+      item.setAttribute('draggable', true);
 
-    @media screen and (max-width: 768px) {
-      .site-title {
-        font-size: 35px;
-      }
+      item.addEventListener('dragstart', (e) => {
+        draggedItem = item;
+        setTimeout(() => item.style.display = 'none', 0);
+      });
 
-      .game-item {
-        padding: 20px;
-      }
+      item.addEventListener('dragend', () => {
+        setTimeout(() => {
+          draggedItem.style.display = 'block';
+          draggedItem = null;
+        }, 0);
+      });
 
-      .game-item button {
-        font-size: 14px;
-      }
+      item.addEventListener('dragover', (e) => {
+        e.preventDefault();
+      });
 
-      .game-item i {
-        font-size: 40px;
-      }
-    }
+      item.addEventListener('dragenter', (e) => {
+        e.preventDefault();
+        item.style.border = '2px dashed red';
+      });
+
+      item.addEventListener('dragleave', () => {
+        item.style.border = '2px solid red';
+      });
+
+      item.addEventListener('drop', (e) => {
+        e.preventDefault();
+        if (draggedItem !== item) {
+          const parent = item.parentNode;
+          parent.insertBefore(draggedItem, item);
+        }
+        item.style.border = '2px solid red';
+      });
+    });
   </style>
 
-  <!-- Скрипт для загрузки данных -->
   <script defer src="scripts/loadGames.js"></script>
 
-  <!-- Защита и блокировка прав -->
+  <!-- Защита -->
   <script>
+    // Блокировка контекстного меню
     document.addEventListener("contextmenu", e => e.preventDefault());
+
+    // Блокировка горячих клавиш (Ctrl+C, Ctrl+X, Insert, и т.д.)
     document.addEventListener("keydown", e => {
       if ((e.ctrlKey && (e.key === "c" || e.key === "x")) || e.key === "Insert" || e.key === "U" || e.key === "F12") {
         e.preventDefault();
       }
     });
 
-    // Политика cookies
-    function showCookieBanner() {
-      const cookieBanner = document.createElement('div');
-      cookieBanner.style.position = 'fixed';
-      cookieBanner.style.bottom = '0';
-      cookieBanner.style.left = '0';
-      cookieBanner.style.width = '100%';
-      cookieBanner.style.backgroundColor = '#333';
-      cookieBanner.style.color = '#fff';
-      cookieBanner.style.padding = '10px';
-      cookieBanner.style.textAlign = 'center';
-      cookieBanner.innerHTML = 'Этот сайт использует cookies для улучшения пользовательского опыта. <a href="javascript:void(0);" onclick="acceptCookies();" style="color: red;">Принять</a>';
-      document.body.appendChild(cookieBanner);
-    }
+    // Блокировка перетаскивания
+    document.addEventListener("dragstart", e => e.preventDefault());
 
-    function acceptCookies() {
-      localStorage.setItem('cookiesAccepted', 'true');
-      document.querySelector('div').remove();
-    }
+    // Предотвращение использования "Сохранить как"
+    document.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey && (e.key === "s" || e.key === "p")) || e.key === "F12") {
+        e.preventDefault();
+      }
+    });
 
-    if (!localStorage.getItem('cookiesAccepted')) {
-      showCookieBanner();
-    }
+    // Применяем защиту при загрузке
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+
+    // Защита от индексации и кэширования
+    (function() {
+      var meta = document.createElement('meta');
+      meta.name = 'robots';
+      meta.content = 'noindex, nofollow';
+      document.head.appendChild(meta);
+    })();
   </script>
-
 </head>
 
 <body>
@@ -220,6 +240,7 @@
     </div>
   </div>
 
+  <!-- Footer with dynamic content -->
   <div class="footer">
     <p>© 2025 XAC3. Все права защищены. <a href="https://github.com">GitHub</a></p>
   </div>
