@@ -26,6 +26,7 @@
       overflow-x: hidden;
       perspective: 1000px;
       transition: background-color 0.3s ease;
+      position: relative;
     }
 
     /* Фоновая анимация */
@@ -180,7 +181,7 @@
     /* Эффект при прокрутке страницы */
     .content {
       overflow-y: scroll;
-      height: calc(100vh - 60px);
+      height: calc(100vh - 60px); /* Ограничиваем прокрутку */
       padding-bottom: 60px;
     }
 
@@ -197,7 +198,7 @@
       }
     }
 
-    /* Анимация для футера */
+    /* Фиксируем футер внизу страницы */
     .footer {
       position: fixed;
       bottom: 0;
@@ -221,6 +222,12 @@
         transform: translateY(0);
       }
     }
+
+    /* Блокировка прокрутки после футера */
+    body {
+      overflow: hidden;
+    }
+
   </style>
 
   <script defer src="scripts/loadGames.js"></script>
