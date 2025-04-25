@@ -6,86 +6,244 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Game Hub</title>
 
-  <!-- Шрифты -->
+  <!-- Orbitron font and others -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Raleway:wght@400;600&family=Russo+One&display=swap" rel="stylesheet" />
 
-  <!-- Иконки -->
+  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
   <!-- Основные стили -->
   <style>
-    :root {
-      --primary: #e00;
-      --bg-dark: #000;
-      --bg-light: rgba(255,255,255,0.1);
-      --text-light: #fff;
-      --transition: 0.3s ease;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { 
+    html, body {
       font-family: 'Orbitron', sans-serif;
-      background: var(--bg-dark) url('https://i.imgur.com/3lKQXAp.jpg') center/cover no-repeat fixed;
-      color: var(--text-light);
+      background-color: #000;
+      color: #fff;
       min-height: 100vh;
       overflow-x: hidden;
+      perspective: 1000px;
     }
 
-    /* Starfield parallax */
     body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background: url('https://i.imgur.com/7I3pQF7.png') repeat;
-      animation: starFall 60s linear infinite;
-      opacity: 0.4;
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255, 0, 0, 0.4) 0%, transparent 70%),
+                  repeating-linear-gradient(45deg, rgba(255, 0, 0, 0.05) 0px, rgba(255, 0, 0, 0.05) 1px, transparent 1px, transparent 20px);
+      animation: moveBackground 20s linear infinite;
       z-index: -1;
     }
-    @keyframes starFall {
-      from { background-position: 0 0; }
-      to { background-position: 0 10000px; }
+
+    @keyframes moveBackground {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-50%, -50%); }
     }
 
-    header { text-align: center; padding: 60px 20px; }
-    .site-title {
-      font-size: 4rem;
-      color: var(--text-light);
-      text-shadow: 0 0 20px var(--primary);
-      animation: shimmer 2.5s infinite;
+    header {
+      text-align: center;
+      padding: 50px 20px 20px;
     }
-    @keyframes shimmer {
-      0%,100% { text-shadow: 0 0 20px var(--primary); }
-      50% { text-shadow: 0 0 40px #fff; }
+
+    .site-title {
+      font-size: 50px;
+      color: #fff;
+      text-shadow: 0 0 20px red, 0 0 30px red;
+      opacity: 0;
+      animation: fadeSlideDown 1.5s ease-out forwards;
+    }
+
+    @keyframes fadeSlideDown {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .games-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 2rem;
-      padding: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 40px 20px 60px;
       max-width: 1200px;
       margin: 0 auto;
     }
 
     .game-item {
-      background: rgba(20,20,20,0.8);
-      border: 2px solid var(--primary);
-      border-radius: 1rem;
-      padding: 1.5rem;
+      background: rgba(20, 20, 20, 0.9);
+      border: 2px solid red;
+      border-radius: 16px;
+      padding: 30px 20px;
       text-align: center;
-      box-shadow: 0 0 20px rgba(224,0,0,0.3);
-      transform: translateY(50px);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+      transform-style: preserve-3d;
       opacity: 0;
-      transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
-      position: relative;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    .game-item:hover {
+      transform: rotateY(10deg) rotateX(6deg) scale(1.05);
+      box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
       cursor: pointer;
     }
-    .game-item.visible { 
-      transform: translateY(0);
-      opacity: 1;
+
+    .game-item i {
+      font-size: 48px;
+      color: red;
+      margin-bottom: 20px;
+      animation: bounce 1.5s infinite;
     }
-    .game-item:hover {
-      background: var(--bg-light);
-      box-shadow: 0 0 40px rgba(255,255,255,0.5);
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .game-item h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: #fff;
+      text-shadow: 0 0 10px red;
+    }
+
+    .game-item p {
+      font-size: 16px;
+      color: #ddd;
+      margin-bottom: 20px;
+    }
+
+    .game-item button {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .game-item button:hover {
+      background-color: #ff1a1a;
+      transform: scale(1.1);
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .game-item:nth-child(1) { animation-delay: 0.3s; }
+    .game-item:nth-child(2) { animation-delay: 0.6s; }
+
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      color: #bbb;
+      margin-top: 50px;
+    }
+
+    .footer a {
+      color: red;
+      text-decoration: none;
+    }
+
+    @media screen and (max-width: 768px) {
+      .site-title {
+        font-size: 35px;
+      }
+
+      .game-item {
+        padding: 20px;
+      }
+
+      .game-item button {
+        font-size: 14px;
+      }
+
+      .game-item i {
+        font-size: 40px;
+      }
+    }
+
+  </style>
+
+  <!-- Скрипт для загрузки данных -->
+  <script defer src="scripts/loadGames.js"></script>
+
+  <!-- Защита и блокировка прав -->
+  <script>
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("keydown", e => {
+      if ((e.ctrlKey && (e.key === "c" || e.key === "x")) || e.key === "Insert" || e.key === "U" || e.key === "F12") {
+        e.preventDefault();
+      }
+    });
+
+    // Политика cookies
+    function showCookieBanner() {
+      const cookieBanner = document.createElement('div');
+      cookieBanner.style.position = 'fixed';
+      cookieBanner.style.bottom = '0';
+      cookieBanner.style.left = '0';
+      cookieBanner.style.width = '100%';
+      cookieBanner.style.backgroundColor = '#333';
+      cookieBanner.style.color = '#fff';
+      cookieBanner.style.padding = '10px';
+      cookieBanner.style.textAlign = 'center';
+      cookieBanner.innerHTML = 'Этот сайт использует cookies для улучшения пользовательского опыта. <a href="javascript:void(0);" onclick="acceptCookies();" style="color: red;">Принять</a>';
+      document.body.appendChild(cookieBanner);
+    }
+
+    function acceptCookies() {
+      localStorage.setItem('cookiesAccepted', 'true');
+      document.querySelector('div').remove();
+    }
+
+    if (!localStorage.getItem('cookiesAccepted')) {
+      showCookieBanner();
+    }
+  </script>
+
+</head>
+
+<body>
+  <header>
+    <h1 class="site-title"><i class="fas fa-gamepad"></i> Game Hub</h1>
+  </header>
+
+  <div class="games-container" id="gamesList">
+    <div class="game-item" style="animation-delay: 0.1s;">
+      <i class="fab fa-telegram-plane"></i>
+      <h3>Телеграм Канал</h3>
+      <p>Следи за новостями и обновлениями. Всё в одном месте!</p>
+      <button onclick="window.open('https://t.me/c_xac3', '_blank')">Зайти</button>
+    </div>
+
+    <div class="game-item" style="animation-delay: 0.2s;">
+      <i class="fas fa-user-secret"></i>
+      <h3>Связь с Владельцем</h3>
+      <p>Напиши напрямую владельцу, если возникли вопросы.</p>
+      <button onclick="window.open('https://t.me/dmitry_shadow', '_blank')">Написать</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>© 2025 XAC3. Все права защищены. <a href="https://github.com">GitHub</a></p>
+  </div>
+</body>
+</html>
     }
     .game-item.selected {
       outline: 3px solid #fff;
