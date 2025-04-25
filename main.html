@@ -51,7 +51,7 @@
     /* Эффекты при загрузке */
     header {
       text-align: center;
-      padding: 50px 20px 20px;
+      padding: 150px 20px 20px; /* БОЛЬШОЙ отступ сверху */
       opacity: 0;
       animation: fadeInHeader 2s ease-in-out forwards;
     }
@@ -81,7 +81,6 @@
       }
     }
 
-    /* Анимация для списка игр */
     .games-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -156,32 +155,27 @@
       transform: scale(1.08);
     }
 
-    /* Анимация при нажатии на кнопку "Скачать" */
     .game-item button:active {
       transform: scale(0.95);
       transition: transform 0.2s ease;
     }
 
-    /* Стили для блокировки выделения текста */
     ::selection {
       background: transparent;
     }
 
-    /* Запрещаем выделение текста */
     body {
       user-select: none;
     }
 
-    /* Запрещаем перетаскивание изображений */
     img {
       -webkit-user-drag: none;
       user-drag: none;
     }
 
-    /* Эффект при прокрутке страницы */
     .content {
       overflow-y: scroll;
-      height: calc(100vh - 60px); /* Ограничиваем прокрутку */
+      height: calc(100vh - 60px);
       padding-bottom: 60px;
     }
 
@@ -198,7 +192,6 @@
       }
     }
 
-    /* Фиксируем футер внизу страницы */
     .footer {
       position: fixed;
       bottom: 0;
@@ -222,12 +215,6 @@
         transform: translateY(0);
       }
     }
-
-    /* Блокировка прокрутки после футера */
-    body {
-      overflow: hidden;
-    }
-
   </style>
 
   <script defer src="scripts/loadGames.js"></script>
@@ -264,10 +251,15 @@
       document.body.style.animation = 'fadeOut 1s ease';
     });
 
-    @keyframes fadeOut {
-      0% { opacity: 1; }
-      100% { opacity: 0; }
-    }
+    // Анимация выхода
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeOut {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </head>
 
@@ -294,7 +286,6 @@
     </div>
   </div>
 
-  <!-- Footer with dynamic content -->
   <div class="footer">
     <p>© 2025 XAC3. Все права защищены.</p>
   </div>
