@@ -27,6 +27,8 @@
       perspective: 1000px;
       transition: background-color 0.3s ease;
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
 
     /* Фоновая анимация */
@@ -174,9 +176,10 @@
     }
 
     .content {
+      flex: 1;
       overflow-y: scroll;
-      height: calc(100vh - 60px);
       padding-bottom: 60px;
+      margin-bottom: 60px; /* пространство под контентом для футера */
     }
 
     .content .game-item {
@@ -200,9 +203,10 @@
       background-color: #111;
       color: white;
       text-align: center;
-      padding: 10px 0;
-      z-index: 999;
+      padding: 20px 0;
       animation: fadeInFooter 2s ease-in-out;
+      border-top: 1px solid red;
+      z-index: 1000; /* Фиксируем футер поверх контента */
     }
 
     @keyframes fadeInFooter {
