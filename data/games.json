@@ -1,14 +1,14 @@
 [
   {
     "title": "Minecraft",
-    "link": "https://www.dropbox.com/scl/fi/eb9gpxmltm4axxkm1j593/MinecraftInstaller.exe?rlkey=pxo5c1nwd6cqranw2igfl3zmm&st=0rswoz3x&dl=0",
+    "link": "https://www.dropbox.com/scl/fi/eb9gpxmltm4axxkm1j593/MinecraftInstaller.exe?rlkey=pxo5c1nwd6cqranw2igfl3zmm&st=0rswoz3x&dl=1",
     "icon": "icons/Minecraft.png",
     "buttonText": "Скачать",
     "description": "Игра на ПК"
   },
   {
     "title": "Gorebox",
-    "link": "https://www.dropbox.com/scl/fi/6r0m9ok1pifizj82dh089/GoreBox.exe?rlkey=87mzkq3j2g67m77rlsirc7tne&st=m5lo17qe&dl=11kmT1c34upHC5KGDMW&ust=1745506271408000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCICv-Nyz7owDFQAAAAAdAAAAABAE",
+    "link": "https://www.dropbox.com/scl/fi/6r0m9ok1pifizj82dh089/GoreBox.exe?rlkey=87mzkq3j2g67m77rlsirc7tne&st=m5lo17qe&dl=1",
     "icon": "icons/Gorebox.png",
     "buttonText": "Скачать",
     "description": "Игра на ПК"
@@ -22,7 +22,7 @@
   },
   {
     "title": "Роблокс",
-    "link": "https://www.dropbox.com/scl/fi/z51fwe6nc9brtort74jh5/RobloxPlayerInstaller.exe?rlkey=kni1x7axljbjbfr5mx1eytxg5&st=1nhfajpx&dl=0",
+    "link": "https://www.dropbox.com/scl/fi/z51fwe6nc9brtort74jh5/RobloxPlayerInstaller.exe?rlkey=kni1x7axljbjbfr5mx1eytxg5&st=1nhfajpx&dl=1",
     "icon": "icons/Roblox.png",
     "buttonText": "Скачать",
     "description": "Игра на ПК"
@@ -40,5 +40,12 @@
     "icon": "icons/WT.png",
     "buttonText": "Скачать",
     "description": "Игра на ПК"
+  },
+  {
+    "title": "BlueStacks",
+    "link": "https://www.dropbox.com/scl/fi/0ev18o3lb61iu3krtvzmu/bluestacksinstaller_5.22.0.1102.exe?rlkey=v9m4zxzpwibzakh299wqwgcsg&st=tpkaefkr&dl=1",
+    "icon": "icons/BS.png",
+    "buttonText": "Скачать",
+    "description": "Эмулятор андроид на ПК"
   }
 ]
