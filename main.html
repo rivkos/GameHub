@@ -82,7 +82,7 @@
       border-radius: 16px;
       padding: 30px 20px;
       text-align: center;
-      transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
       box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
       transform-style: preserve-3d;
       opacity: 0;
@@ -92,8 +92,7 @@
 
     .game-item:hover {
       transform: rotateY(8deg) rotateX(4deg) scale(1.04);
-      box-shadow: 0 0 35px rgba(255, 255, 255, 0.8);
-      border-color: white;
+      box-shadow: 0 0 35px rgba(255, 0, 0, 0.5);
     }
 
     .game-item i {
@@ -223,143 +222,5 @@
 
   <!-- Сюда будут динамически загружаться игры -->
   <div class="games-container" id="gamesList"></div>
-</body>
-</html>
-      transform: translateY(30px);
-      animation: fadeInUp 1s ease forwards;
-    }
-
-    .game-item:hover {
-      transform: rotateY(8deg) rotateX(4deg) scale(1.04);
-      box-shadow: 0 0 35px rgba(255, 255, 255, 0.8); /* белая подсветка */
-      border-color: white; /* опционально: меняем рамку на белую */
-     }
-
-    .game-item i {
-      font-size: 38px;
-      color: red;
-      margin-bottom: 15px;
-    }
-
-    .game-item h3 {
-      font-size: 22px;
-      margin-bottom: 12px;
-      color: #fff;
-    }
-
-    .game-item p {
-      font-size: 14px;
-      color: #ddd;
-      margin-bottom: 20px;
-    }
-
-    .game-item button {
-      background-color: red;
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-
-    .game-item button:hover {
-      background-color: #ff1a1a;
-      transform: scale(1.08);
-    }
-
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .game-item:nth-child(1) { animation-delay: 0.3s; }
-    .game-item:nth-child(2) { animation-delay: 0.6s; }
-
-    @media screen and (max-width: 768px) {
-      .site-title {
-        font-size: 30px;
-      }
-
-      .game-item {
-        padding: 20px;
-      }
-
-      .game-item button {
-        font-size: 13px;
-      }
-
-      .game-item i {
-        font-size: 32px;
-      }
-    }
-  </style>
-
-  <!-- Скрипт для загрузки данных -->
-  <script defer src="scripts/loadGames.js"></script>
-
-  <!-- Защита -->
-  <script>
-    // Блокировка контекстного меню
-    document.addEventListener("contextmenu", e => e.preventDefault());
-
-    // Блокировка горячих клавиш (Ctrl+C, Ctrl+X, Insert, и т.д.)
-    document.addEventListener("keydown", e => {
-      if ((e.ctrlKey && (e.key === "c" || e.key === "x")) || e.key === "Insert" || e.key === "U" || e.key === "F12") {
-        e.preventDefault();
-      }
-    });
-
-    // Блокировка перетаскивания
-    document.addEventListener("dragstart", e => e.preventDefault());
-
-    // Предотвращение использования "Сохранить как"
-    document.addEventListener("keydown", (e) => {
-      if ((e.ctrlKey && (e.key === "s" || e.key === "p")) || e.key === "F12") {
-        e.preventDefault();
-      }
-    });
-
-    // Применяем защиту при загрузке
-    window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
-    });
-
-    // Защита от индексации и кэширования
-    (function() {
-      var meta = document.createElement('meta');
-      meta.name = 'robots';
-      meta.content = 'noindex, nofollow';
-      document.head.appendChild(meta);
-    })();
-  </script>
-</head>
-
-<body>
-  <header>
-    <h1 class="site-title"><i class="fas fa-gamepad"></i> Game Hub</h1>
-  </header>
-
-  <div class="games-container" id="gamesList">
-    <!-- Ручные блоки -->
-    <div class="game-item" style="animation-delay: 0.1s;">
-      <i class="fab fa-telegram-plane"></i>
-      <h3>Телеграм Канал</h3>
-      <p>Следи за новостями и обновлениями. Всё в одном месте!</p>
-      <button onclick="window.open('https://t.me/c_xac3', '_blank')">Зайти</button>
-    </div>
-
-    <div class="game-item" style="animation-delay: 0.2s;">
-      <i class="fas fa-user-secret"></i>
-      <h3>Связь с Владельцем</h3>
-      <p>Напиши напрямую владельцу, если возникли вопросы.</p>
-      <button onclick="window.open('https://t.me/dmitry_shadow', '_blank')">Написать</button>
-    </div>
-  </div>
-
-  
 </body>
 </html>
