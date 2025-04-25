@@ -25,6 +25,7 @@
       min-height: 100vh;
       overflow-x: hidden;
       perspective: 1000px;
+      transition: background-color 0.3s ease;
     }
 
     /* Фоновая анимация */
@@ -46,10 +47,12 @@
       100% { transform: translate(-50%, -50%); }
     }
 
+    /* Эффекты при загрузке */
     header {
       text-align: center;
       padding: 50px 20px 20px;
-      animation: fadeInHeader 2s ease-in-out;
+      opacity: 0;
+      animation: fadeInHeader 2s ease-in-out forwards;
     }
 
     @keyframes fadeInHeader {
@@ -67,7 +70,6 @@
       font-size: 50px;
       color: #fff;
       text-shadow: 0 0 20px red, 0 0 30px red;
-      opacity: 0;
       animation: fadeSlideDown 1.5s ease-out forwards;
     }
 
@@ -78,6 +80,7 @@
       }
     }
 
+    /* Анимация для списка игр */
     .games-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -117,6 +120,11 @@
       font-size: 38px;
       color: red;
       margin-bottom: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .game-item i:hover {
+      transform: rotate(360deg);
     }
 
     .game-item h3 {
@@ -153,6 +161,43 @@
       transition: transform 0.2s ease;
     }
 
+    /* Стили для блокировки выделения текста */
+    ::selection {
+      background: transparent;
+    }
+
+    /* Запрещаем выделение текста */
+    body {
+      user-select: none;
+    }
+
+    /* Запрещаем перетаскивание изображений */
+    img {
+      -webkit-user-drag: none;
+      user-drag: none;
+    }
+
+    /* Эффект при прокрутке страницы */
+    .content {
+      overflow-y: scroll;
+      height: calc(100vh - 60px);
+      padding-bottom: 60px;
+    }
+
+    .content .game-item {
+      opacity: 0;
+      transform: translateY(100px);
+      animation: fadeInScroll 1s ease-out forwards;
+    }
+
+    @keyframes fadeInScroll {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Анимация для футера */
     .footer {
       position: fixed;
       bottom: 0;
@@ -175,39 +220,6 @@
         opacity: 1;
         transform: translateY(0);
       }
-    }
-
-    /* Стили для блока, который будет прокручиваться */
-    .content {
-      overflow-y: scroll;
-      height: calc(100vh - 60px); /* Снимаем пространство для копирайта */
-      padding-bottom: 60px; /* Отступ снизу, чтобы не перекрывать копирайт */
-    }
-
-    /* Отключение выделения текста */
-    ::selection {
-      background: transparent;
-    }
-
-    /* Запрещаем выделение текста */
-    body {
-      user-select: none; /* Отключает выделение текста */
-    }
-
-    /* Запрещаем перетаскивание изображений */
-    img {
-      -webkit-user-drag: none; /* Запрещает перетаскивание изображений */
-      user-drag: none;
-    }
-
-    /* Блокировка прокрутки страницы */
-    body {
-      overflow-y: hidden; /* Блокируем прокрутку */
-    }
-
-    .content {
-      overflow-y: scroll;
-      height: calc(100vh - 60px);
     }
   </style>
 
