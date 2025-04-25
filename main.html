@@ -82,17 +82,24 @@
       border-radius: 16px;
       padding: 30px 20px;
       text-align: center;
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      transition: transform 0.5s ease, box-shadow 0.5s ease, background-color 0.3s ease;
       box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
       transform-style: preserve-3d;
       opacity: 0;
       transform: translateY(30px);
       animation: fadeInUp 1s ease forwards;
+      cursor: pointer;
     }
 
     .game-item:hover {
       transform: rotateY(10deg) rotateX(6deg) scale(1.05);
       box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
+      background-color: rgba(255, 255, 255, 0.2); /* Белая подсветка */
+    }
+
+    .game-item:active {
+      transform: scale(1.1);
+      box-shadow: 0 0 60px rgba(255, 0, 0, 0.8);
     }
 
     .game-item i {
@@ -212,6 +219,12 @@
     if (!localStorage.getItem('cookiesAccepted')) {
       showCookieBanner();
     }
+
+    // Защита от перетаскивания
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('dragstart', (e) => e.preventDefault());
+    window.addEventListener('dragover', (e) => e.preventDefault());
+    window.addEventListener('drop', (e) => e.preventDefault());
   </script>
 </head>
 
@@ -237,7 +250,7 @@
   </div>
 
   <div class="footer">
-    <p>© 2025 XAC3. Все права защищены. <a href="https://t.me/borisk202">Борис</a></p>
+    <p>© 2025 XAC3. Все права защищены. <a href="https://github.com">GitHub</a></p>
   </div>
 </body>
 </html>
