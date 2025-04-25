@@ -163,16 +163,38 @@
 
   <!-- Защита -->
   <script>
+    // Блокировка контекстного меню
     document.addEventListener("contextmenu", e => e.preventDefault());
+
+    // Блокировка горячих клавиш (Ctrl+C, Ctrl+X, Insert, и т.д.)
     document.addEventListener("keydown", e => {
-      if ((e.ctrlKey && (e.key === "c" || e.key === "x")) || e.key === "Insert") {
+      if ((e.ctrlKey && (e.key === "c" || e.key === "x")) || e.key === "Insert" || e.key === "U" || e.key === "F12") {
         e.preventDefault();
       }
     });
+
+    // Блокировка перетаскивания
     document.addEventListener("dragstart", e => e.preventDefault());
+
+    // Предотвращение использования "Сохранить как"
+    document.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey && (e.key === "s" || e.key === "p")) || e.key === "F12") {
+        e.preventDefault();
+      }
+    });
+
+    // Применяем защиту при загрузке
     window.addEventListener('load', () => {
       document.body.classList.add('loaded');
     });
+
+    // Защита от индексации и кэширования
+    (function() {
+      var meta = document.createElement('meta');
+      meta.name = 'robots';
+      meta.content = 'noindex, nofollow';
+      document.head.appendChild(meta);
+    })();
   </script>
 </head>
 
