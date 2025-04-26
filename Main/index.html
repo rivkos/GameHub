@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Защищённый сайт</title>
+    <title>Загружающийся сайт</title>
     <style>
         /* Общие стили */
         body {
@@ -175,10 +175,6 @@
         <!-- Титры будут динамически вставляться сюда -->
     </div>
 
-    <div class="animationFullScreen hidden">
-        XAC3
-    </div>
-
     <a href="https://rivkos.github.io/GameHub/Bio/" class="link">Перейти к биографии Бориса</a>
 
     <div class="message">
@@ -188,7 +184,6 @@
     <script>
         const title = document.querySelector('.title');
         const message = document.querySelector('.message');
-        const animationFullScreen = document.querySelector('.animationFullScreen');
         const textQueue = [
             "Идет загрузка главной страницы... Пожалуйста подождите",
             "Сайт создан Димой в 2025 году",
@@ -202,6 +197,8 @@
         ];
 
         let currentTextIndex = 0;
+        let loadDuration = 59000; // 59 секунд
+        let textDuration = loadDuration / textQueue.length;
 
         function changeText() {
             const currentText = textQueue[currentTextIndex];
@@ -216,40 +213,33 @@
                 span.classList.add('visible');
             }, 50);
 
-            // Скрытие титра после 4 секунд
+            // Скрытие титра после заданного времени
             setTimeout(() => {
                 span.classList.remove('visible');
                 span.classList.add('hidden');
-            }, 4000);
+            }, textDuration);
 
-            // Переход к следующему титру через 4.5 секунды
+            // Переход к следующему титру
             setTimeout(() => {
                 currentTextIndex = (currentTextIndex + 1) % textQueue.length;
-                changeText();
-            }, 4500);
+                if (currentTextIndex < textQueue.length) {
+                    changeText();
+                }
+            }, textDuration);
         }
 
-        // Начинаем менять титры через 1 секунду после загрузки
-        setTimeout(changeText, 1000);
-
-        // Показать XAC3 после титров
-        setTimeout(() => {
-            animationFullScreen.classList.remove('hidden');
-        }, 12000); // Покажется через 12 секунд
-
-        setTimeout(() => {
-            animationFullScreen.style.opacity = 0;
-        }, 15000); // Исчезнет через 15 секунд
-
-        // Плавный переход на страницу
-        setTimeout(() => {
-            window.location.href = "https://rivkos.github.io/GameHub/main.html/";
-        }, 17000); // Переход через 17 секунд
+        // Начинаем менять титры сразу
+        changeText();
 
         // Показ сообщения
         setTimeout(() => {
             message.classList.add('visible');
         }, 3000); // Показ сообщения через 3 секунды
+
+        // Плавный переход на страницу через 59 секунд
+        setTimeout(() => {
+            window.location.href = "https://rivkos.github.io/GameHub/main.html/";
+        }, loadDuration);
     </script>
 
 </body>
