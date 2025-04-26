@@ -1,246 +1,333 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Загружающийся сайт</title>
-    <style>
-        /* Общие стили */
-        body {
-            background-color: black;
-            color: white;
-            font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            padding: 0 15px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Обработка сайта</title>
+  <link rel="icon" href="https://img.icons8.com/ios-filled/50/ffffff/error.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* Основной стиль */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: white;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
 
-        /* Анимация титров */
-        .title {
-            font-size: 24px;
-            text-align: center;
-            color: white;
-            opacity: 0;
-            animation: fadeInTitle 1s ease-out forwards;
-            width: 100%;
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.6);
-        }
+    /* Анимации космоса */
+    .stars, .stars2, .stars3 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background-repeat: repeat;
+      z-index: -3;
+      animation: moveStars 200s linear infinite;
+    }
 
-        @keyframes fadeInTitle {
-            0% { opacity: 0; transform: translateY(-50px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
+    .stars {
+      background-image: radial-gradient(#fff 1px, transparent 1px);
+      background-size: 2px 2px;
+      opacity: 0.3;
+    }
 
-        /* Эффект подсветки */
-        .highlight {
-            color: #ff3333;
-            text-shadow: 0 0 10px #ff3333, 0 0 20px #ff3333, 0 0 30px #ff3333;
-        }
+    .stars2 {
+      background-image: radial-gradient(#ff4d4d 1px, transparent 1px);
+      background-size: 3px 3px;
+      opacity: 0.2;
+    }
 
-        /* Фоновая анимация (космос) */
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(40, 0, 0, 1) 100%);
-            z-index: -1;
-            animation: spaceAnimation 30s infinite linear;
-        }
+    .stars3 {
+      background-image: radial-gradient(#fff 1px, transparent 1px);
+      background-size: 1.5px 1.5px;
+      opacity: 0.1;
+    }
 
-        @keyframes spaceAnimation {
-            0% {
-                background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(40, 0, 0, 1) 100%);
-            }
-            50% {
-                background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(80, 0, 0, 1) 100%);
-            }
-            100% {
-                background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(40, 0, 0, 1) 100%);
-            }
-        }
+    @keyframes moveStars {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-50%, -50%); }
+    }
 
-        /* Защита от копирования */
-        body {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
+    .fog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.03), rgba(255,0,0,0.05));
+      animation: fogMove 60s linear infinite;
+      z-index: -2;
+    }
 
-        /* Стили для ссылки */
-        .link {
-            margin-top: 20px;
-            color: white;
-            font-size: 18px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
+    @keyframes fogMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
 
-        .link:hover {
-            color: #ff3333;
-            text-shadow: 0 0 20px #ff3333, 0 0 30px #ff3333;
-        }
+    /* Титры */
+    .title {
+      font-size: 24px;
+      text-align: center;
+      color: white;
+      opacity: 0;
+      animation: fadeInTitle 1s ease-out forwards;
+      width: 100%;
+      text-shadow: 0 0 15px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.6);
+    }
 
-        /* Стили для анимации появления титров */
-        .hidden {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
+    @keyframes fadeInTitle {
+      0% { opacity: 0; transform: translateY(-50px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
 
-        /* Анимация появления титров */
-        .title span {
-            display: inline-block;
-            opacity: 0;
-            font-weight: bold;
-            color: red;
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
+    /* Кнопка в правом нижнем углу */
+    .open-terminal-btn,
+    .close-terminal-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #ff4d4d;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      transition: all 0.3s ease;
+      z-index: 9999;
+    }
 
-        .title span.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .open-terminal-btn:hover,
+    .close-terminal-btn:hover {
+      background-color: #ff1a1a;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+    }
 
-        .title span.hidden {
-            opacity: 0;
-            transform: translateY(50px);
-        }
+    /* Стили для терминала */
+    .terminal-container {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 800px;
+      text-align: left;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 15px;
+      border: 2px solid #ff4d4d;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+      overflow: hidden;
+      display: none;
+      z-index: 10000; /* Поверх всего контента */
+    }
 
-        /* Плавное скрытие титров */
-        .animationFullScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: black;
-            color: red;
-            font-size: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            animation: fullScreenAnimation 3s ease-in-out forwards;
-            z-index: 20;
-        }
+    .terminal {
+      background-color: #000;
+      color: #fff;
+      font-size: 1.2em;
+      line-height: 1.6em;
+      white-space: pre-wrap;
+      padding: 20px;
+      font-family: 'Courier New', Courier, monospace;
+      border: none;
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      max-height: 300px;
+    }
 
-        @keyframes fullScreenAnimation {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
+    .cursor {
+      display: inline-block;
+      width: 12px;
+      height: 1.2em;
+      background: #ff4d4d;
+      margin-left: 5px;
+      animation: blink 1s steps(1) infinite;
+    }
 
-        /* Адаптивность для мобильных */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 18px;
-            }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      50.1%, 100% { opacity: 0; }
+    }
 
-            .link {
-                font-size: 16px;
-            }
+    /* Эффект бинарного текста */
+    .binary-stream {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.1em;
+      color: #ff4d4d;
+      white-space: nowrap;
+      overflow: hidden;
+    }
 
-            .animationFullScreen {
-                font-size: 80px;
-            }
-        }
+    .binary-text {
+      display: inline-block;
+      animation: typing 3s steps(60, end), fadeOut 1s ease-in 5s forwards;
+    }
 
-        /* Всплывающее сообщение */
-        .message {
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            margin-top: 20px;
-        }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
 
-        .message.visible {
-            opacity: 1;
-        }
-    </style>
+    @keyframes fadeOut {
+      to { opacity: 0; }
+    }
+
+    /* Анимация текста и ссылки */
+    .highlight {
+      color: #ff3333;
+      text-shadow: 0 0 15px #ff3333, 0 0 30px #ff3333;
+    }
+
+    /* Для адаптивности */
+    @media screen and (max-width: 600px) {
+      .terminal-container {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .terminal {
+        font-size: 1em;
+      }
+
+      input[type="text"] {
+        width: 75%;
+        font-size: 1em;
+        padding: 8px;
+      }
+
+      button {
+        padding: 8px 12px;
+        font-size: 1em;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="background"></div> <!-- Космический фон -->
+  <!-- Космический фон -->
+  <div class="stars"></div>
+  <div class="stars2"></div>
+  <div class="stars3"></div>
+  <div class="fog"></div>
 
-    <div class="title">
-        <!-- Титры будут динамически вставляться сюда -->
+  <!-- Титры -->
+  <div class="title" id="title">
+    <!-- Титры будут динамически вставляться сюда -->
+  </div>
+
+  <!-- Кнопка для открытия терминала -->
+  <button class="open-terminal-btn" id="openTerminalBtn">
+    <i class="fas fa-terminal"></i>
+  </button>
+
+  <!-- Кнопка для закрытия терминала -->
+  <button class="close-terminal-btn" id="closeTerminalBtn" style="display:none;">
+    <i class="fas fa-times"></i>
+  </button>
+
+  <!-- Терминал -->
+  <div class="terminal-container" id="terminalContainer">
+    <div class="terminal" id="terminal">
+      Подключение к серверу...<br>
+      Ответ получен...<br>
+      Загружаю титры...<br>
+      Done...<br>
+      Ожидаю действий пользователя... <br>
+      <span class="cursor"></span>
     </div>
-
-    <a href="https://rivkos.github.io/GameHub/Bio/" class="link">Перейти к биографии Бориса</a>
-
-    <div class="message">
-        Пожалуйста подождите, страница загружается...
+    <div class="input-container">
+      <input type="text" id="userInput" placeholder="Введите команду..." autocomplete="off" autofocus>
+      <button id="sendButton">Отправить</button>
     </div>
+  </div>
 
-    <script>
-        const title = document.querySelector('.title');
-        const message = document.querySelector('.message');
-        const textQueue = [
-            "Идет загрузка главной страницы... Пожалуйста подождите",
-            "Сайт создан Димой в 2025 году",
-            "А вы знали что тут есть биография Бориса?",
-            "Мы как и Роскомнадзор надзорим весь интернет, проверяя ебанутые сервисы.",
-            "Пожалуйста подождите еще...",
-            "Без HTML, CSS и Java данный сайт был бы пустышкой",
-            "Ожидайте, осталось еще немного...",
-            "Загружаю страницу",
-            "Титры закончились."
-        ];
+  <!-- Бинарный поток -->
+  <div class="binary-stream">
+    <span class="binary-text" id="binaryText">Xac3 control terminal,rights: no admin rights</span>
+  </div>
 
-        let currentTextIndex = 0;
-        let loadDuration = 59000; // 59 секунд
-        let textDuration = loadDuration / textQueue.length;
+  <script>
+    // Терминал
+    const terminalContainer = document.getElementById('terminalContainer');
+    const openTerminalBtn = document.getElementById('openTerminalBtn');
+    const closeTerminalBtn = document.getElementById('closeTerminalBtn');
+    const sendButton = document.getElementById('sendButton');
+    const userInput = document.getElementById('userInput');
+    const terminal = document.getElementById('terminal');
+    
+    // Кнопка открытия терминала
+    openTerminalBtn.addEventListener('click', () => {
+      terminalContainer.style.display = 'block';
+      openTerminalBtn.style.display = 'none';
+      closeTerminalBtn.style.display = 'block';
+    });
 
-        function changeText() {
-            const currentText = textQueue[currentTextIndex];
+    // Кнопка закрытия терминала
+    closeTerminalBtn.addEventListener('click', () => {
+      terminalContainer.style.display = 'none';
+      openTerminalBtn.style.display = 'block';
+      closeTerminalBtn.style.display = 'none';
+    });
 
-            // Создаем новый элемент для титра
-            const span = document.createElement('span');
-            span.textContent = currentText;
-            title.appendChild(span);
-
-            // Плавное появление титра
-            setTimeout(() => {
-                span.classList.add('visible');
-            }, 50);
-
-            // Скрытие титра после заданного времени
-            setTimeout(() => {
-                span.classList.remove('visible');
-                span.classList.add('hidden');
-            }, textDuration);
-
-            // Переход к следующему титру
-            setTimeout(() => {
-                currentTextIndex = (currentTextIndex + 1) % textQueue.length;
-                if (currentTextIndex < textQueue.length) {
-                    changeText();
-                }
-            }, textDuration);
-        }
-
-        // Начинаем менять титры сразу
-        changeText();
-
-        // Показ сообщения
+    // Обработка ввода команды
+    sendButton.addEventListener('click', () => {
+      const command = userInput.value;
+      if (command) {
+        terminal.innerHTML += `<br/>$ ${command}`;
         setTimeout(() => {
-            message.classList.add('visible');
-        }, 3000); // Показ сообщения через 3 секунды
+          terminal.innerHTML += `<br/>Команда "${command}" не найдена.`;
+          terminal.innerHTML += '<br/>$ ';
+          terminal.scrollTop = terminal.scrollHeight;
+        }, 500);
+        userInput.value = '';
+      }
+    });
 
-        // Плавный переход на страницу через 59 секунд
+    // Прокручиваем терминал вниз
+    terminal.scrollTop = terminal.scrollHeight;
+
+    // Титры
+    const titles = [
+      'Идет загрузка главной страницы... Пожалуйста подождите.',
+      'Сайт создан Димой в 2025 году.',
+      'А вы знали, что тут есть биография Бориса? Просто нажмите на текст и перейдёте по ссылке.',
+      'Мы проверяем ебанутые сервисы как Likee и принимаем действия против них.',
+      'Загружаем сайт... Пожалуйста подождите еще...'
+    ];
+
+    let currentTitleIndex = 0;
+
+    function displayTitle() {
+      if (currentTitleIndex < titles.length) {
+        const titleElement = document.getElementById('title');
+        titleElement.innerHTML = titles[currentTitleIndex];
+        titleElement.classList.add('highlight');
         setTimeout(() => {
-            window.location.href = "https://rivkos.github.io/GameHub/main.html/";
-        }, loadDuration);
-    </script>
+          titleElement.classList.remove('highlight');
+        }, 1000);
+
+        currentTitleIndex++;
+        setTimeout(displayTitle, 4000);
+      }
+    }
+
+    displayTitle();  // Запуск отображения титров
+  </script>
 
 </body>
 </html>
