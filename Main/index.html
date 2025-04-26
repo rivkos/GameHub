@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Обработка сайта</title>
+  <title>Загружающийся сайт</title>
   <link rel="icon" href="https://img.icons8.com/ios-filled/50/ffffff/error.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
@@ -258,50 +258,10 @@
 
   <!-- Бинарный поток -->
   <div class="binary-stream">
-    <span class="binary-text" id="binaryText">Xac3 control terminal,rights: no admin rights</span>
+    <span class="binary-text" id="binaryText">Xac3 control terminal, rights: no admin rights</span>
   </div>
 
   <script>
-    // Терминал
-    const terminalContainer = document.getElementById('terminalContainer');
-    const openTerminalBtn = document.getElementById('openTerminalBtn');
-    const closeTerminalBtn = document.getElementById('closeTerminalBtn');
-    const sendButton = document.getElementById('sendButton');
-    const userInput = document.getElementById('userInput');
-    const terminal = document.getElementById('terminal');
-    
-    // Кнопка открытия терминала
-    openTerminalBtn.addEventListener('click', () => {
-      terminalContainer.style.display = 'block';
-      openTerminalBtn.style.display = 'none';
-      closeTerminalBtn.style.display = 'block';
-    });
-
-    // Кнопка закрытия терминала
-    closeTerminalBtn.addEventListener('click', () => {
-      terminalContainer.style.display = 'none';
-      openTerminalBtn.style.display = 'block';
-      closeTerminalBtn.style.display = 'none';
-    });
-
-    // Обработка ввода команды
-    sendButton.addEventListener('click', () => {
-      const command = userInput.value;
-      if (command) {
-        terminal.innerHTML += `<br/>$ ${command}`;
-        setTimeout(() => {
-          terminal.innerHTML += `<br/>Команда "${command}" не найдена.`;
-          terminal.innerHTML += '<br/>$ ';
-          terminal.scrollTop = terminal.scrollHeight;
-        }, 500);
-        userInput.value = '';
-      }
-    });
-
-    // Прокручиваем терминал вниз
-    terminal.scrollTop = terminal.scrollHeight;
-
-    // Титры
     const titles = [
       'Идет загрузка главной страницы... Пожалуйста подождите.',
       'Сайт создан Димой в 2025 году.',
@@ -323,11 +283,32 @@
 
         currentTitleIndex++;
         setTimeout(displayTitle, 4000);
+      } else {
+        // После окончания титров, редирект на нужную страницу через 1 секунду
+        setTimeout(() => {
+          window.location.href = 'https://rivkos.github.io/GameHub/main.html'; // Укажите URL нужной страницы
+        }, 1000);
       }
     }
 
     displayTitle();  // Запуск отображения титров
-  </script>
 
+    // Открытие и закрытие терминала
+    const openTerminalBtn = document.getElementById('openTerminalBtn');
+    const closeTerminalBtn = document.getElementById('closeTerminalBtn');
+    const terminalContainer = document.getElementById('terminalContainer');
+
+    openTerminalBtn.addEventListener('click', () => {
+      terminalContainer.style.display = 'block';
+      openTerminalBtn.style.display = 'none';
+      closeTerminalBtn.style.display = 'block';
+    });
+
+    closeTerminalBtn.addEventListener('click', () => {
+      terminalContainer.style.display = 'none';
+      openTerminalBtn.style.display = 'block';
+      closeTerminalBtn.style.display = 'none';
+    });
+  </script>
 </body>
 </html>
