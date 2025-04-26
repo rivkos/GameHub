@@ -5,21 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Загружающийся сайт</title>
   <link rel="icon" href="https://img.icons8.com/ios-filled/50/ffffff/error.png" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> <!-- Шрифт для игры -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Иконки -->
   <style>
     /* Основной стиль */
     body {
       margin: 0;
       padding: 0;
-      background: #000;
+      background: linear-gradient(to top, #000000, #7b0000); /* Черно-красный градиент */
       color: white;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Press Start 2P', cursive; /* Эпичный шрифт для игр */
       overflow: hidden;
       height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
+    }
+
+    /* Отключение выделения текста */
+    * {
+      user-select: none; /* Отключение выделения текста на всех элементах */
     }
 
     /* Анимации космоса */
@@ -75,7 +81,7 @@
 
     /* Титры */
     .title {
-      font-size: 24px;
+      font-size: 30px;
       text-align: center;
       color: white;
       opacity: 0;
@@ -86,6 +92,232 @@
 
     @keyframes fadeInTitle {
       0% { opacity: 0; transform: translateY(-50px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Кнопка в правом нижнем углу */
+    .open-terminal-btn,
+    .close-terminal-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #ff4d4d;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      transition: all 0.3s ease;
+      z-index: 9999;
+    }
+
+    .open-terminal-btn:hover,
+    .close-terminal-btn:hover {
+      background-color: #ff1a1a;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+    }
+
+    /* Стили для терминала */
+    .terminal-container {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 800px;
+      text-align: left;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 15px;
+      border: 2px solid #ff4d4d;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+      overflow: hidden;
+      display: none;
+      z-index: 10000; /* Поверх всего контента */
+    }
+
+    .terminal {
+      background-color: #000;
+      color: #fff;
+      font-size: 1.2em;
+      line-height: 1.6em;
+      white-space: pre-wrap;
+      padding: 20px;
+      font-family: 'Courier New', Courier, monospace;
+      border: none;
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      max-height: 300px;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 12px;
+      height: 1.2em;
+      background: #ff4d4d;
+      margin-left: 5px;
+      animation: blink 1s steps(1) infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      50.1%, 100% { opacity: 0; }
+    }
+
+    /* Эффект бинарного текста */
+    .binary-stream {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.1em;
+      color: #ff4d4d;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .binary-text {
+      display: inline-block;
+      animation: typing 3s steps(60, end), fadeOut 1s ease-in 5s forwards;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; }
+    }
+
+    /* Анимация текста и ссылки */
+    .highlight {
+      color: #ff3333;
+      text-shadow: 0 0 15px #ff3333, 0 0 30px #ff3333;
+    }
+
+    /* Для адаптивности */
+    @media screen and (max-width: 600px) {
+      .terminal-container {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .terminal {
+        font-size: 1em;
+      }
+
+      input[type="text"] {
+        width: 75%;
+        font-size: 1em;
+        padding: 8px;
+      }
+
+      button {
+        padding: 8px 12px;
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Космический фон -->
+  <div class="stars"></div>
+  <div class="stars2"></div>
+  <div class="stars3"></div>
+  <div class="fog"></div>
+
+  <!-- Титры -->
+  <div class="title" id="title">
+    <!-- Титры будут динамически вставляться сюда -->
+  </div>
+
+  <!-- Кнопка для открытия терминала -->
+  <button class="open-terminal-btn" id="openTerminalBtn">
+    <i class="fas fa-terminal"></i>
+  </button>
+
+  <!-- Кнопка для закрытия терминала -->
+  <button class="close-terminal-btn" id="closeTerminalBtn" style="display:none;">
+    <i class="fas fa-times"></i>
+  </button>
+
+  <!-- Терминал -->
+  <div class="terminal-container" id="terminalContainer">
+    <div class="terminal" id="terminal">
+      Подключение к серверу...<br>
+      Ответ получен...<br>
+      Загружаю титры...<br>
+      Done...<br>
+      Ожидаю действий пользователя... <br>
+      <span class="cursor"></span>
+    </div>
+    <div class="input-container">
+      <input type="text" id="userInput" placeholder="Введите команду..." autocomplete="off" autofocus>
+      <button id="sendButton">Отправить</button>
+    </div>
+  </div>
+
+  <script>
+    // Запрещаем выделение текста на странице
+    document.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+    });
+
+    // Запрещаем правый клик
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+
+    // Функция для блокировки некоторых клавиш
+    document.addEventListener('keydown', function(e) {
+      const blockedKeys = ['u', 'c', 'x', 'v', 'a', 's'];
+      if (e.ctrlKey && blockedKeys.includes(e.key.toLowerCase())) {
+        e.preventDefault();
+      }
+    });
+
+    // Динамическое отображение титров
+    const titles = [
+      'Идет загрузка главной страницы... Пожалуйста подождите'
+    ];
+    let titleIndex = 0;
+
+    function displayTitle() {
+      const titleElement = document.getElementById('title');
+      if (titleIndex < titles.length) {
+        titleElement.innerHTML = titles[titleIndex];
+        titleElement.style.opacity = 1;
+        titleIndex++;
+        setTimeout(displayTitle, 5000);  // Следующий титр через 5 секунд
+      }
+    }
+    displayTitle();
+
+    // Открытие и закрытие терминала
+    const openTerminalBtn = document.getElementById('openTerminalBtn');
+    const closeTerminalBtn = document.getElementById('closeTerminalBtn');
+    const terminalContainer = document.getElementById('terminalContainer');
+
+    openTerminalBtn.addEventListener('click', function() {
+      terminalContainer.style.display = 'block';
+      openTerminalBtn.style.display = 'none';
+      closeTerminalBtn.style.display = 'inline-block';
+    });
+
+    closeTerminalBtn.addEventListener('click', function() {
+      terminalContainer.style.display = 'none';
+      openTerminalBtn.style.display = 'inline-block';
+      closeTerminalBtn.style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>
       100% { opacity: 1; transform: translateY(0); }
     }
 
