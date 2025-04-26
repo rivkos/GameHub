@@ -26,7 +26,7 @@
             text-align: center;
             color: white;
             opacity: 0;
-            animation: fadeInTitle 2s ease-out forwards;
+            animation: fadeInTitle 1s ease-out forwards;
             width: 100%;
             text-shadow: 0 0 15px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.6);
         }
@@ -88,12 +88,6 @@
             text-shadow: 0 0 20px #ff3333, 0 0 30px #ff3333;
         }
 
-        /* Анимация подсветки для ссылки */
-        .link:focus {
-            outline: none;
-            box-shadow: 0 0 15px 5px red;
-        }
-
         /* Стили для анимации появления титров */
         .hidden {
             opacity: 0;
@@ -115,13 +109,12 @@
             transform: translateY(0);
         }
 
-        /* Плавное скрытие титров */
         .title span.hidden {
             opacity: 0;
             transform: translateY(50px);
         }
 
-        /* Плавная анимация для перехода в XAC3 */
+        /* Плавное скрытие титров */
         .animationFullScreen {
             position: fixed;
             top: 0;
@@ -211,12 +204,11 @@
         let currentTextIndex = 0;
 
         function changeText() {
-            title.innerHTML = ""; // Очистка текущего текста
-            const text = textQueue[currentTextIndex];
+            const currentText = textQueue[currentTextIndex];
 
-            // Создание нового тега <span> для титра
+            // Создаем новый элемент для титра
             const span = document.createElement('span');
-            span.textContent = text;
+            span.textContent = currentText;
             title.appendChild(span);
 
             // Плавное появление титра
@@ -237,7 +229,7 @@
             }, 4500);
         }
 
-        // Плавный старт титров
+        // Начинаем менять титры через 1 секунду после загрузки
         setTimeout(changeText, 1000);
 
         // Показать XAC3 после титров
