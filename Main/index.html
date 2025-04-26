@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Обработка  сайта</title>
+    <title>Защищённый сайт</title>
     <style>
         /* Общие стили */
         body {
@@ -17,94 +17,29 @@
             align-items: center;
             height: 100vh;
             flex-direction: column;
+            padding: 0 15px;
         }
 
         /* Анимация титров */
         .title {
-            font-size: 32px;
+            font-size: 24px;
             text-align: center;
             color: white;
             opacity: 0;
-            animation: titleFadeIn 3s ease-in-out forwards;
-            z-index: 10;
+            animation: fadeInTitle 2s ease-out forwards;
             width: 100%;
-            white-space: nowrap;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.6);
         }
 
-        /* Эффект набора текста */
-        .title span {
-            display: inline-block;
-            opacity: 0;
-            animation: titleLetterFadeIn 1s ease-in-out forwards;
-            font-weight: bold;
-            color: red;
-            margin: 0 2px;
+        @keyframes fadeInTitle {
+            0% { opacity: 0; transform: translateY(-50px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes titleFadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes titleLetterFadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        /* Анимация для перехода на полный экран */
-        @keyframes fullScreenAnimation {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        .animationFullScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: black;
-            color: red;
-            font-size: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fullScreenAnimation 3s ease-in-out forwards;
-            opacity: 0;
-            z-index: 20;
-        }
-
-        /* Защита от копирования */
-        body {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        /* Блокировка правой кнопки мыши */
-        body {
-            -webkit-touch-callout: none;
-        }
-
-        /* Стили для ссылки */
-        .link {
-            margin-top: 20px;
-            color: white;
-            font-size: 20px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .link:hover {
-            color: yellow;
-            text-shadow: 0 0 20px yellow, 0 0 30px yellow;
-        }
-
-        /* Анимация подсветки для ссылки */
-        .link:focus {
-            outline: none;
-            box-shadow: 0 0 15px 5px red;
+        /* Эффект подсветки */
+        .highlight {
+            color: #ff3333;
+            text-shadow: 0 0 10px #ff3333, 0 0 20px #ff3333, 0 0 30px #ff3333;
         }
 
         /* Фоновая анимация (космос) */
@@ -119,7 +54,6 @@
             animation: spaceAnimation 30s infinite linear;
         }
 
-        /* Анимация движения звезд */
         @keyframes spaceAnimation {
             0% {
                 background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(40, 0, 0, 1) 100%);
@@ -132,23 +66,112 @@
             }
         }
 
+        /* Защита от копирования */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Стили для ссылки */
+        .link {
+            margin-top: 20px;
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .link:hover {
+            color: #ff3333;
+            text-shadow: 0 0 20px #ff3333, 0 0 30px #ff3333;
+        }
+
+        /* Анимация подсветки для ссылки */
+        .link:focus {
+            outline: none;
+            box-shadow: 0 0 15px 5px red;
+        }
+
+        /* Стили для анимации появления титров */
+        .hidden {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        /* Анимация появления титров */
+        .title span {
+            display: inline-block;
+            opacity: 0;
+            font-weight: bold;
+            color: red;
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .title span.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Плавное скрытие титров */
+        .title span.hidden {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        /* Плавная анимация для перехода в XAC3 */
+        .animationFullScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            color: red;
+            font-size: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fullScreenAnimation 3s ease-in-out forwards;
+            z-index: 20;
+        }
+
+        @keyframes fullScreenAnimation {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Адаптивность для мобильных */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 18px;
+            }
+
+            .link {
+                font-size: 16px;
+            }
+
+            .animationFullScreen {
+                font-size: 80px;
+            }
+        }
+
         /* Всплывающее сообщение */
         .message {
             font-size: 24px;
             font-weight: bold;
             color: white;
             opacity: 0;
-            animation: fadeInMessage 5s ease-in-out forwards;
+            transition: opacity 1s ease-in-out;
             margin-top: 20px;
-            z-index: 10;
         }
 
-        @keyframes fadeInMessage {
-            0% { opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+        .message.visible {
+            opacity: 1;
         }
-
     </style>
 </head>
 <body>
@@ -156,7 +179,7 @@
     <div class="background"></div> <!-- Космический фон -->
 
     <div class="title">
-        <span>Идет загрузка главной страницы... Пожалуйста подождите</span>
+        <!-- Титры будут динамически вставляться сюда -->
     </div>
 
     <div class="animationFullScreen hidden">
@@ -165,16 +188,14 @@
 
     <a href="https://rivkos.github.io/GameHub/Bio/" class="link">Перейти к биографии Бориса</a>
 
-    <div class="message hidden">
+    <div class="message">
         Пожалуйста подождите, страница загружается...
     </div>
 
     <script>
         const title = document.querySelector('.title');
-        const spans = title.querySelectorAll('span');
-        const animationFullScreen = document.querySelector('.animationFullScreen');
         const message = document.querySelector('.message');
-
+        const animationFullScreen = document.querySelector('.animationFullScreen');
         const textQueue = [
             "Идет загрузка главной страницы... Пожалуйста подождите",
             "Сайт создан Димой в 2025 году",
@@ -184,43 +205,49 @@
             "Без HTML, CSS и Java данный сайт был бы пустышкой",
             "Ожидайте, осталось еще немного...",
             "Загружаю страницу",
-            "Подождите... Загружаю."
+            "Титры закончились."
         ];
 
         let currentTextIndex = 0;
 
         function changeText() {
-            // Очищаем предыдущий текст
-            title.innerHTML = "";
+            title.innerHTML = ""; // Очистка текущего текста
+            const text = textQueue[currentTextIndex];
 
-            // Новый текст
-            const newText = textQueue[currentTextIndex];
-            const newTextElement = document.createElement('span');
-            newTextElement.textContent = newText;
-            title.appendChild(newTextElement);
+            // Создание нового тега <span> для титра
+            const span = document.createElement('span');
+            span.textContent = text;
+            title.appendChild(span);
 
-            // Плавное появление нового текста
-            newTextElement.style.animation = 'titleLetterFadeIn 1s ease-in-out forwards';
-            newTextElement.style.animationDelay = '0s';
+            // Плавное появление титра
+            setTimeout(() => {
+                span.classList.add('visible');
+            }, 50);
 
-            // Увеличиваем индекс для следующего текста
-            currentTextIndex = (currentTextIndex + 1) % textQueue.length;
+            // Скрытие титра после 4 секунд
+            setTimeout(() => {
+                span.classList.remove('visible');
+                span.classList.add('hidden');
+            }, 4000);
 
-            // Показ следующего титра через заданный интервал
-            setTimeout(changeText, 5000); // Переход к следующему титру через 5 секунд
+            // Переход к следующему титру через 4.5 секунды
+            setTimeout(() => {
+                currentTextIndex = (currentTextIndex + 1) % textQueue.length;
+                changeText();
+            }, 4500);
         }
 
-        // Начать цикличную смену титров
-        changeText();
+        // Плавный старт титров
+        setTimeout(changeText, 1000);
 
-        // Плавный переход XAC3 и исчезновение
+        // Показать XAC3 после титров
         setTimeout(() => {
             animationFullScreen.classList.remove('hidden');
-        }, 12000); // Показывается через 12 секунд
+        }, 12000); // Покажется через 12 секунд
 
         setTimeout(() => {
             animationFullScreen.style.opacity = 0;
-        }, 15000); // Исчезает через 15 секунд
+        }, 15000); // Исчезнет через 15 секунд
 
         // Плавный переход на страницу
         setTimeout(() => {
@@ -229,8 +256,8 @@
 
         // Показ сообщения
         setTimeout(() => {
-            message.classList.remove('hidden');
-        }, 3000); // Показывается через 3 секунды
+            message.classList.add('visible');
+        }, 3000); // Показ сообщения через 3 секунды
     </script>
 
 </body>
