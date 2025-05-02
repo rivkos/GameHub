@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -50,7 +51,7 @@
     /* Эффекты при загрузке */
     header {
       text-align: center;
-      padding: 150px 20px 20px; /* БОЛЬШОЙ отступ сверху */
+      padding: 150px 20px 20px;
       opacity: 0;
       animation: fadeInHeader 2s ease-in-out forwards;
     }
@@ -80,13 +81,20 @@
       }
     }
 
+    /* Стиль контейнера для игр */
     .games-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(5, 1fr);
       gap: 30px;
       padding: 40px 20px 60px;
       max-width: 1200px;
       margin: 0 auto;
+      animation: fadeInGames 2s ease-in-out forwards;
+    }
+
+    @keyframes fadeInGames {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
     }
 
     .game-item {
@@ -174,23 +182,10 @@
 
     .content {
       flex: 1;
-      overflow-y: auto;  /* Сделаем прокрутку только для контента */
+      overflow-y: auto;
       padding-bottom: 60px;
-      margin-bottom: 60px; /* пространство под контентом для футера */
-      padding-top: 60px; /* пространство над контентом, чтобы не перекрывалась шапка */
-    }
-
-    .content .game-item {
-      opacity: 0;
-      transform: translateY(100px);
-      animation: fadeInScroll 1s ease-out forwards;
-    }
-
-    @keyframes fadeInScroll {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      margin-bottom: 60px;
+      padding-top: 60px;
     }
 
     .footer {
@@ -204,7 +199,7 @@
       padding: 20px 0;
       animation: fadeInFooter 2s ease-in-out;
       border-top: 1px solid red;
-      z-index: 1000; /* Фиксируем футер поверх контента */
+      z-index: 1000;
     }
 
     @keyframes fadeInFooter {
@@ -218,14 +213,13 @@
       }
     }
 
-    /* Запрещаем прокрутку ниже футера */
     body {
-      overflow: hidden; /* Запрещаем прокрутку на всей странице */
+      overflow: hidden;
     }
 
     .content {
-      overflow-y: scroll; /* Прокрутка доступна только для .content */
-      -webkit-overflow-scrolling: touch; /* Поддержка на мобильных устройствах */
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
     }
 
   </style>
@@ -269,6 +263,7 @@
       100% { opacity: 0; }
     }
   </script>
+
 </head>
 
 <body>
@@ -297,5 +292,6 @@
   <div class="footer">
     <p>© 2025 XAC3. Все права защищены.</p>
   </div>
+
 </body>
 </html>
