@@ -20,7 +20,7 @@
 
     html, body {
       font-family: 'Orbitron', sans-serif;
-      background-color: #000;
+      background-color: #0b0b0b;
       color: #fff;
       min-height: 100vh;
       overflow-x: hidden;
@@ -36,8 +36,8 @@
       left: 0;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle at center, rgba(255, 0, 0, 0.2) 0%, transparent 70%),
-                  repeating-linear-gradient(45deg, rgba(255, 0, 0, 0.05) 0px, rgba(255, 0, 0, 0.05) 1px, transparent 1px, transparent 20px);
+      background: radial-gradient(circle at center, rgba(255,0,0,0.2) 0%, transparent 70%),
+                  repeating-linear-gradient(45deg, rgba(255,0,0,0.05) 0px, rgba(255,0,0,0.05) 1px, transparent 1px, transparent 20px);
       animation: moveBackground 30s linear infinite;
       z-index: -1;
     }
@@ -47,23 +47,48 @@
       100% { transform: translate(-50%, -50%); }
     }
 
-    /* Стиль контейнера для игр */
+    /* Эффекты при загрузке */
+    header {
+      text-align: center;
+      padding: 150px 20px 20px; /* БОЛЬШОЙ отступ сверху */
+      opacity: 0;
+      animation: fadeInHeader 2s ease-in-out forwards;
+    }
+
+    @keyframes fadeInHeader {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .site-title {
+      font-size: 60px;
+      color: #fff;
+      text-shadow: 0 0 20px red, 0 0 30px red;
+      animation: fadeSlideDown 1.5s ease-out forwards;
+    }
+
+    @keyframes fadeSlideDown {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .games-container {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 30px;
       padding: 40px 20px 60px;
       max-width: 1200px;
       margin: 0 auto;
-      animation: fadeInGames 2s ease-in-out forwards;
     }
 
-    @keyframes fadeInGames {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-
-    /* Стиль для каждого игрового блока */
     .game-item {
       background: rgba(20, 20, 20, 0.95);
       border: 2px solid red;
@@ -134,60 +159,40 @@
       transition: transform 0.2s ease;
     }
 
-    /* Анимация при загрузке страницы */
-    .content::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 999;
-      animation: blurEffect 5s ease-in-out forwards;
+    ::selection {
+      background: transparent;
     }
 
-    @keyframes blurEffect {
-      0% { filter: blur(10px); opacity: 1; }
-      100% { filter: blur(0); opacity: 0; }
+    body {
+      user-select: none;
     }
 
-    /* Стиль для строки поиска */
-    .search-container {
-      text-align: center;
-      margin-top: 20px;
-      animation: fadeInSearch 1.5s ease-out;
+    img {
+      -webkit-user-drag: none;
+      user-drag: none;
     }
 
-    @keyframes fadeInSearch {
-      0% {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      100% {
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding-bottom: 60px;
+      margin-bottom: 60px;
+      padding-top: 60px;
+    }
+
+    .content .game-item {
+      opacity: 0;
+      transform: translateY(100px);
+      animation: fadeInScroll 1s ease-out forwards;
+    }
+
+    @keyframes fadeInScroll {
+      to {
         opacity: 1;
         transform: translateY(0);
       }
     }
 
-    .search-bar {
-      padding: 12px 20px;
-      font-size: 18px;
-      border-radius: 8px;
-      border: 2px solid #ff1a1a;
-      background-color: transparent;
-      color: white;
-      width: 60%;
-      max-width: 500px;
-      transition: all 0.3s ease;
-    }
-
-    .search-bar:focus {
-      border-color: #fff;
-      background-color: #111;
-    }
-
-    /* Стили для футера */
     .footer {
       position: fixed;
       bottom: 0;
@@ -212,7 +217,35 @@
         transform: translateY(0);
       }
     }
+
+    /* Запрещаем прокрутку ниже футера */
+    body {
+      overflow: hidden;
+    }
+
+    .content {
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Добавление эффекта для футера */
+    .footer p {
+      font-size: 14px;
+      color: #bbb;
+      letter-spacing: 1px;
+      font-weight: 400;
+      text-transform: uppercase;
+      animation: footerGlow 2s infinite alternate;
+    }
+
+    @keyframes footerGlow {
+      0% { color: #bbb; }
+      100% { color: red; }
+    }
+
   </style>
+
+  <script defer src="scripts/loadGames.js"></script>
 
   <script>
     // Блокировка контекстного меню
@@ -240,279 +273,31 @@
       document.head.appendChild(meta);
     })();
 
-    // Звуковой эффект для кнопок
-    const buttonSound = new Audio('https://www.soundjay.com/button/beep-07.wav');
-    document.querySelectorAll('.game-item button').forEach(button => {
-      button.addEventListener('click', () => {
-        buttonSound.play();
-      });
+    // Анимация при выходе со страницы
+    window.addEventListener('beforeunload', () => {
+      document.body.style.animation = 'fadeOut 1s ease';
     });
 
-    // Функция поиска по странице
-    function searchGames() {
-      const searchQuery = document.querySelector('.search-bar').value.toLowerCase();
-      const gameItems = document.querySelectorAll('.game-item');
-
-      gameItems.forEach(item => {
-        const title = item.querySelector('h3').textContent.toLowerCase();
-        const description = item.querySelector('p').textContent.toLowerCase();
-        
-        if (title.includes(searchQuery) || description.includes(searchQuery)) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
     }
   </script>
-
 </head>
+
 <body>
   <header>
     <h1 class="site-title"><i class="fas fa-gamepad"></i> Game Hub</h1>
   </header>
 
   <div class="content">
-    <!-- Строка поиска -->
-    <div class="search-container">
-      <input type="text" class="search-bar" placeholder="Поиск по играм..." oninput="searchGames()">
-    </div>
-
     <div class="games-container" id="gamesList">
-      <div class="game-item" style="animation-delay: 0.1s;">
-        <i class="fab fa-telegram-plane"></i>
-        <h3>Телеграм Канал</h3>
-        <p>Следи за новостями и обновлениями. Всё в одном месте!</p>
-        <button onclick="window.open('https://t.me/c_xac3', '_blank')">Зайти</button>
-      </div>
-
-      <div class="game-item" style="animation-delay: 0.2s;">
-        <i class="fas fa-user-secret"></i>
-        <h3>Связь с Владельцем</h3>
-        <p>Напиши напрямую владельцу, если возникли вопросы.</p>
-        <button onclick="window.open('https://t.me/dmitry_shadow', '_blank')">Написать</button>
-      </div>
+      <!-- Игры будут загружены с помощью loadGames.js -->
     </div>
   </div>
 
   <div class="footer">
     <p>© 2025 XAC3. Все права защищены.</p>
   </div>
-
-</body>
-</html>
-      transform: rotateY(8deg) rotateX(4deg) scale(1.04);
-      box-shadow: 0 0 35px rgba(255, 255, 255, 0.5);
-    }
-
-    .game-item i {
-      font-size: 38px;
-      color: red;
-      margin-bottom: 15px;
-      transition: transform 0.3s ease;
-    }
-
-    .game-item i:hover {
-      transform: rotate(360deg);
-    }
-
-    .game-item h3 {
-      font-size: 22px;
-      margin-bottom: 12px;
-      color: #fff;
-    }
-
-    .game-item p {
-      font-size: 14px;
-      color: #ddd;
-      margin-bottom: 20px;
-    }
-
-    .game-item button {
-      background-color: red;
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-
-    .game-item button:hover {
-      background-color: #ff1a1a;
-      transform: scale(1.08);
-    }
-
-    .game-item button:active {
-      transform: scale(0.95);
-      transition: transform 0.2s ease;
-    }
-
-    /* Анимация при загрузке страницы */
-    .content::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 999;
-      animation: blurEffect 5s ease-in-out forwards;
-    }
-
-    @keyframes blurEffect {
-      0% { filter: blur(10px); opacity: 1; }
-      100% { filter: blur(0); opacity: 0; }
-    }
-
-    /* Стиль для строки поиска */
-    .search-container {
-      text-align: center;
-      margin-top: 20px;
-      animation: fadeInSearch 1.5s ease-out;
-    }
-
-    @keyframes fadeInSearch {
-      0% {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .search-bar {
-      padding: 12px 20px;
-      font-size: 18px;
-      border-radius: 8px;
-      border: 2px solid #ff1a1a;
-      background-color: transparent;
-      color: white;
-      width: 60%;
-      max-width: 500px;
-      transition: all 0.3s ease;
-    }
-
-    .search-bar:focus {
-      border-color: #fff;
-      background-color: #111;
-    }
-
-    /* Стили для футера */
-    .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: #111;
-      color: white;
-      text-align: center;
-      padding: 20px 0;
-      animation: fadeInFooter 2s ease-in-out;
-      border-top: 1px solid red;
-      z-index: 1000;
-    }
-
-    @keyframes fadeInFooter {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
-
-  <script>
-    // Блокировка контекстного меню
-    document.addEventListener("contextmenu", e => e.preventDefault());
-
-    // Блокировка горячих клавиш (Ctrl+C, Ctrl+X, Insert, и т.д.)
-    document.addEventListener("keydown", e => {
-      if ((e.ctrlKey && (e.key === "c" || e.key === "x")) || e.key === "Insert" || e.key === "U" || e.key === "F12" || e.key === "s") {
-        e.preventDefault();
-      }
-    });
-
-    // Блокировка перетаскивания изображений
-    document.addEventListener("dragstart", (e) => {
-      if (e.target.tagName === "IMG") {
-        e.preventDefault();
-      }
-    });
-
-    // Защита от индексации и кэширования
-    (function() {
-      var meta = document.createElement('meta');
-      meta.name = 'robots';
-      meta.content = 'noindex, nofollow';
-      document.head.appendChild(meta);
-    })();
-
-    // Звуковой эффект для кнопок
-    const buttonSound = new Audio('https://www.soundjay.com/button/beep-07.wav');
-    document.querySelectorAll('.game-item button').forEach(button => {
-      button.addEventListener('click', () => {
-        buttonSound.play();
-      });
-    });
-
-    // Функция поиска по странице
-    function searchGames() {
-      const searchQuery = document.querySelector('.search-bar').value.toLowerCase();
-      const gameItems = document.querySelectorAll('.game-item');
-
-      gameItems.forEach(item => {
-        const title = item.querySelector('h3').textContent.toLowerCase();
-        const description = item.querySelector('p').textContent.toLowerCase();
-        
-        if (title.includes(searchQuery) || description.includes(searchQuery)) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-    }
-  </script>
-
-</head>
-<body>
-  <header>
-    <h1 class="site-title"><i class="fas fa-gamepad"></i> Game Hub</h1>
-  </header>
-
-  <div class="content">
-    <!-- Строка поиска -->
-    <div class="search-container">
-      <input type="text" class="search-bar" placeholder="Поиск по играм..." oninput="searchGames()">
-    </div>
-
-    <div class="games-container" id="gamesList">
-      <div class="game-item" style="animation-delay: 0.1s;">
-        <i class="fab fa-telegram-plane"></i>
-        <h3>Телеграм Канал</h3>
-        <p>Следи за новостями и обновлениями. Всё в одном месте!</p>
-        <button onclick="window.open('https://t.me/c_xac3', '_blank')">Зайти</button>
-      </div>
-
-      <div class="game-item" style="animation-delay: 0.2s;">
-        <i class="fas fa-user-secret"></i>
-        <h3>Связь с Владельцем</h3>
-        <p>Напиши напрямую владельцу, если возникли вопросы.</p>
-        <button onclick="window.open('https://t.me/dmitry_shadow', '_blank')">Написать</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">
-    <p>© 2025 XAC3. Все права защищены.</p>
-  </div>
-
 </body>
 </html>
