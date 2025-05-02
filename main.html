@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -37,8 +36,8 @@
       left: 0;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle at center, rgba(255,0,0,0.2) 0%, transparent 70%),
-                  repeating-linear-gradient(45deg, rgba(255,0,0,0.05) 0px, rgba(255,0,0,0.05) 1px, transparent 1px, transparent 20px);
+      background: radial-gradient(circle at center, rgba(255, 0, 0, 0.2) 0%, transparent 70%),
+                  repeating-linear-gradient(45deg, rgba(255, 0, 0, 0.05) 0px, rgba(255, 0, 0, 0.05) 1px, transparent 1px, transparent 20px);
       animation: moveBackground 30s linear infinite;
       z-index: -1;
     }
@@ -46,39 +45,6 @@
     @keyframes moveBackground {
       0% { transform: translate(0, 0); }
       100% { transform: translate(-50%, -50%); }
-    }
-
-    /* Эффекты при загрузке */
-    header {
-      text-align: center;
-      padding: 150px 20px 20px;
-      opacity: 0;
-      animation: fadeInHeader 2s ease-in-out forwards;
-    }
-
-    @keyframes fadeInHeader {
-      from {
-        opacity: 0;
-        transform: translateY(-50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .site-title {
-      font-size: 50px;
-      color: #fff;
-      text-shadow: 0 0 20px red, 0 0 30px red;
-      animation: fadeSlideDown 1.5s ease-out forwards;
-    }
-
-    @keyframes fadeSlideDown {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     /* Стиль контейнера для игр */
@@ -97,6 +63,7 @@
       100% { opacity: 1; }
     }
 
+    /* Стиль для каждого игрового блока */
     .game-item {
       background: rgba(20, 20, 20, 0.95);
       border: 2px solid red;
@@ -167,27 +134,60 @@
       transition: transform 0.2s ease;
     }
 
-    ::selection {
-      background: transparent;
+    /* Анимация при загрузке страницы */
+    .content::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 999;
+      animation: blurEffect 5s ease-in-out forwards;
     }
 
-    body {
-      user-select: none;
+    @keyframes blurEffect {
+      0% { filter: blur(10px); opacity: 1; }
+      100% { filter: blur(0); opacity: 0; }
     }
 
-    img {
-      -webkit-user-drag: none;
-      user-drag: none;
+    /* Стиль для строки поиска */
+    .search-container {
+      text-align: center;
+      margin-top: 20px;
+      animation: fadeInSearch 1.5s ease-out;
     }
 
-    .content {
-      flex: 1;
-      overflow-y: auto;
-      padding-bottom: 60px;
-      margin-bottom: 60px;
-      padding-top: 60px;
+    @keyframes fadeInSearch {
+      0% {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
+    .search-bar {
+      padding: 12px 20px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: 2px solid #ff1a1a;
+      background-color: transparent;
+      color: white;
+      width: 60%;
+      max-width: 500px;
+      transition: all 0.3s ease;
+    }
+
+    .search-bar:focus {
+      border-color: #fff;
+      background-color: #111;
+    }
+
+    /* Стили для футера */
     .footer {
       position: fixed;
       bottom: 0;
@@ -212,21 +212,8 @@
         transform: translateY(0);
       }
     }
-
-    body {
-      overflow: hidden;
-    }
-
-    .content {
-      overflow-y: scroll;
-      -webkit-overflow-scrolling: touch;
-    }
-
   </style>
 
-  <script defer src="scripts/loadGames.js"></script>
-
-  <!-- Защита -->
   <script>
     // Блокировка контекстного меню
     document.addEventListener("contextmenu", e => e.preventDefault());
@@ -253,25 +240,44 @@
       document.head.appendChild(meta);
     })();
 
-    // Анимация при выходе со страницы
-    window.addEventListener('beforeunload', () => {
-      document.body.style.animation = 'fadeOut 1s ease';
+    // Звуковой эффект для кнопок
+    const buttonSound = new Audio('https://www.soundjay.com/button/beep-07.wav');
+    document.querySelectorAll('.game-item button').forEach(button => {
+      button.addEventListener('click', () => {
+        buttonSound.play();
+      });
     });
 
-    @keyframes fadeOut {
-      0% { opacity: 1; }
-      100% { opacity: 0; }
+    // Функция поиска по странице
+    function searchGames() {
+      const searchQuery = document.querySelector('.search-bar').value.toLowerCase();
+      const gameItems = document.querySelectorAll('.game-item');
+
+      gameItems.forEach(item => {
+        const title = item.querySelector('h3').textContent.toLowerCase();
+        const description = item.querySelector('p').textContent.toLowerCase();
+        
+        if (title.includes(searchQuery) || description.includes(searchQuery)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
     }
   </script>
 
 </head>
-
 <body>
   <header>
     <h1 class="site-title"><i class="fas fa-gamepad"></i> Game Hub</h1>
   </header>
 
   <div class="content">
+    <!-- Строка поиска -->
+    <div class="search-container">
+      <input type="text" class="search-bar" placeholder="Поиск по играм..." oninput="searchGames()">
+    </div>
+
     <div class="games-container" id="gamesList">
       <div class="game-item" style="animation-delay: 0.1s;">
         <i class="fab fa-telegram-plane"></i>
