@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="noindex, nofollow" />
   <title>Game Hub</title>
 
   <!-- Orbitron font and others -->
@@ -36,7 +37,7 @@
       left: 0;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle at center, rgba(255,0,0,0.2) 0%, transparent 70%),
+      background: radial-gradient(circle at center, rgba(255,0,0,0.3) 0%, transparent 70%),
                   repeating-linear-gradient(45deg, rgba(255,0,0,0.05) 0px, rgba(255,0,0,0.05) 1px, transparent 1px, transparent 20px);
       animation: moveBackground 30s linear infinite;
       z-index: -1;
@@ -50,7 +51,7 @@
     /* Эффекты при загрузке */
     header {
       text-align: center;
-      padding: 150px 20px 20px; /* БОЛЬШОЙ отступ сверху */
+      padding: 150px 20px 20px;
       opacity: 0;
       animation: fadeInHeader 2s ease-in-out forwards;
     }
@@ -218,17 +219,6 @@
       }
     }
 
-    /* Запрещаем прокрутку ниже футера */
-    body {
-      overflow: hidden;
-    }
-
-    .content {
-      overflow-y: scroll;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    /* Добавление эффекта для футера */
     .footer p {
       font-size: 14px;
       color: #bbb;
@@ -291,8 +281,21 @@
   </header>
 
   <div class="content">
+    <!-- Ручные блоки -->
     <div class="games-container" id="gamesList">
-      <!-- Игры будут загружены с помощью loadGames.js -->
+      <div class="game-item" style="animation-delay: 0.1s;">
+        <i class="fab fa-telegram-plane"></i>
+        <h3>Телеграм Канал</h3>
+        <p>Следи за новостями и обновлениями. Всё в одном месте!</p>
+        <button onclick="window.open('https://t.me/c_xac3', '_blank')">Зайти</button>
+      </div>
+
+      <div class="game-item" style="animation-delay: 0.2s;">
+        <i class="fas fa-user-secret"></i>
+        <h3>Связь с Владельцем</h3>
+        <p>Напиши напрямую владельцу, если возникли вопросы.</p>
+        <button onclick="window.open('https://t.me/dmitry_shadow', '_blank')">Написать</button>
+      </div>
     </div>
   </div>
 
