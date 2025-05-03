@@ -216,3 +216,133 @@
 
 </body>
 </html>
+
+        /* Анимация для появления контейнера */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Анимация подпрыгивания иконки */
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Анимация текста */
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Мобильная версия */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .browser-icon {
+                width: 100px;
+                height: 100px;
+            }
+
+            .error-container {
+                padding: 30px 40px;
+            }
+
+            .error-text {
+                font-size: 16px;
+            }
+        }
+
+        /* Версия для телефонов */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .browser-icon {
+                width: 80px;
+                height: 80px;
+            }
+
+            .error-container {
+                padding: 20px 30px;
+            }
+
+            .error-text {
+                font-size: 14px;
+            }
+        }
+
+    </style>
+    <script>
+        // Функция для определения браузера
+        function getBrowser() {
+            let userAgent = navigator.userAgent;
+
+            if (/Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor)) {
+                return 'chrome';
+            } else if (/Firefox/.test(userAgent)) {
+                return 'firefox';
+            } else if (/YaBrowser/.test(userAgent)) {
+                return 'yandex';
+            } else {
+                return 'other';
+            }
+        }
+
+        // Функция для настройки страницы под браузер
+        function setBrowserSpecificContent() {
+            const browser = getBrowser();
+            const container = document.querySelector('.error-container');
+            const icon = document.querySelector('.browser-icon');
+            const errorText = document.querySelector('.error-text');
+
+            if (browser === 'chrome') {
+                icon.classList.add('chrome');
+                container.style.backgroundColor = '#f1f1f1';
+                errorText.innerHTML = 'Пожалуйста, проверьте ваше интернет-соединение и попробуйте снова.<br><a href="https://support.google.com/chrome">Поддержка Chrome</a>';
+            } else if (browser === 'firefox') {
+                icon.classList.add('firefox');
+                container.style.backgroundColor = '#f2f2f2';
+                errorText.innerHTML = 'Ошибка подключения в Firefox. Проверьте ваше соединение.<br><a href="https://support.mozilla.org">Поддержка Firefox</a>';
+            } else if (browser === 'yandex') {
+                icon.classList.add('yandex');
+                container.style.backgroundColor = '#f6f6f6';
+                errorText.innerHTML = 'Нет соединения с интернетом. Пожалуйста, попробуйте снова.<br><a href="https://browser.yandex.ru/support">Поддержка Yandex Browser</a>';
+            } else {
+                container.style.backgroundColor = '#e8e8e8';
+                errorText.innerHTML = 'Пожалуйста, проверьте ваше интернет-соединение и попробуйте снова.';
+            }
+        }
+
+        // Настройка страницы при загрузке
+        window.onload = setBrowserSpecificContent;
+    </script>
+</head>
+<body>
+
+    <div class="error-container">
+        <!-- Иконка браузера -->
+        <div class="browser-icon"></div>
+        <h1>Нет подключения к интернету</h1>
+        <p class="error-text">Загрузка...</p>
+    </div>
+
+</body>
+</html>
