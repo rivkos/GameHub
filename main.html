@@ -1,350 +1,167 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="robots" content="noindex, nofollow" />
-  <script defer src="scripts/loadGames.js"></script>
-  <title>Game Hub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ошибка подключения</title>
+    <style>
+        /* Основные стили для страницы */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+            overflow: hidden;
+        }
 
-  <!-- Orbitron font and others -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Raleway:wght@400;600&family=Russo+One&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+        /* Стиль для блока с ошибкой */
+        .error-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 40px 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease-out forwards; /* Анимация появления */
+        }
 
-  <!-- Основные стили -->
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        /* Иконка для браузеров */
+        .error-container .browser-icon {
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin: 20px auto;
+            animation: bounce 1.5s infinite alternate; /* Анимация подпрыгивания */
+        }
 
-    html, body {
-      font-family: 'Orbitron', sans-serif;
-      background-color: #0b0b0b;
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-    }
+        /* Имитация иконок браузеров */
+        .chrome { background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Google_Chrome_icon_%282013-2019%29.svg/120px-Google_Chrome_icon_%282013-2019%29.svg.png'); }
+        .firefox { background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Mozilla_Firefox_logo_2017.svg/120px-Mozilla_Firefox_logo_2017.svg.png'); }
+        .yandex { background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Yandex_logo_2013.svg/120px-Yandex_logo_2013.svg.png'); }
 
-    /* Прогресс загрузки */
-    .loader-wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 5px;
-      background-color: #111;
-      z-index: 9999;
-    }
+        /* Стиль фона для страницы */
+        .error-background {
+            background-color: #f2f2f2;
+            background-image: url('https://www.gstatic.com/images/branding/product/1x/chrome_logo_color_48dp.png');
+            background-size: 80px 80px;
+            background-repeat: no-repeat;
+            background-position: center;
+            padding-top: 50px;
+            animation: backgroundAnimation 10s linear infinite; /* Анимация фона */
+        }
 
-    .loader {
-      height: 100%;
-      width: 0%;
-      background-color: red;
-      animation: loading 3s ease-in-out forwards; /* Изменена анимация */
-    }
+        /* Стиль для текста ошибки */
+        .error-text {
+            font-size: 20px;
+            color: #404040;
+            margin-top: 10px;
+            opacity: 0;
+            animation: fadeInText 2s ease-out forwards;
+        }
 
-    @keyframes loading {
-      0% { width: 0%; }
-      100% { width: 100%; }
-    }
+        .error-text a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
 
-    /* Фоновая анимация */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at center, rgba(255,0,0,0.3) 0%, transparent 70%),
-                  repeating-linear-gradient(45deg, rgba(255,0,0,0.05) 0px, rgba(255,0,0,0.05) 1px, transparent 1px, transparent 20px);
-      animation: moveBackground 30s linear infinite;
-      z-index: -1;
-    }
+        .error-text a:hover {
+            color: #0056b3;
+        }
 
-    @keyframes moveBackground {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-50%, -50%); }
-    }
+        /* Блокировка копирования и выделения */
+        body, .error-container {
+            user-select: none; /* Отключаем выделение текста */
+        }
 
-    /* Эффекты при загрузке */
-    header {
-      text-align: center;
-      padding: 150px 20px 20px;
-      opacity: 0;
-      animation: fadeInHeader 2s ease-in-out forwards;
-    }
+        /* Отключение правого клика */
+        .no-right-click {
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
 
-    @keyframes fadeInHeader {
-      from {
-        opacity: 0;
-        transform: translateY(-50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        /* Анимация появления текста */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .site-title {
-      font-size: 60px;
-      color: #fff;
-      text-shadow: 0 0 20px red, 0 0 30px red;
-      animation: fadeSlideDown 1.5s ease-out forwards;
-    }
+        /* Анимация подпрыгивания иконки */
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-20px);
+            }
+        }
 
-    @keyframes fadeSlideDown {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        /* Анимация фона */
+        @keyframes backgroundAnimation {
+            0% {
+                background-position: center;
+            }
+            50% {
+                background-position: top left;
+            }
+            100% {
+                background-position: center;
+            }
+        }
 
-    .games-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      padding: 40px 20px 60px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+        /* Анимация появления текста */
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+    <script>
+        // Защита от правого клика
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
 
-    .game-item {
-      background: rgba(20, 20, 20, 0.95);
-      border: 2px solid red;
-      border-radius: 16px;
-      padding: 30px 20px;
-      text-align: center;
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
-      transform-style: preserve-3d;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 1s ease forwards;
-    }
+        // Защита от выделения текста
+        document.addEventListener('selectstart', function (e) {
+            e.preventDefault();
+        });
 
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .game-item:hover {
-      transform: rotateY(8deg) rotateX(4deg) scale(1.04);
-      box-shadow: 0 0 35px rgba(255, 0, 0, 0.5);
-    }
-
-    .game-item i {
-      font-size: 38px;
-      color: red;
-      margin-bottom: 15px;
-      transition: transform 0.3s ease;
-    }
-
-    .game-item i:hover {
-      transform: rotate(360deg);
-    }
-
-    .game-item h3 {
-      font-size: 22px;
-      margin-bottom: 12px;
-      color: #fff;
-    }
-
-    .game-item p {
-      font-size: 14px;
-      color: #ddd;
-      margin-bottom: 20px;
-    }
-
-    .game-item button {
-      background-color: red;
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-
-    .game-item button:hover {
-      background-color: #ff1a1a;
-      transform: scale(1.08);
-    }
-
-    .game-item button:active {
-      transform: scale(0.95);
-      transition: transform 0.2s ease;
-    }
-
-    ::selection {
-      background: transparent;
-    }
-
-    body {
-      user-select: none;
-    }
-
-    img {
-      -webkit-user-drag: none;
-      user-drag: none;
-    }
-
-    .content {
-      flex: 1;
-      overflow-y: auto;
-      padding-bottom: 60px;
-      margin-bottom: 60px;
-      padding-top: 60px;
-    }
-
-    /* Новый эффект для игр (с красным цветом и динамическим фоном) */
-    .game-item.selected {
-      border-color: white;
-      background: rgba(255, 0, 0, 0.2);
-      transform: scale(1.05) translateY(-5px);
-      transition: all 0.3s ease-out;
-    }
-
-    .game-item.selected h3 {
-      color: white;
-    }
-
-    .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: #111;
-      color: white;
-      text-align: center;
-      padding: 20px 0;
-      animation: fadeInFooter 2s ease-in-out;
-      border-top: 1px solid red;
-      z-index: 1000;
-    }
-
-    @keyframes fadeInFooter {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .footer p {
-      font-size: 14px;
-      color: #bbb;
-      letter-spacing: 1px;
-      font-weight: 400;
-      text-transform: uppercase;
-      animation: footerGlow 2s infinite alternate;
-    }
-
-    @keyframes footerGlow {
-      0% { color: #bbb; }
-      100% { color: red; }
-    }
-
-    /* Анимация появления с левой и правой стороны */
-    .game-item.left {
-      animation: slideInFromLeft 0.8s ease-out forwards;
-    }
-
-    .game-item.right {
-      animation: slideInFromRight 0.8s ease-out forwards;
-    }
-
-    @keyframes slideInFromLeft {
-      0% {
-        opacity: 0;
-        transform: translateX(-50px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes slideInFromRight {
-      0% {
-        opacity: 0;
-        transform: translateX(50px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-  </style>
-
-  <script defer>
-    // Защита от копирования и взлома
-    document.addEventListener("contextmenu", e => e.preventDefault());
-
-    document.addEventListener("keydown", e => {
-      if ((e.ctrlKey && (e.key === "c" || e.key === "x")) || e.key === "Insert" || e.key === "U" || e.key === "F12" || e.key === "s") {
-        e.preventDefault();
-      }
-    });
-
-    document.addEventListener("dragstart", (e) => {
-      if (e.target.tagName === "IMG") {
-        e.preventDefault();
-      }
-    });
-
-    // Анимация при выходе со страницы
-    window.addEventListener('beforeunload', () => {
-      document.body.style.animation = 'fadeOut 1s ease';
-    });
-
-    @keyframes fadeOut {
-      0% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-  </script>
+        // Защита от копирования
+        document.addEventListener('copy', function (e) {
+            e.preventDefault();
+            alert("Копирование контента отключено!");
+        });
+    </script>
 </head>
+<body class="error-background">
 
-<body>
-  <div class="loader-wrapper">
-    <div class="loader"></div>
-  </div>
-
-  <header>
-    <h1 class="site-title"><i class="fas fa-gamepad"></i> Game Hub</h1>
-  </header>
-
-  <div class="content">
-    <div class="games-container" id="gamesList">
-      <div class="game-item left" style="animation-delay: 0.1s;">
-        <i class="fab fa-telegram-plane"></i>
-        <h3>Телеграм Канал</h3>
-        <p>Следи за новостями и обновлениями. Всё в одном месте!</p>
-        <button onclick="window.open('https://t.me/c_xac3', '_blank')">Зайти</button>
-      </div>
-
-      <div class="game-item right" style="animation-delay: 0.2s;">
-        <i class="fas fa-user-secret"></i>
-        <h3>Связь с Владельцем</h3>
-        <p>Напиши напрямую владельцу, если возникли вопросы.</p>
-        <button onclick="window.open('https://t.me/dmitry_shadow', '_blank')">Написать</button>
-      </div>
+    <div class="error-container">
+        <!-- Иконка браузера -->
+        <div class="browser-icon chrome"></div>
+        <h1>Нет подключения к интернету</h1>
+        <p class="error-text">Пожалуйста, проверьте ваше интернет-соединение и попробуйте снова.</p>
+        <p class="error-text">Для получения помощи посетите <a href="https://support.google.com/chrome" target="_blank">страницу поддержки</a>.</p>
     </div>
-  </div>
 
-  <div class="footer">
-    <p>© 2025 XAC3. Все права защищены.</p>
-  </div>
 </body>
 </html>
