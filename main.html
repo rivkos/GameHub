@@ -44,12 +44,11 @@
       height: 100%;
       width: 0%;
       background-color: red;
-      animation: loading 3s linear infinite;
+      animation: loading 3s ease-in-out forwards; /* Изменена анимация */
     }
 
     @keyframes loading {
       0% { width: 0%; }
-      50% { width: 70%; }
       100% { width: 100%; }
     }
 
@@ -205,17 +204,16 @@
       padding-top: 60px;
     }
 
-    .content .game-item {
-      opacity: 0;
-      transform: translateY(100px);
-      animation: fadeInScroll 1s ease-out forwards;
+    /* Новый эффект для игр (с красным цветом и динамическим фоном) */
+    .game-item.selected {
+      border-color: white;
+      background: rgba(255, 0, 0, 0.2);
+      transform: scale(1.05) translateY(-5px);
+      transition: all 0.3s ease-out;
     }
 
-    @keyframes fadeInScroll {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .game-item.selected h3 {
+      color: white;
     }
 
     .footer {
@@ -256,35 +254,54 @@
       0% { color: #bbb; }
       100% { color: red; }
     }
+
+    /* Анимация появления с левой и правой стороны */
+    .game-item.left {
+      animation: slideInFromLeft 0.8s ease-out forwards;
+    }
+
+    .game-item.right {
+      animation: slideInFromRight 0.8s ease-out forwards;
+    }
+
+    @keyframes slideInFromLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInFromRight {
+      0% {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
   </style>
 
-  <script defer src="scripts/loadGames.js"></script>
-
-  <script>
-    // Блокировка контекстного меню
+  <script defer>
+    // Защита от копирования и взлома
     document.addEventListener("contextmenu", e => e.preventDefault());
 
-    // Блокировка горячих клавиш (Ctrl+C, Ctrl+X, Insert, и т.д.)
     document.addEventListener("keydown", e => {
       if ((e.ctrlKey && (e.key === "c" || e.key === "x")) || e.key === "Insert" || e.key === "U" || e.key === "F12" || e.key === "s") {
         e.preventDefault();
       }
     });
 
-    // Блокировка перетаскивания изображений
     document.addEventListener("dragstart", (e) => {
       if (e.target.tagName === "IMG") {
         e.preventDefault();
       }
     });
-
-    // Защита от индексации и кэширования
-    (function() {
-      var meta = document.createElement('meta');
-      meta.name = 'robots';
-      meta.content = 'noindex, nofollow';
-      document.head.appendChild(meta);
-    })();
 
     // Анимация при выходе со страницы
     window.addEventListener('beforeunload', () => {
@@ -309,14 +326,14 @@
 
   <div class="content">
     <div class="games-container" id="gamesList">
-      <div class="game-item" style="animation-delay: 0.1s;">
+      <div class="game-item left" style="animation-delay: 0.1s;">
         <i class="fab fa-telegram-plane"></i>
         <h3>Телеграм Канал</h3>
         <p>Следи за новостями и обновлениями. Всё в одном месте!</p>
         <button onclick="window.open('https://t.me/c_xac3', '_blank')">Зайти</button>
       </div>
 
-      <div class="game-item" style="animation-delay: 0.2s;">
+      <div class="game-item right" style="animation-delay: 0.2s;">
         <i class="fas fa-user-secret"></i>
         <h3>Связь с Владельцем</h3>
         <p>Напиши напрямую владельцу, если возникли вопросы.</p>
