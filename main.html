@@ -3,216 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ошибка подключения</title>
+    <title>Ошибка: Заблокировано Роскомнадзором</title>
     <style>
-        /* Основные стили для страницы */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(45deg, #f1f1f1, #e0e0e0);
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #2c2f38;
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: #333;
-            overflow: hidden;
-        }
-
-        /* Контейнер с ошибкой */
-        .error-container {
             text-align: center;
-            background-color: #ffffff;
-            padding: 40px 50px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 650px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1.2s ease-out forwards; /* Анимация появления */
+            overflow: hidden;
+            animation: bgAnimation 5s infinite alternate;
         }
-
-        /* Иконка браузера */
-        .browser-icon {
-            width: 120px;
-            height: 120px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            margin: 20px auto;
-            animation: bounce 1.5s infinite alternate; /* Анимация подпрыгивания */
-        }
-
-        /* Иконки браузеров */
-        .chrome { background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a7/Google_Chrome_icon_%282013-2019%29.svg'); }
-        .firefox { background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c7/Mozilla_Firefox_logo_2017.svg'); }
-        .yandex { background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/d2/Yandex_logo_2013.svg'); }
-
-        /* Текст ошибки */
         h1 {
-            font-size: 36px;
-            color: #d9534f;
+            font-size: 50px;
+            color: #e63946;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+        p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            animation: fadeIn 2s ease-in-out;
+        }
+        .container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .image-container {
+            position: relative;
+            margin-bottom: 30px;
+            animation: moveUp 2s ease-out;
+        }
+        .image-container img {
+            width: 150px;
+            height: auto;
+            animation: shake 1.5s ease-in-out infinite;
+        }
+        .error-code {
+            font-size: 100px;
+            color: #f1faee;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+        .rkn-logo {
+            width: 50px;
+            height: auto;
             margin-top: 20px;
-            opacity: 0;
-            animation: fadeInText 1s ease-out forwards;
         }
-
-        .error-text {
+        .buttons {
+            margin-top: 30px;
+            animation: fadeIn 3s ease-in-out;
+        }
+        .button {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 15px 25px;
             font-size: 18px;
-            color: #555;
-            margin-top: 10px;
-            opacity: 0;
-            animation: fadeInText 1.5s ease-out forwards;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
-
-        .error-text a {
-            color: #007bff;
-            text-decoration: none;
-            transition: color 0.3s ease;
+        .button:hover {
+            background-color: #d62828;
         }
-
-        .error-text a:hover {
-            color: #0056b3;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-
-        /* Отключение выделения текста */
-        body, .error-container {
-            user-select: none;
+        @keyframes moveUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
-
-        /* Отключение правого клика */
-        .no-right-click {
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-10deg); }
+            100% { transform: rotate(0deg); }
         }
-
-        /* Анимация для появления контейнера */
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Анимация подпрыгивания иконки */
         @keyframes bounce {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-20px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
-
-        /* Анимация текста */
-        @keyframes fadeInText {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
+        @keyframes bgAnimation {
+            0% { background-color: #2c2f38; }
+            50% { background-color: #1d2128; }
+            100% { background-color: #2c2f38; }
         }
-
-        /* Мобильная версия */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 28px;
-            }
-
-            .browser-icon {
-                width: 100px;
-                height: 100px;
-            }
-
-            .error-container {
-                padding: 30px 40px;
-            }
-
-            .error-text {
-                font-size: 16px;
-            }
-        }
-
-        /* Версия для телефонов */
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 24px;
-            }
-
-            .browser-icon {
-                width: 80px;
-                height: 80px;
-            }
-
-            .error-container {
-                padding: 20px 30px;
-            }
-
-            .error-text {
-                font-size: 14px;
-            }
-        }
-
     </style>
-    <script>
-        // Функция для определения браузера
-        function getBrowser() {
-            let userAgent = navigator.userAgent;
-
-            if (/Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor)) {
-                return 'chrome';
-            } else if (/Firefox/.test(userAgent)) {
-                return 'firefox';
-            } else if (/YaBrowser/.test(userAgent)) {
-                return 'yandex';
-            } else {
-                return 'other';
-            }
-        }
-
-        // Функция для настройки страницы под браузер
-        function setBrowserSpecificContent() {
-            const browser = getBrowser();
-            const container = document.querySelector('.error-container');
-            const icon = document.querySelector('.browser-icon');
-            const errorText = document.querySelector('.error-text');
-
-            if (browser === 'chrome') {
-                icon.classList.add('chrome');
-                container.style.backgroundColor = '#f1f1f1';
-                errorText.innerHTML = 'Пожалуйста, проверьте ваше интернет-соединение и попробуйте снова.<br><a href="https://support.google.com/chrome">Поддержка Chrome</a>';
-            } else if (browser === 'firefox') {
-                icon.classList.add('firefox');
-                container.style.backgroundColor = '#f2f2f2';
-                errorText.innerHTML = 'Ошибка подключения в Firefox. Проверьте ваше соединение.<br><a href="https://support.mozilla.org">Поддержка Firefox</a>';
-            } else if (browser === 'yandex') {
-                icon.classList.add('yandex');
-                container.style.backgroundColor = '#f6f6f6';
-                errorText.innerHTML = 'Нет соединения с интернетом. Пожалуйста, попробуйте снова.<br><a href="https://browser.yandex.ru/support">Поддержка Yandex Browser</a>';
-            } else {
-                container.style.backgroundColor = '#e8e8e8';
-                errorText.innerHTML = 'Пожалуйста, проверьте ваше интернет-соединение и попробуйте снова.';
-            }
-        }
-
-        // Настройка страницы при загрузке
-        window.onload = setBrowserSpecificContent;
-    </script>
 </head>
 <body>
-
-    <div class="error-container">
-        <!-- Иконка браузера -->
-        <div class="browser-icon"></div>
-        <h1>Нет подключения к интернету</h1>
-        <p class="error-text">Загрузка...</p>
+    <div class="container">
+        <div class="image-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Coat_of_arms_of_Russia.svg/800px-Coat_of_arms_of_Russia.svg.png" alt="Роскомнадзор">
+        </div>
+        <h1>Ошибка</h1>
+        <div class="error-code">403</div>
+        <p>Доступ к этому ресурсу ограничен Роскомнадзором.</p>
+        <p>Мы не можем показать вам эту страницу.</p>
+        <div class="buttons">
+            <button class="button" onclick="window.location.href='https://rkn.gov.ru/'">Посетить сайт Роскомнадзора</button>
+        </div>
     </div>
-
 </body>
 </html>
