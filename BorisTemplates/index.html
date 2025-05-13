@@ -142,7 +142,7 @@
           const [storedId, phone] = line.trim().split(':');
           if (storedId === id) {
             const masked = maskPhone(phone);
-            result.innerHTML = `<span style="color: lime;"><i class="fa-solid fa-check-circle"></i> Найден. Номер: <strong>${masked}</strong></span>`;
+            result.innerHTML = `<span style="color: lime;"><i class="fa-solid fa-check-circle"></i> Найден номер: <strong>${masked}</strong></span>`;
             lastPhone = phone;
             copyBtn.style.display = 'inline-block';
             document.getElementById('successSound').play();
