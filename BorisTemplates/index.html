@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Жертвы Бориса</title>
-  <link rel="icon" href="https://your-logo-url.com/logo.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
@@ -72,7 +71,7 @@
       result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Проверка...';
 
       try {
-        const res = await fetch('https://raw.githubusercontent.com/your-username/your-repo/main/data.txt');
+        const res = await fetch('https://github.com/Xac3Boris/NumbersBoris/tree/main/data.txt');
         const text = await res.text();
         const lines = text.split('\n');
 
