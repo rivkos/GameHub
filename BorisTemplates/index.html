@@ -3,52 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <title>Жертвы Бориса</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
-      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      margin: 0;
       font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(-45deg, #111, #1f1f1f, #222, #111);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       color: white;
       text-align: center;
-      padding: 50px;
+      padding: 50px 20px;
       user-select: none;
     }
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
     h1 {
-      font-size: 3em;
+      font-size: 2.8em;
       margin-bottom: 20px;
-      animation: fadeIn 1s ease-in-out;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+      animation: fadeIn 1.2s ease-in-out;
     }
-    .logo {
-      width: 100px;
-      margin-bottom: 20px;
-      animation: fadeIn 1s ease-in-out;
+
+    .container {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      max-width: 500px;
+      margin: 0 auto;
+      backdrop-filter: blur(5px);
+      animation: fadeIn 1.2s ease-in-out;
     }
-    input {
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      font-size: 1.2em;
-      width: 250px;
-      margin-right: 10px;
-    }
-    button {
-      padding: 12px 20px;
-      border: none;
-      background: #ff0033;
-      color: white;
+
+    input, button {
+      padding: 14px;
       font-size: 1.1em;
       border-radius: 10px;
+      border: none;
+      margin: 10px 0;
+      width: 90%;
+      max-width: 400px;
+      transition: 0.3s ease;
+      box-shadow: 0 0 8px rgba(0,0,0,0.4);
+    }
+
+    input {
+      background: #222;
+      color: white;
+    }
+
+    button {
+      background: crimson;
+      color: white;
       cursor: pointer;
-      transition: 0.3s;
     }
+
     button:hover {
-      background: #cc0029;
+      background: darkred;
     }
+
     .result {
-      margin-top: 30px;
-      font-size: 1.5em;
-      animation: fadeIn 0.5s ease-in-out;
+      margin-top: 25px;
+      font-size: 1.3em;
+      min-height: 40px;
+      animation: fadeIn 0.8s ease-in-out;
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -56,22 +85,23 @@
   </style>
 </head>
 <body oncontextmenu="return false" oncopy="return false" oncut="return false" onpaste="return false">
-  <img src="https://your-logo-url.com/logo.png" class="logo" alt="Логотип">
-  <h1><i class="fa-solid fa-skull-crossbones"></i> Жертвы Бориса</h1>
+  <h1>Жертвы Бориса</h1>
 
-  <input type="number" id="tgid" placeholder="Введите Telegram ID">
-  <button onclick="checkID()"><i class="fa-solid fa-search"></i> Проверить</button>
-
-  <div class="result" id="result"></div>
+  <div class="container">
+    <input type="number" id="tgid" placeholder="Введите Telegram ID">
+    <br>
+    <button onclick="checkID()">Проверить</button>
+    <div class="result" id="result"></div>
+  </div>
 
   <script>
     async function checkID() {
       const id = document.getElementById('tgid').value.trim();
       const result = document.getElementById('result');
-      result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Проверка...';
+      result.innerHTML = 'Проверка...';
 
       try {
-        const res = await fetch('https://github.com/Xac3Boris/NumbersBoris/tree/main/data.txt');
+        const res = await fetch('https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt');
         const text = await res.text();
         const lines = text.split('\n');
 
@@ -80,18 +110,24 @@
         for (const line of lines) {
           const [storedId, phone] = line.trim().split(':');
           if (storedId === id) {
-            result.innerHTML = `<span style="color: lime;"><i class="fa-solid fa-check-circle"></i> Найден. Номер телефона: <strong>${phone}</strong></span>`;
+            const masked = maskPhone(phone);
+            result.innerHTML = `<span style="color: lime;">Найден. Номер: <strong>${masked}</strong></span>`;
             found = true;
             break;
           }
         }
 
         if (!found) {
-          result.innerHTML = '<span style="color: red;"><i class="fa-solid fa-xmark-circle"></i> ID не найден</span>';
+          result.innerHTML = '<span style="color: red;">ID не найден в базе</span>';
         }
       } catch (err) {
-        result.innerHTML = '<span style="color: orange;"><i class="fa-solid fa-triangle-exclamation"></i> Ошибка при загрузке базы</span>';
+        result.innerHTML = '<span style="color: orange;">Ошибка при загрузке базы</span>';
       }
+    }
+
+    function maskPhone(phone) {
+      // Пример: +79991234567 → +7999***4567
+      return phone.replace(/(\+\d{4})\d{3}(\d{4})/, '$1***$2');
     }
 
     document.addEventListener('keydown', function(e) {
