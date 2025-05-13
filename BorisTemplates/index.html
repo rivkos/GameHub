@@ -1,24 +1,105 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Поиск по бд жертв Бориса</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Жертвы Бориса</title>
+  <link rel="icon" href="https://your-logo-url.com/logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      text-align: center;
+      padding: 50px;
+      user-select: none;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .logo {
+      width: 100px;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    input {
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1.2em;
+      width: 250px;
+      margin-right: 10px;
+    }
+    button {
+      padding: 12px 20px;
+      border: none;
+      background: #ff0033;
+      color: white;
+      font-size: 1.1em;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #cc0029;
+    }
+    .result {
+      margin-top: 30px;
+      font-size: 1.5em;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <img src="logo.png" alt="Логотип" class="logo">
-            <h1>Поиск по бд жертв Бориса</h1>
-        </header>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Введите запрос..." class="search-input">
-            <button id="searchButton">Поиск</button>
-        </div>
-        <div id="results" class="results"></div>
-    </div>
+<body oncontextmenu="return false" oncopy="return false" oncut="return false" onpaste="return false">
+  <img src="https://your-logo-url.com/logo.png" class="logo" alt="Логотип">
+  <h1><i class="fa-solid fa-skull-crossbones"></i> Жертвы Бориса</h1>
 
-    <script src="dox.js"></script>
+  <input type="number" id="tgid" placeholder="Введите Telegram ID">
+  <button onclick="checkID()"><i class="fa-solid fa-search"></i> Проверить</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    async function checkID() {
+      const id = document.getElementById('tgid').value.trim();
+      const result = document.getElementById('result');
+      result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Проверка...';
+
+      try {
+        const res = await fetch('https://raw.githubusercontent.com/your-username/your-repo/main/data.txt');
+        const text = await res.text();
+        const lines = text.split('\n');
+
+        let found = false;
+
+        for (const line of lines) {
+          const [storedId, phone] = line.trim().split(':');
+          if (storedId === id) {
+            result.innerHTML = `<span style="color: lime;"><i class="fa-solid fa-check-circle"></i> Найден. Номер телефона: <strong>${phone}</strong></span>`;
+            found = true;
+            break;
+          }
+        }
+
+        if (!found) {
+          result.innerHTML = '<span style="color: red;"><i class="fa-solid fa-xmark-circle"></i> ID не найден</span>';
+        }
+      } catch (err) {
+        result.innerHTML = '<span style="color: orange;"><i class="fa-solid fa-triangle-exclamation"></i> Ошибка при загрузке базы</span>';
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey && e.key === 'c') || (e.ctrlKey && e.key === 'u')) {
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>
