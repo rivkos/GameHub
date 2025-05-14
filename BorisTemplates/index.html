@@ -19,7 +19,10 @@
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
     color: white;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     padding: 20px;
   }
   @keyframes gradientBG {
@@ -28,64 +31,113 @@
     100% { background-position: 0% 50%; }
   }
 
-  h1 {
+  .wrapper {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    animation: fadeInUp 1s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity:0; transform: translateY(20px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+
+h1 {
     font-size: calc(2em + 1vw);
     margin-bottom: 20px;
     text-shadow: 0 0 12px crimson;
-    word-wrap: break-word;
-  }
+}
 
-  .container {
-    max-width: 90%;
-    margin: auto;
+h1 i {
+   margin-right:10px; 
+}
+
+.container {
     background: rgba(255,255,255,0.05);
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,0.5);
     backdrop-filter: blur(8px);
-  }
+}
 
-  input[type="number"] {
-    width: calc(100% - 20px);
-    padding:10px;
-    font-size: calc(1em + .5vw);
-    border-radius:10px;
-    border:none;
-    background:#222;
-    color:white;
-    margin-bottom:15px;
+#searchBox {
+   position:flex; 
+   display:flex; 
+   justify-content:center; 
+   align-items:center; 
+   margin-bottom:20px; 
+   flex-wrap:wrap;
+}
+
+#searchBox input[type="number"] {
+   width:auto; 
+   min-width:200px; 
+   padding:10px; 
+   font-size: calc(1em + .5vw); 
+   border-radius:10px; 
+   border:none; 
+   background:#222; 
+   color:white; 
+   margin-right:10px; 
+   flex-grow :1 ;
 }
 
 button {
-    width: calc(100% -20px);
-    padding:12px;
-    font-size: calc(1em + .3vw);
-    border-radius:10px;
-    border:none;
-    background:#c00;
-    color:white;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+   padding:12px; 
+   font-size:.9em; 
+   border-radius:10px; 
+   border:none; 
+   background:#c00; 
+   color:white; 
+   cursor:pointer; 
+   display:flex; 
+   align-items:center; 
+   justify-content:center;
+   transition:.3s all ease;
 }
 button:hover {
-   background:#900; 
+   background:#900;
 }
 button i {
-   margin-right:8px; 
-   transition:.3s all ease; 
+   margin-right:8px;
 }
 
+/* Анимация поиска - лупа */
+.search-animation {
+ position:absolute ;
+ top:-50% ;
+ left:-50% ;
+ width :200% ;
+ height :200% ;
+ display:flex ;
+ justify-content:center ;
+ align-items:center ;
+ pointer-events:none ;
+ z-index:-1 ;
+ animation :searchPulse infinite alternate ease-in-out ;
+}
+@keyframes searchPulse {
+ from {transform :scale(1) ; opacity:.7;}
+ to {transform :scale(1.2) ; opacity:.3;}
+}
+
+/* Стиль для результата */
 .result {
 margin-top :20px ;
 font-size :calc(1em + .3vw) ;
 min-height :40px ;
-word-wrap: break-word; 
+word-wrap : break-word;
+/* Эффект появления */
+animation :fadeInResult .5s ease forwards ;
+opacity :0 ; /* по умолчанию скрыт */
+}
+@keyframes fadeInResult {
+ from {opacity :0;}
+ to {opacity :1;}
 }
 
-.actions { margin-top :15px ; }
-
+/* Эффекты для ссылок */
 .search-links a {
 display:inline-block ;
 margin :5px ;
@@ -96,7 +148,7 @@ border-radius :8px ;
 text-decoration:none ;
 font-size :.9em ;
 transition:.3s all ease;
-/* Эффект подсветки при наведении */
+/* Эффект при наведении */
 box-shadow:none;}
 .search-links a:hover{
 background:#555;}
@@ -105,28 +157,46 @@ footer {
 margin-top :30px ;
 font-size :.8em ;
 color:#888 ;
+
+/* Анимация появления футера */
+animation :fadeInFooter .5s ease forwards ;
+opacity :0 ; /* по умолчанию скрыт */
+}
+@keyframes fadeInFooter {
+ from {opacity :0;}
+ to {opacity :1;}
 }
 </style>
 </head>
-<body oncontextmenu="return false" oncopy="return false" oncut="return false" onpaste="return false">
+<body>
 
+<div class="wrapper">
 <h1><i class="fa-solid fa-skull-crossbones"></i> Жертвы Бориса</h1>
 
 <div class="container">
-<input type="number" id="tgid" placeholder="Введите Telegram ID" />
 
+<!-- Область поиска с анимацией -->
+<div id="searchBox">
+<input type="number" id="tgid" placeholder="Введите Telegram ID" />
 <button onclick="checkID()"><i class="fa-solid fa-search"></i> Проверить</button>
+<!-- Анимация поиска -->
+<div class="search-animation">
+<i class="fa-solid fa-magnifying-glass fa-3x" style="color:#c00;"></i>
+</div>
+</div>
 
 <div class="result" id="result"></div>
 
 <div class="actions" id="actions" style="display:none;">
 <div class="search-links" id="searchLinks"></div>
 </div>
+
 </div>
 
 <footer>
 © 2025 Boris Database Viewer. Все права защищены.
 </footer>
+</div>
 
 <script>
 async function checkID() {
@@ -145,7 +215,6 @@ async function checkID() {
 
 	const urls = [
 		'https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt'
-		// Можно добавить другие базы данных сюда
 	];
 
 	let found=false;
@@ -167,10 +236,10 @@ async function checkID() {
 						<a href='https://yandex.ru/search/?text=${encodeURIComponent(phone)}' target='_blank'>Yandex</a>`;
 					document.getElementById('actions').style.display='block';
 					found=true;
-					break; // Выходим из внутреннего цикла
+					break;
 				}
 			}
-			if (found) break; // Выходим из внешнего цикла
+			if (found) break;
 		} catch(e){
 			console.log("Ошибка чтения:"+url);
 		}
@@ -179,12 +248,14 @@ async function checkID() {
 	if(!found){
 		result.innerHTML=`<span style='color:red;'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
 	}
-
 }
 
-// Запрещаем копирование и вызов контекстного меню через обработчики на уровне body (уже есть)
+// Запрещаем копирование и вызов контекстного меню
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
 document.addEventListener('keydown', function(e) {
 	if ((e.ctrlKey && e.key==='c') || (e.ctrlKey && e.key==='u')) { e.preventDefault(); } });
 </script>
+
 </body>
 </html>
