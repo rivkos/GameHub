@@ -2,242 +2,130 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Поиск по Telegram ID</title>
 <!-- Подключение Font Awesome для иконок -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <style>
-  /* Общие стили */
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #000; /* черный фон */
-    color: #fff; /* основной цвет текста */
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-
-  /* Центрированный контейнер */
-  .container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    text-align: center;
-  }
-
-  /* Заголовок */
-  h2 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    color: #ff0000; /* красный цвет */
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-    display:flex;
-    align-items:center;
-}
-h2 i {
-   margin-right:10px; 
-}
-
-/* Строка поиска */
-#searchWrapper {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
-    background-color:#222; /* темный фон для поиска */
-    border-radius: 50px;
-    padding: 10px 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    transition: box-shadow 0.3s, background-color 0.3s;
-}
-
-#searchWrapper:hover {
-    box-shadow: 0 8px 20px rgba(255,255,255,0.7);
-    background-color:#333;
-}
-
-/* Поле ввода */
-#tgid {
-    flex-grow:1;
-    border:none;
-    outline:none;
-    background:none;
-    font-size:1.2em;
-    color:#fff;
-    padding-left:15px;
-}
-
-#tgid::placeholder {
-   color:#aaa; 
-}
-
-/* Иконка поиска */
-#searchIcon {
-   font-size:1.8em; 
-   color:#ff0000; 
-   cursor:pointer; 
-   margin-left:15px; 
-   transition:.3s all ease-in-out; 
-}
-#searchIcon:hover {
-   color:#fff; 
-   transform:scale(1.2);
-}
-
-/* Результат поиска */
-#result {
-   margin-top:25px; 
-   min-height:24px; 
-   font-size:1.2em; 
-}
-
-/* Блок ссылок на поисковые системы */
-#actions {
-   margin-top:20px; 
-   display:none; 
-}
-#actions a {
-   margin-right:15px; 
-   text-decoration:none; 
-   font-weight:bold; 
-   font-size:.95em; 
-   padding:.6em .9em; 
-   border-radius:.4em; 
-   transition:.3s all ease-in-out; 
-}
-#actions a:hover {
-   background-color:#ff0000; 
-   color:#fff; 
-}
-
-/* Футер без ссылки "Связаться с нами" */
-footer {
-   width:auto;
-   padding:15px ;
-   text-align:center ;
-   background-color:#111 ;
-   color:#888 ;
-}
-footer span {
-   display:block ;
-}
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  input { padding: 8px; font-size: 16px; width: 200px; }
+  button { padding: 8px 12px; font-size: 16px; cursor: pointer; }
+  #result { margin-top: 20px; min-height: 50px; }
+  #actions { margin-top: 10px; display: none; }
 </style>
 </head>
 <body>
 
-<div class="container">
-<h2><i class="fas fa-search"></i> Поиск по Telegram ID</h2>
-
-<div id="searchWrapper">
-	<input type="text" id="tgid" placeholder="Введите Telegram ID" />
-	<!-- Иконка поиска -->
-	<i id="searchIcon" class="fas fa-search"></i>
-</div>
+<h2>Поиск Telegram ID</h2>
+<input type="text" id="tgid" placeholder="Введите Telegram ID" />
+<button id="searchIcon"><i class="fa-solid fa-magnifying-glass"></i></button>
 
 <div id="result"></div>
 
 <div id="actions">
-	<a href="#" target="_blank" id="googleLink"><i class="fab fa-google"></i> Google</a>
-	<a href="#" target="_blank" id="yandexLink"><i class="fab fa-yandex"></i> Yandex</a>
+  <a id="googleLink" href="#" target="_blank">Поиск в Google</a> | 
+  <a id="yandexLink" href="#" target="_blank">Поиск в Яндексе</a>
 </div>
-</div>
-
-<!-- Футер без ссылки "Связаться с нами" -->
-<footer>
-<span>&copy; Все права защищены</span>
-</footer>
 
 <script>
+let database = new Map();
+let isLoading = false;
+
+// Функция для загрузки базы данных
+async function loadDatabases() {
+    isLoading = true;
+    document.getElementById('result').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Загружаем базы данных...';
+
+    const urls = [
+        'https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt',
+        'https://raw.githubusercontent.com/rivkos/BorsBio/refs/heads/main/Telegram.txt'
+    ];
+
+    for (const url of urls) {
+        try {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('Ошибка сети');
+            const text = await res.text();
+            const lines = text.split('\n');
+
+            for (const line of lines) {
+                if (!line.trim()) continue;
+                const [storedId, phone] = line.trim().split(':');
+                if (storedId && phone) {
+                    database.set(storedId, phone);
+                }
+            }
+        } catch(e) {
+            console.log("Ошибка загрузки базы: " + url);
+        }
+    }
+
+    isLoading = false;
+    document.getElementById('result').innerHTML = 'Базы данных загружены. Введите ID для поиска.';
+}
+
+// Инициализация при загрузке страницы
+loadDatabases();
+
+// Обработчик поиска
 async function checkID() {
-	const id = document.getElementById('tgid').value.trim();
-	const result = document.getElementById('result');
-	const actions = document.getElementById('actions');
+    const id = document.getElementById('tgid').value.trim();
+    const resultDiv = document.getElementById('result');
+    const actionsDiv = document.getElementById('actions');
 
-	// Исключение определенного ID
-	if (id === '7931156760') { // замените '123456' на нужный вам ID
-		result.innerHTML = `<span style='color:#ffa500;font-weight:bold'><i class='fa-solid fa-info-circle'></i> Этот ID исключён из поиска.</span>`;
-		actions.style.display='none';
-		return;
-	}
+    // Проверка на исключённый ID
+    if (id === '123456') { 
+        resultDiv.innerHTML=`<span style='color:#ffa500;font-weight:bold'><i class='fa-solid fa-info-circle'></i> Этот ID исключён из поиска.</span>`;
+        actionsDiv.style.display='none';
+        return;
+    }
 
-	if (!id) {
-		result.innerHTML = `<span style='color:#ff0000'><i class='fa-solid fa-xmark-circle'></i> Пожалуйста, введите Telegram ID.</span>`;
-		actions.style.display='none';
-		return;
-	}
+    if (!id) {
+        resultDiv.innerHTML=`<span style='color:#ff0000'><i class='fa-solid fa-xmark-circle'></i> Пожалуйста, введите Telegram ID.</span>`;
+        actionsDiv.style.display='none';
+        return;
+    }
 
-	result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Поиск...';
-	actions.style.display='none';
+    // Пока база загружается
+    if (isLoading) {
+        resultDiv.innerHTML=`<i class='fa-solid fa-spinner fa-spin'></i> База данных еще загружается, попробуйте позже.`;
+        actionsDiv.style.display='none';
+        return;
+    }
 
-	const urls = [
-		'https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt'
-		'https://raw.githubusercontent.com/rivkos/BorsBio/refs/heads/main/Telegram.txt'
-	];
+    // Если база еще не загружена или пуста
+    if (database.size === 0) {
+        resultDiv.innerHTML=`<span style='color:#ff0000'><i class='fa-solid fa-xmark-circle'></i> База данных еще загружается или недоступна.</span>`;
+        actionsDiv.style.display='none';
+        return;
+    }
 
-	let found=false;
+    resultDiv.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Поиск...';
 
-	for (const url of urls) {
-		try{
-			const res= await fetch(url);
-			if (!res.ok) throw new Error('Ошибка сети');
-			const text= await res.text();
-			const lines=text.split('\n');
-
-			for (const line of lines){
-				const [storedId,phone]=line.trim().split(':');
-				if(storedId===id){
-					const masked=phone.replace(/(\+\d{4})\d{3}(\d{4})/,'$1***$2');
-					result.innerHTML=`<span style='color:#00ff00;font-weight:bold'><i class='fa-solid fa-check-circle'></i> Найдено:<br><strong>${masked}</strong></span>`;
-					document.getElementById('googleLink').href=`https://www.google.com/search?q=${encodeURIComponent(phone)}`;
-					document.getElementById('yandexLink').href=`https://yandex.ru/search/?text=${encodeURIComponent(phone)}`;
-					document.getElementById('actions').style.display='block';
-					found=true;
-					break;
-				}
-			}
-			if (found) break;
-		} catch(e){
-			console.log("Ошибка чтения:"+url);
-		}
-	}
-
-	if(!found){
-		result.innerHTML=`<span style='color:#ff0000'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
+    // Поиск по базе
+    if (database.has(id)) {
+        const phone= database.get(id);
+        // Маскировка номера
+        const masked=phone.replace(/(\+\d{4})\d{3}(\d{4})/,'$1***$2');
+        resultDiv.innerHTML=`<span style='color:#00ff00;font-weight:bold'><i class='fa-solid fa-check-circle'></i> Найдено:<br><strong>${masked}</strong></span>`;
+        
+        document.getElementById('googleLink').href=`https://www.google.com/search?q=${encodeURIComponent(phone)}`;
+        document.getElementById('yandexLink').href=`https://yandex.ru/search/?text=${encodeURIComponent(phone)}`;
+        
+        document.getElementById('actions').style.display='block';
+    } else {
+        resultDiv.innerHTML=`<span style='color:#ff0000'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
         document.getElementById('actions').style.display='none';
         document.getElementById('googleLink').href='#';
         document.getElementById('yandexLink').href='#';
-	}
+    }
 }
 
-// Обработчик клика по иконке поиска
+// Обработчики событий
 document.getElementById('searchIcon').addEventListener('click', checkID);
-
-// Обработка Enter в поле ввода
 document.getElementById('tgid').addEventListener('keydown', function(e){
 	if(e.key === 'Enter'){
 		checkID();
 	}
-});
-
-// Защита от копирования
-document.addEventListener('copy', function(e) {
-	e.preventDefault();
-	alert('Копирование запрещено!');
-});
-document.addEventListener('contextmenu', function(e) {
-	e.preventDefault();
-	alert('Контекстное меню отключено!');
-});
-document.addEventListener('keydown', function(e) {
-	if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
-        e.preventDefault();
-        alert('Действие запрещено!');
-      }
 });
 </script>
 
