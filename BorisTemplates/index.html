@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
 <style>
-  /* Общие стили */
   * {
     box-sizing: border-box;
   }
@@ -19,9 +18,9 @@
     background: linear-gradient(-45deg, #0f0f0f, #1a1a1a, #222, #1a1a1a);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
-    color: #fff;
+    color: white;
     text-align: center;
-    padding: 50px 20px;
+    padding: 20px;
   }
   @keyframes gradientBG {
     0% { background-position: 0% 50%; }
@@ -29,64 +28,258 @@
     100% { background-position: 0% 50%; }
   }
 
-  /* Заголовок */
   h1 {
-    font-size: 3em;
-    margin-bottom: 30px;
-    display:flex; align-items:center; justify-content:center; gap:15px;
-    color:#fff;
-    text-shadow:0 0 12px crimson;
+    font-size: calc(2em + 1vw);
+    margin-bottom: 20px;
+    text-shadow: 0 0 12px crimson;
+    word-wrap: break-word;
   }
-  
-  /* Контейнер */
+
   .container {
-    max-width:600px;
-    margin:auto;
-    padding:30px;
+    max-width: 90%;
+    margin: auto;
     background: rgba(255,255,255,0.05);
-    border-radius:20px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.6);
-    backdrop-filter:blur(10px);
-    display:flex; flex-direction:column; align-items:center;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
   }
 
-  /* Анимация лупы при поиске */
-  .search-icon {
-	display:flex; align-items:center; justify-content:center; width:60px; height:auto; margin:auto auto -20px auto; position:relative;}
-.search-icon i {
-	font-size:60px; color:#fff; animation:bounceSearch .8s infinite alternate ease-in-out;}
-@keyframes bounceSearch {
-	0% { transform : translateY(0); }
-	100% { transform : translateY(-10px); }
+  input[type="number"] {
+    width: calc(100% - 20px);
+    padding:10px;
+    font-size: calc(1em + .5vw);
+    border-radius:10px;
+    border:none;
+    background:#222;
+    color:white;
+    margin-bottom:15px;
 }
 
- /* Поле ввода */
-input[type=number] {
-	width:100%;
-	max-width:500px;
-	padding:16px;
-	font-size:1.2em;
-	border-radius:12px;
-	border:none;
-	outline:none;
-	margin-top:-10px; /* чуть поднимаем чтобы было аккуратно */
-	background-color:#222;
-	color:#fff;
-	box-shadow: inset 0 4px 8px rgba(0,0,0,0.4);
-	transition:.3s all ease;
-}
-input[type=number]:focus {
-	box-shadow: inset 0 4px 12px rgba(255,255,255,0.3);
-}
-
-/* Кнопка */
 button {
-	width:auto;
-	padding:14px 24px;
-	font-size:1.2em;
-	border-radius:12px;
-	border:none;
-	cursor:pointer;
+    width: calc(100% -20px);
+    padding:12px;
+    font-size: calc(1em + .3vw);
+    border-radius:10px;
+    border:none;
+    background:#c00;
+    color:white;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+button:hover {
+   background:#900; 
+}
+button i {
+   margin-right:8px; 
+   transition:.3s all ease; 
+}
+
+.result {
+margin-top :20px ;
+font-size :calc(1em + .3vw) ;
+min-height :40px ;
+word-wrap: break-word; 
+}
+
+.captcha {
+margin-top :20px ;
+text-align :center ;
+color :#ccc ;
+transition :opacity .5s , max-height .5s , padding .5s ;
+overflow :hidden ;
+border-radius:10px; 
+background-color:#2222; 
+padding:.5em; 
+max-width:auto; 
+margin-left:auto; margin-right:auto; 
+}
+.captcha.hidden {
+opacity :0 ;
+max-height :0 ;
+padding :0 ;
+margin :0 ;
+}
+
+.captcha label {
+display:block; 
+margin-bottom:.3em; 
+font-size:.9em; 
+}
+
+.captcha input[type="range"] {
+width :100% ; 
+height:.4em; 
+cursor:pointer;
+/* Эффект подсветки при выборе */
+background:#444; 
+border-radius:.2em;
+/* Добавим эффект подсветки при фокусе */
+transition:.3s all ease; 
+}
+input[type=range]::-webkit-slider-thumb {
+appearance:none; 
+width:1.2em; height:1.2em; 
+background:#c00; 
+border-radius:.6em; 
+border:none; 
+cursor:pointer;
+/* Эффект подсветки при наведении */
+transition:.3s all ease;
+/* Тень для эффекта подсветки */
+box-shadow:0 0 .4em #f55 inset, inset -2px -2px #900, inset 2px 2px #600;}
+input[type=range]:hover::-webkit-slider-thumb{
+box-shadow:0 0 .6em #f55 inset, inset -3px -3px #900, inset3px3px #600;}
+/* Для Firefox */
+input[type=range]::-moz-range-thumb{
+width:1.2em;height:1.2em;background:#c00;border-radius:.6em;border:none; cursor:pointer;}
+input[type=range]:hover::-moz-range-thumb{
+box-shadow:0 0 .6em #f55 inset, inset -3px -3px #900, inset3px3px #600;}
+
+.actions { margin-top :15px ; }
+
+.search-links a {
+display:inline-block ;
+margin :5px ;
+padding :10px15px ;
+background:#333 ;
+color:white ;
+border-radius :8px ;
+text-decoration:none ;
+font-size :.9em ;
+transition:.3s all ease;
+/* Эффект подсветки при наведении */
+box-shadow:none;}
+.search-links a:hover{
+background:#555;}
+
+footer {
+margin-top :30px ;
+font-size :.8em ;
+color:#888 ;
+}
+
+/* Анимация исчезновения каптчи */
+@keyframes fadeOutAndCollapse {
+from { opacity:1; max-height:auto; padding-top:auto; padding-bottom:auto; margin-top:auto; margin-bottom:auto; }
+to { opacity:.   ; max-height:.   ; padding:.   ; margin:.   ; }
+}
+</style>
+</head>
+<body oncontextmenu="return false" oncopy="return false" oncut="return false" onpaste="return false">
+
+<h1><i class="fa-solid fa-skull-crossbones"></i> Жертвы Бориса</h1>
+
+<div class="container">
+<input type="number" id="tgid" placeholder="Введите Telegram ID" />
+
+<div class="captcha" id="captchaContainer">
+<label>Подтвердите, что вы не бот:</label>
+<input type="range" id="slider" min="0" max="100" value="0" />
+</div>
+
+<button onclick="checkID()"><i class="fa-solid fa-search"></i> Проверить</button>
+
+<div class="result" id="result"></div>
+
+<div class="actions" id="actions" style="display:none;">
+<div class="search-links" id="searchLinks"></div>
+</div>
+</div>
+
+<footer>
+© 2025 Boris Database Viewer. Все права защищены.
+</footer>
+
+<script>
+async function checkID() {
+const slider = document.getElementById("slider");
+if (parseInt(slider.value) <100) {
+alert("Пожалуйста, потяните ползунок до конца для подтверждения.");
+return;}
+const id = document.getElementById('tgid').value.trim();
+const result = document.getElementById('result');
+const actions = document.getElementById('actions');
+const searchLinks = document.getElementById('searchLinks');
+result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Поиск...';
+actions.style.display='none';
+
+const urls = [
+'https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt'
+// Можно добавить другие базы данных сюда
+];
+
+let found=false;
+
+for (const url of urls) {
+try{
+const res= await fetch(url);
+const text= await res.text();
+const lines=text.split('\n');
+
+for (const line of lines){
+const [storedId,phone]=line.trim().split(':');
+if(storedId===id){
+const masked=phone.replace(/(\+\d{4})\d{3}(\d{4})/,'$1***$2');
+result.innerHTML=`<span style='color:lime;'><i class='fa-solid fa-check-circle'></i> Найдено:<strong>${masked}</strong></span>`;
+searchLinks.innerHTML=`
+<a href='https://www.google.com/search?q=${phone}' target='_blank'>Google</a>
+<a href='https://yandex.ru/search/?text=${phone}' target='_blank'>Yandex</a>`;
+document.getElementById('actions').style.display='block';
+found=true;
+// После нахождения прерываем цикл
+break;}
+}
+// Если нашли — выходим из внешнего цикла
+if(found) break;} catch(e){console.log("Ошибка чтения:"+url);}
+}
+
+// Если не нашли
+if(!found){
+result.innerHTML=`<span style='color:red;'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
+}
+
+// После поиска можно сбросить каптчу и скрыть её с эффектом
+if(parseInt(document.getElementById("slider").value)==100){
+hideCaptcha();
+}
+
+// Обработчик для сброса каптчи при изменении ползунка
+document.getElementById("slider").addEventListener('input', () => {
+// Эффект подсветки при движении
+highlightSlider();
+if(parseInt(document.getElementById("slider").value)==100){
+hideCaptcha();
+}
+});
+
+// Функция подсветки ползунка
+function highlightSlider() {
+const slider = document.getElementById("slider");
+slider.style.backgroundColor="#555"; // Можно менять цвет при движении
+// Можно добавить плавное изменение цвета или тени
+}
+
+// Функция скрытия каптчи с эффектом
+function hideCaptcha() {
+// Получаем контейнер каптчи
+const captchaContainer = document.getElementById('captchaContainer');
+// Добавляем класс для анимации исчезновения
+captchaContainer.classList.add('hidden');
+// После окончания анимации скрываем полностью элемент
+captchaContainer.addEventListener('transitionend', () => {
+captchaContainer.style.display='none';
+});
+}
+
+// Запрещаем копирование и вызов контекстного меню через обработчики на уровне body (уже есть)
+document.addEventListener('keydown', function(e) {
+if ((e.ctrlKey && e.key==='c') || (e.ctrlKey && e.key==='u')) { e.preventDefault(); } });
+</script>
+</body>
+</html>	cursor:pointer;
 	margin-top:-10px; /* чуть поднимаем */
 	background-color:#c00;
 	color:#fff;
