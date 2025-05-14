@@ -7,102 +7,149 @@
 <!-- Подключение Font Awesome для иконок -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <style>
+  /* Общие стили */
   body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
+    font-family: 'Arial', sans-serif;
     background-color: #000; /* черный фон */
     color: #fff; /* основной цвет текста */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
 
+  /* Центрированный контейнер */
+  .container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  /* Заголовок */
   h2 {
+    font-size: 2.5em;
     margin-bottom: 20px;
-    color: #ff0000; /* красный заголовок */
+    color: #ff0000; /* красный цвет */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
   }
 
-  /* Контейнер для поиска */
+  /* Строка поиска */
   #searchWrapper {
     display: flex;
     align-items: center;
-    gap: 10px; /* расстояние между полем и иконкой */
-    max-width: 400px;
-    margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
+    background-color:#222; /* темный фон для поиска */
+    border-radius: 50px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: box-shadow 0.3s, background-color 0.3s;
+  }
+
+  #searchWrapper:hover {
+    box-shadow: 0 8px 20px rgba(255,255,255,0.7);
+    background-color:#333;
   }
 
   /* Поле ввода */
-  #tgid {
-    flex: 1;
-    padding: 10px 15px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 2px solid #ff0000; /* красная рамка */
-    background-color: #222; /* темный фон поля */
-    color: #fff; /* белый текст */
-    outline: none;
-    transition: border-color 0.3s, background-color 0.3s;
-  }
+#tgid {
+    flex-grow:1;
+    border:none;
+    outline:none;
+    background:none;
+    font-size:1.2em;
+    color:#fff;
+    padding-left:15px;
+}
 
-  #tgid:focus {
-    border-color: #ffffff; /* белая рамка при фокусе */
-    background-color:#333; /* чуть светлее при фокусе */
-  }
+#tgid::placeholder {
+   color:#aaa; 
+}
 
-  /* Иконка поиска */
-  #searchIcon {
-    cursor: pointer;
-    font-size: 22px;
-    color:#ff0000; /* красная иконка */
-    padding:8px;
-    border-radius:50%;
-    transition: background-color 0.3s, color 0.3s;
-  }
+ /* Иконка поиска */
+#searchIcon {
+   font-size:1.8em; 
+   color:#ff0000; 
+   cursor:pointer; 
+   margin-left:15px; 
+   transition:.3s all ease-in-out; 
+}
+#searchIcon:hover {
+   color:#fff; 
+   transform:scale(1.2);
+}
 
-  #searchIcon:hover {
-     background-color:#ffcccc; /* светло-красный фон при наведении */
-     color:#fff; /* белая иконка при наведении */
-  }
+/* Результат поиска */
+#result {
+   margin-top:25px; 
+   min-height:24px; 
+   font-size:1.2em; 
+}
 
-  /* Результат поиска */
-  #result {
-    min-height:20px;
-    margin-top:15px;
-    font-size:16px;
-   }
+/* Блок ссылок на поисковые системы */
+#actions {
+   margin-top:20px; 
+   display:none; 
+}
+#actions a {
+   margin-right:15px; 
+   text-decoration:none; 
+   font-weight:bold; 
+   font-size:.95em; 
+   padding:.6em .9em; 
+   border-radius:.4em; 
+   transition:.3s all ease-in-out; 
+}
+#actions a:hover {
+   background-color:#ff0000; 
+   color:#fff; 
+}
 
-   /* Блок ссылок на поисковые системы */
-   #actions {
-     margin-top:15px;
-     display:none; /* по умолчанию скрыт */
-   }
-
-   #actions a {
-     margin-right:10px; 
-     text-decoration:none; 
-     color:#ff0000; /* красные ссылки */
-     font-weight:bold;
-   }
-   
-   #actions a:hover {
-     text-decoration:none; 
-     text-decoration-line:underline; 
-   }
+/* Футер */
+footer {
+   width:auto;
+   padding:15px ;
+   text-align:center ;
+   background-color:#111 ;
+   color:#888 ;
+}
+footer a {
+   color:#ff0000 ;
+   text-decoration:none ;
+}
+footer a:hover {
+   text-decoration underline ;
+}
 </style>
 </head>
 <body>
 
-<h2>Поиск по Telegram ID</h2>
+<div class="container">
+<h2><i class="fas fa-search"></i> Поиск по Telegram ID</h2>
 
 <div id="searchWrapper">
 	<input type="text" id="tgid" placeholder="Введите Telegram ID" />
 	<!-- Иконка поиска -->
-	<i id="searchIcon" class="fas fa-search" title="Искать"></i>
+	<i id="searchIcon" class="fas fa-search"></i>
 </div>
 
 <div id="result"></div>
 
 <div id="actions">
-	<a href="#" target="_blank" id="googleLink">Google</a> | 
-	<a href="#" target="_blank" id="yandexLink">Yandex</a>
+	<a href="#" target="_blank" id="googleLink"><i class="fab fa-google"></i> Google</a>
+	<a href="#" target="_blank" id="yandexLink"><i class="fab fa-yandex"></i> Yandex</a>
 </div>
+</div>
+
+<!-- Футер -->
+<footer>
+&copy; Все права защищены | <a href="#">Связаться с нами</a>
+</footer>
 
 <script>
 async function checkID() {
@@ -112,13 +159,13 @@ async function checkID() {
 
 	// Исключение определенного ID
 	if (id === '123456') { // замените '123456' на нужный вам ID
-		result.innerHTML = `<span style='color:#ffa500;'><i class='fa-solid fa-info-circle'></i> Этот ID исключён из поиска.</span>`;
+		result.innerHTML = `<span style='color:#ffa500;font-weight:bold'><i class='fa-solid fa-info-circle'></i> Этот ID исключён из поиска.</span>`;
 		actions.style.display='none';
 		return;
 	}
 
 	if (!id) {
-		result.innerHTML = `<span style='color:#ff0000;'><i class='fa-solid fa-xmark-circle'></i> Пожалуйста, введите Telegram ID.</span>`;
+		result.innerHTML = `<span style='color:#ff0000'><i class='fa-solid fa-xmark-circle'></i> Пожалуйста, введите Telegram ID.</span>`;
 		actions.style.display='none';
 		return;
 	}
@@ -143,7 +190,7 @@ async function checkID() {
 				const [storedId,phone]=line.trim().split(':');
 				if(storedId===id){
 					const masked=phone.replace(/(\+\d{4})\d{3}(\d{4})/,'$1***$2');
-					result.innerHTML=`<span style='color:#00ff00;'><i class='fa-solid fa-check-circle'></i> Найдено:<strong>${masked}</strong></span>`;
+					result.innerHTML=`<span style='color:#00ff00;font-weight:bold'><i class='fa-solid fa-check-circle'></i> Найдено:<br><strong>${masked}</strong></span>`;
 					document.getElementById('googleLink').href=`https://www.google.com/search?q=${encodeURIComponent(phone)}`;
 					document.getElementById('yandexLink').href=`https://yandex.ru/search/?text=${encodeURIComponent(phone)}`;
 					document.getElementById('actions').style.display='block';
@@ -158,7 +205,7 @@ async function checkID() {
 	}
 
 	if(!found){
-		result.innerHTML=`<span style='color:#ff0000;'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
+		result.innerHTML=`<span style='color:#ff0000'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
         document.getElementById('actions').style.display='none';
         document.getElementById('googleLink').href='#';
         document.getElementById('yandexLink').href='#';
