@@ -119,7 +119,6 @@
       searchLinks.style.display = 'none';
 
       let found = false;
-
       for (const url of urls) {
         try {
           const res = await fetch(url);
@@ -127,23 +126,7 @@
           const lines = text.split('\n');
 
           for (const line of lines) {
-            const cleaned = line.trim();
-
-            // Ищем ID
-            const idMatch = cleaned.match(/(?:ID[:\s]*\[?)?(\d{6,12})/i);
-            if (!idMatch) continue;
-
-            const storedId = idMatch[1];
-
-            // Ищем телефон
-            const phoneMatch = cleaned.match(/(?:\+?7\d{10,11}|\b79\d{9}\b|\b7\d{10}\b|\b8\d{10}\b|\b\d{11}\b)/);
-            if (!phoneMatch) continue;
-
-            let phone = phoneMatch[0];
-            if (!phone.startsWith('+') && phone.startsWith('7')) {
-              phone = '+' + phone;
-            }
-
+            const [storedId, phone] = line.trim().split(':');
             if (storedId === id) {
               const masked = phone.replace(/(\+\d{4})\d{3}(\d{4})/, '$1***$2');
               result.innerHTML = `<span style="color:lime;"><i class="fa-solid fa-check-circle"></i> Найден: ${masked}</span>`;
