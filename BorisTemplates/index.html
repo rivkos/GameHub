@@ -1,152 +1,90 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <title>Жертвы Бориса</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet" />
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    rel="stylesheet"
-  />
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: 'Russo One', sans-serif;
-      background: linear-gradient(-45deg, #0f0f0f, #1a1a1a, #222, #1a1a1a);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: white;
-      text-align: center;
-      padding: 40px 20px;
-      user-select: none;
-    }
-    @keyframes gradientBG {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-    h1 {
-      font-size: 2.8em;
-      margin-bottom: 25px;
-      text-shadow: 0 0 12px crimson;
-    }
-    .container {
-      background: rgba(255,255,255,0.05);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
-      max-width: 500px;
-      margin: 0 auto;
-      backdrop-filter: blur(8px);
-    }
-    input,
-    button {
-      padding: 14px;
-      font-size: 1em;
-      border-radius: 10px;
-      border: none;
-      margin: 10px 0;
-      width: 100%;
-      max-width: 400px;
-      transition: 0.3s ease;
-      box-shadow: 0 0 10px rgba(0,0,0,0.4);
-      display: inline-flex;
-      align-items: center;
-    }
-    input {
-      background: #222;
-      color: white;
-    }
-    button {
-      background: crimson;
-      color: white;
-      cursor: pointer;
-      justify-content: center;
-    }
-    button:hover {
-      background: darkred;
-    }
-    .fa-search {
-      margin-right: 10px;
-      animation: searchAnimation 1s infinite;
-    }
-    @keyframes searchAnimation {
-      0% {
-        transform: scale(1);
-      }
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Жертвы Бориса</title>
+<!-- Шрифты и иконки -->
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    	50% {
-        transform: scale(1.2);
-        
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Russo One', sans-serif;
+    background: linear-gradient(-45deg, #0f0f0f, #1a1a1a, #222, #1a1a1a);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    user-select: none;
+  }
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  h1 {
+    font-size: 2.8em;
+    margin-bottom: 25px;
+    text-shadow: 0 0 12px crimson;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+  }
+
+  .container {
+    background: rgba(255,255,255,0.05);
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 0 20px rgba(0,0,0,0.6);
+    max-width:500px;
+    margin:auto;
+    backdrop-filter:blur(8px);
 }
-100% {
-        transform: scale(1);
+
+input[type=number] {
+    padding:14px;
+    font-size:1em;
+    border-radius:10px;
+    border:none;
+    margin-top:10px;
+    width:100%;
+    max-width:400px;
+    box-shadow:0 0 10px rgba(0,0,0,0.4);
 }
+
+button {
+    padding:14px;
+    font-size:1em;
+    border-radius:10px;
+    border:none;
+    margin-top:10px;
+    width:100%;
+    max-width:400px;
+    
+background-color:#c00; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:.3s background-color ease
 }
+button:hover { background-color:#900; }
+
+.fa-search { margin-right:10px; animation:swing .8s infinite alternate ease-in-out; }
+
+@keyframes swing {
+ from { transform : rotate(-3deg); }
+ to { transform : rotate(3deg); }
+}
+
 .result {
 margin-top :20px ;
 font-size :1.2em ;
 min-height :40px ;
 }
-.captcha {
-margin :20px ;
-text-align :left ;
-color :#ccc ;
-transition :opacity .5s , max-height .5s , padding .5s ;
-overflow :hidden ;
-}
-.captcha.hidden {
-opacity :0 ;
-max-height :0 ;
-padding :0 ;
-margin :0 ;
-}
-.captcha input[type="range"] {
-width :100% ;
-}
-.actions { margin-top :10px ; }
+
+.actions { margin-top :10px ; display:none; } /* по умолчанию скрыто */
+
 .search-links a {
 display:inline-block ;
 margin :5px ;
@@ -156,45 +94,81 @@ color:white ;
 border-radius :8px ;
 text-decoration:none ;
 font-size : .9em ;
+transition:.3s background-color ease
 }
+.search-links a:hover { background:#555; }
+
 footer {
 margin-top :60px ;
 font-size :.8em ;
 color:#888 ;
 }
-@media(max-width :600px) {
-h1 { font-size :2em ; }
-.container { padding :20px ; }
+
+/* Стиль каптчи */
+.captcha-wrapper {
+margin-top:20px;
+/* Центрирование */
+display:flex; flex-direction:center; align-items:center; justify-content:center; flex-direction column
+}
+.captcha-container {
+position:absolute; /* чтобы было легче анимировать */
+width:auto;height:auto;
+/* Для плавного исчезновения */
+transition:.5s ease opacity, max-height .5s ease,padding .5s ease,margin .5s ease;
+/* Начальное состояние — видно */
+opacity:.99; max-height:auto;padding:auto;margin:auto;
+/* Для анимации исчезновения добавим класс hidden */
+}
+.captcha-container.hidden {
+opacity:.00; max-height:0;padding:0;margin:0;
+/* Можно добавить scale для эффекта */
+transform : scale(0);
+transition:.5s ease opacity,max-height,padding,margin,transform
 }
 
-/* Анимация исчезновения каптчи */
-@keyframes fadeOutAndCollapse {
-from { opacity:1; max-height:auto; padding-top:auto; padding-bottom:auto; margin-top:auto; margin-bottom:auto; }
-to { opacity:.   ; max-height:.   ; padding:.   ; margin:.   ; }
-}
+/* Стиль слайдера */
+.slider-container {
+background:#222;border-radius:15px;padding:15px;margin-top:15px;text-align:center;}
+.slider-label { font-size:.9em;margin-bottom:.5em;}
+#slider {
+-webkit-appearance:none;width:100%;height:.4em;background:#444;border-radius:.2em; outline:none;}
+#slider::-webkit-slider-thumb {
+-webkit-appearance:none appearance:none;width:.8em;height:.8em;background:#c00;border-radius:.4em;border:none;margin-top:-.2em;}
+#slider::-moz-range-thumb {
+width:.8em;height:.8em;background:#c00;border-radius:.4em;border:none;}
 </style>
 </head>
 <body oncontextmenu="return false" oncopy="return false" oncut="return false" onpaste="return false">
+
 <h1><i class="fa-solid fa-skull-crossbones"></i> Жертвы Бориса</h1>
 
 <div class="container">
 <input type="number" id="tgid" placeholder="Введите Telegram ID" />
-<div class="captcha" id="captchaContainer">
-<label>Подтвердите, что вы не бот:</label>
-<input type="range" id="slider" min="0" max="100" value="0" />
+
+<!-- Каптча -->
+<div class="captcha-wrapper">
+<div class="captcha-container" id="captchaContainer">
+<h3 style="margin-bottom:-10px;">Подтвердите что вы не бот</h3>
+<div class="slider-container">
+<div class="slider-label">Потяните ползунок до конца</div>
+<input type="range" min="0" max="100" value="0" id="slider"/>
 </div>
-<button onclick="checkID()"><i class="fa-solid fa-search"></i> Проверить</button>
-<div class="result" id="result"></div>
-<div class="actions" id="actions" style="display:none;">
-<div class="search-links" id="searchLinks"></div>
 </div>
 </div>
 
-<footer>
-© 2025 Boris Database Viewer. Все права защищены.
-</footer>
+<button onclick="checkID()"><i class='fa-solid fa-search'></i> Проверить</button>
+
+<div class='result' id='result'></div>
+
+<div class='actions' id='actions'>
+<div class='search-links' id='searchLinks'></div>
+</div>
+</div>
+
+<footer>© 2025 Boris Database Viewer. Все права защищены.</footer>
 
 <script>
+// Проверка ID и поиск
 async function checkID() {
 const slider = document.getElementById("slider");
 if (parseInt(slider.value) <100) {
@@ -204,12 +178,12 @@ const id = document.getElementById('tgid').value.trim();
 const result = document.getElementById('result');
 const actions = document.getElementById('actions');
 const searchLinks = document.getElementById('searchLinks');
+
 result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Поиск...';
 actions.style.display='none';
 
 const urls = [
 'https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt'
-// Можно добавить другие базы данных сюда
 ];
 
 let found=false;
@@ -230,10 +204,9 @@ searchLinks.innerHTML=`
 <a href='https://yandex.ru/search/?text=${phone}' target='_blank'>Yandex</a>`;
 document.getElementById('actions').style.display='block';
 found=true;
-// После нахождения прерываем цикл
+// прерываем цикл
 break;}
 }
-// Если нашли — выходим из внешнего цикла
 if(found) break;} catch(e){console.log("Ошибка чтения:"+url);}
 }
 
@@ -242,7 +215,7 @@ if(!found){
 result.innerHTML=`<span style='color:red;'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
 }
 
-// После поиска можно сбросить каптчу и скрыть её с эффектом
+// После поиска — сбросить каптчу и скрыть её с эффектом
 if(parseInt(document.getElementById("slider").value)==100){
 hideCaptcha();
 }
@@ -255,21 +228,30 @@ hideCaptcha();
 }
 });
 
-// Функция скрытия каптчи с эффектом
+// Функция скрытия каптчи с эффектом плавного исчезновения
 function hideCaptcha() {
 // Получаем контейнер каптчи
-const captchaContainer = document.getElementById('captchaContainer');
+const container = document.getElementById('captchaContainer');
 // Добавляем класс для анимации исчезновения
-captchaContainer.classList.add('hidden');
-// После окончания анимации скрываем полностью элемент
-captchaContainer.addEventListener('transitionend', () => {
-captchaContainer.style.display='none';
+container.classList.add('hidden');
+// После окончания анимации полностью скрываем элемент
+container.addEventListener('transitionend', () => {
+container.style.display='none';
 });
 }
+
+// Обработчик для сброса каптчи при изменении ползунка (если нужно)
+document.getElementById("slider").addEventListener('input', () => {
+// Если достигнуто значение максимум — скрываем каптчу (уже есть выше)
+if(parseInt(document.getElementById("slider").value)==100){
+hideCaptcha();
+}
+});
 
 // Запрещаем копирование и вызов контекстного меню через обработчики на уровне body (уже есть)
 document.addEventListener('keydown', function(e) {
 if ((e.ctrlKey && e.key==='c') || (e.ctrlKey && e.key==='u')) { e.preventDefault(); } });
 </script>
+
 </body>
 </html>
