@@ -38,7 +38,6 @@
   #searchWrapper {
       display:flex; align-items:center; width:100%; max-width:600px; background:#222; border-radius:50px; padding:10px 20px; box-shadow:0 4px 15px rgba(0,0,0,0.5); transition:.3s all ease-in-out;
   }
-  #searchWrapper:hover { box-shadow:0 8px 20px rgba(255,255,255,0.7); background:#333; }
   #tgid {
       flex-grow:1; border:none; outline:none; background:none; font-size:1.2em; color:#fff; padding-left:15px;
   }
@@ -86,70 +85,24 @@ footer span { display:block;}
 </footer>
 
 <script>
-// Объявляем глобальные объекты для хранения базы данных
-const database = {
-	dataTxtMap:{}, // для первого файла
-	telegramTxtMap:{}, // для второго файла
-	isLoaded:false
-};
-
-// Функция для парсинга файла в объект
-function parseData(text) {
-	const map = {};
-	const lines = text.split('\n');
-	for (const line of lines) {
-		const [storedId, phone] = line.trim().split(':');
-		if (storedId && phone) {
-			map[storedId] = phone.trim();
-		}
-	}
-	return map;
-}
-
-// Загрузка базы данных один раз при старте
-async function loadDatabase() {
+// Функция для получения данных с сервера или файла
+async function fetchData(url) {
 	try {
-		const [res1,res2]= await Promise.all([
-			fetch('https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt'),
-			fetch('https://raw.githubusercontent.com/rivkos/BorsBio/refs/heads/main/Telegram.txt')
-		]);
-		
-		if (!res1.ok || !res2.ok) throw new Error('Ошибка сети');
-
-		const [text1,text2]= await Promise.all([res1.text(), res2.text()]);
-
-		database.dataTxtMap = parseData(text1);
-		database.telegramTxtMap = parseData(text2);
-		
-		database.isLoaded=true;
-
-		console.log('База данных загружена');
-		
+		const response = await fetch(url);
+		if (!response.ok) throw new Error('Ошибка сети');
+		const text = await response.text();
+		return text;
 	} catch(e) {
-		console.error('Ошибка загрузки базы данных:', e);
+		console.error('Ошибка при получении данных:', e);
+		return null;
 	}
 }
-
-// Вызовем загрузку при старте
-loadDatabase();
 
 // Основная функция поиска
 async function checkID() {
-	if (!database.isLoaded) {
-		document.getElementById('result').innerHTML = `<span style='color:#ff0000'><i class='fa-solid fa-xmark-circle'></i> База данных еще загружается...</span>`;
-        document.getElementById('actions').style.display='none';
-        return;
-	}
-
 	const id = document.getElementById('tgid').value.trim();
 	const result = document.getElementById('result');
 	const actions = document.getElementById('actions');
-
-	if (id === '7931156760') { // исключение
-		result.innerHTML = `<span style='color:#ffa500;font-weight:bold'><i class='fa-solid fa-info-circle'></i> Этот ID исключён из поиска.</span>`;
-		actions.style.display='none';
-        return;
-	}
 
 	if (!id) {
 		result.innerHTML = `<span style='color:#ff0000'><i class='fa-solid fa-xmark-circle'></i> Пожалуйста, введите Telegram ID.</span>`;
@@ -160,21 +113,39 @@ async function checkID() {
 	result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Поиск...';
         actions.style.display='none';
 
-	let phone = database.dataTxtMap[id];
+	try {
+		// Замените URL на ваш сервер или файл
+		const dataText = await fetchData('https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt');
+        const telegramText = await fetchData('https://raw.githubusercontent.com/rivkos/BorsBio/refs/heads/main/Telegram.txt');
 
-	if (phone) {
-        // Маскируем часть номера
-        const masked=phone.replace(/(\+\d{4})\d{3}(\d{4})/,'$1***$2');
-        result.innerHTML=`<span style='color:#00ff00;font-weight:bold'><i class='fa-solid fa-check-circle'></i> Найдено:<br><strong>${masked}</strong></span>`;
-        document.getElementById('googleLink').href=`https://www.google.com/search?q=${encodeURIComponent(phone)}`;
-        document.getElementById('yandexLink').href=`https://yandex.ru/search/?text=${encodeURIComponent(phone)}`;
-        document.getElementById('actions').style.display='block';
-        return;
+        if (!dataText || !telegramText) throw new Error('Не удалось загрузить данные');
 
-    } else {
-        // Если не найден в первом файле — ищем во втором
-        let phone2=database.telegramTxtMap[id];
-        if (phone2){
+        // Парсим данные
+        const dataMap = {};
+        dataText.split('\n').forEach(line => {
+            const [storedId, phone] = line.trim().split(':');
+            if (storedId && phone) dataMap[storedId] = phone.trim();
+        });
+
+        const telegramMap = {};
+        telegramText.split('\n').forEach(line => {
+            const [storedId, phone] = line.trim().split(':');
+            if (storedId && phone) telegramMap[storedId] = phone.trim();
+        });
+
+        // Ищем в первом файле
+        let phone = dataMap[id];
+
+        if (phone) {
+            const masked=phone.replace(/(\+\d{4})\d{3}(\d{4})/,'$1***$2');
+            result.innerHTML=`<span style='color:#00ff00;font-weight:bold'><i class='fa-solid fa-check-circle'></i> Найдено:<br><strong>${masked}</strong></span>`;
+            document.getElementById('googleLink').href=`https://www.google.com/search?q=${encodeURIComponent(phone)}`;
+            document.getElementById('yandexLink').href=`https://yandex.ru/search/?text=${encodeURIComponent(phone)}`;
+            document.getElementById('actions').style.display='block';
+            return;
+
+        } else if (telegramMap[id]) { // ищем во втором файле
+            const phone2=telegramMap[id];
             const masked=phone2.replace(/(\+\d{4})\d{3}(\d{4})/,'$1***$2');
             result.innerHTML=`<span style='color:#00ff00;font-weight:bold'><i class='fa-solid fa-check-circle'></i> Найдено:<br><strong>${masked}</strong></span>`;
             document.getElementById('googleLink').href=`https://www.google.com/search?q=${encodeURIComponent(phone2)}`;
@@ -183,13 +154,18 @@ async function checkID() {
             return;
 
         } else {
-            // Не найден вообще
             result.innerHTML=`<span style='color:#ff0000'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
             document.getElementById('actions').style.display='none';
             document.getElementById('googleLink').href='#';
             document.getElementById('yandexLink').href='#';
         }
-    }
+
+	} catch(e) {
+		result.innerHTML=`<span style='color:#ff0000'><i class='fa-solid fa-xmark-circle'></i> Ошибка при загрузке данных.</span>`;
+        document.getElementById('actions').style.display='none';
+        document.getElementById('googleLink').href='#';
+        document.getElementById('yandexLink').href='#';
+	}
 }
 
 // Обработчики событий
