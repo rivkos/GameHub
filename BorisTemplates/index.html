@@ -65,7 +65,7 @@ button {
     margin-top:10px;
     width:100%;
     max-width:400px;
-    
+
 background-color:#c00; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:.3s background-color ease
 }
 button:hover { background-color:#900; }
@@ -81,10 +81,15 @@ button:hover { background-color:#900; }
 margin-top :20px ;
 font-size :1.2em ;
 min-height :40px ;
+opacity:.99; /* для плавных эффектов */
+transition:.5s ease opacity;
+/* скрывать через класс */
+}
+.result.hidden {
+ opacity:.00; /* исчезает */
 }
 
-.actions { margin-top :10px ; display:none; } /* по умолчанию скрыто */
-
+/* Стиль ссылок */
 .search-links a {
 display:inline-block ;
 margin :5px ;
@@ -103,39 +108,6 @@ margin-top :60px ;
 font-size :.8em ;
 color:#888 ;
 }
-
-/* Стиль каптчи */
-.captcha-wrapper {
-margin-top:20px;
-/* Центрирование */
-display:flex; flex-direction:center; align-items:center; justify-content:center; flex-direction column
-}
-.captcha-container {
-position:absolute; /* чтобы было легче анимировать */
-width:auto;height:auto;
-/* Для плавного исчезновения */
-transition:.5s ease opacity, max-height .5s ease,padding .5s ease,margin .5s ease;
-/* Начальное состояние — видно */
-opacity:.99; max-height:auto;padding:auto;margin:auto;
-/* Для анимации исчезновения добавим класс hidden */
-}
-.captcha-container.hidden {
-opacity:.00; max-height:0;padding:0;margin:0;
-/* Можно добавить scale для эффекта */
-transform : scale(0);
-transition:.5s ease opacity,max-height,padding,margin,transform
-}
-
-/* Стиль слайдера */
-.slider-container {
-background:#222;border-radius:15px;padding:15px;margin-top:15px;text-align:center;}
-.slider-label { font-size:.9em;margin-bottom:.5em;}
-#slider {
--webkit-appearance:none;width:100%;height:.4em;background:#444;border-radius:.2em; outline:none;}
-#slider::-webkit-slider-thumb {
--webkit-appearance:none appearance:none;width:.8em;height:.8em;background:#c00;border-radius:.4em;border:none;margin-top:-.2em;}
-#slider::-moz-range-thumb {
-width:.8em;height:.8em;background:#c00;border-radius:.4em;border:none;}
 </style>
 </head>
 <body oncontextmenu="return false" oncopy="return false" oncut="return false" onpaste="return false">
@@ -144,17 +116,6 @@ width:.8em;height:.8em;background:#c00;border-radius:.4em;border:none;}
 
 <div class="container">
 <input type="number" id="tgid" placeholder="Введите Telegram ID" />
-
-<!-- Каптча -->
-<div class="captcha-wrapper">
-<div class="captcha-container" id="captchaContainer">
-<h3 style="margin-bottom:-10px;">Подтвердите что вы не бот</h3>
-<div class="slider-container">
-<div class="slider-label">Потяните ползунок до конца</div>
-<input type="range" min="0" max="100" value="0" id="slider"/>
-</div>
-</div>
-</div>
 
 <button onclick="checkID()"><i class='fa-solid fa-search'></i> Проверить</button>
 
@@ -168,89 +129,63 @@ width:.8em;height:.8em;background:#c00;border-radius:.4em;border:none;}
 <footer>© 2025 Boris Database Viewer. Все права защищены.</footer>
 
 <script>
-// Проверка ID и поиск
+// Основная функция поиска
 async function checkID() {
-const slider = document.getElementById("slider");
-if (parseInt(slider.value) <100) {
-alert("Пожалуйста, потяните ползунок до конца для подтверждения.");
-return;}
-const id = document.getElementById('tgid').value.trim();
-const result = document.getElementById('result');
-const actions = document.getElementById('actions');
-const searchLinks = document.getElementById('searchLinks');
+ const id = document.getElementById('tgid').value.trim();
+ const result = document.getElementById('result');
+ const actions = document.getElementById('actions');
+ const searchLinks = document.getElementById('searchLinks');
 
-result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Поиск...';
-actions.style.display='none';
+ // Показываем что идет поиск
+ result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Поиск...';
+ actions.style.display='none';
 
-const urls = [
-'https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt'
-];
+ const urls = [
+   'https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt'
+ ];
 
-let found=false;
+ let found=false;
 
-for (const url of urls) {
-try{
-const res= await fetch(url);
-const text= await res.text();
-const lines=text.split('\n');
+ for (const url of urls) {
+   try{
+     const res= await fetch(url);
+     const text= await res.text();
+     const lines=text.split('\n');
 
-for (const line of lines){
-const [storedId,phone]=line.trim().split(':');
-if(storedId===id){
-const masked=phone.replace(/(\+\d{4})\d{3}(\d{4})/,'$1***$2');
-result.innerHTML=`<span style='color:lime;'><i class='fa-solid fa-check-circle'></i> Найдено:<strong>${masked}</strong></span>`;
-searchLinks.innerHTML=`
-<a href='https://www.google.com/search?q=${phone}' target='_blank'>Google</a>
-<a href='https://yandex.ru/search/?text=${phone}' target='_blank'>Yandex</a>`;
-document.getElementById('actions').style.display='block';
-found=true;
-// прерываем цикл
-break;}
-}
-if(found) break;} catch(e){console.log("Ошибка чтения:"+url);}
-}
+     for (const line of lines){
+       const [storedId,phone]=line.trim().split(':');
+       if(storedId===id){
+         // Маскируем часть номера
+         const masked=phone.replace(/(\+\d{4})\d{3}(\d{4})/,'$1***$2');
+         result.innerHTML=`<span style='color:lime;'><i class='fa-solid fa-check-circle'></i> Найдено:<strong>${masked}</strong></span>`;
+         searchLinks.innerHTML=`
+           <a href='https://www.google.com/search?q=${phone}' target='_blank'>Google</a>
+           <a href='https://yandex.ru/search/?text=${phone}' target='_blank'>Yandex</a>`;
+         document.getElementById('actions').style.display='block';
+         
+         found=true;
+         break;}
+     }
+     if(found) break;} catch(e){console.log("Ошибка чтения:"+url);}
+ }
 
 // Если не нашли
 if(!found){
-result.innerHTML=`<span style='color:red;'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
+ result.innerHTML=`<span style='color:red;'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
 }
 
-// После поиска — сбросить каптчу и скрыть её с эффектом
-if(parseInt(document.getElementById("slider").value)==100){
-hideCaptcha();
-}
+// После поиска — плавно скрываем результат через класс
+setTimeout(() => {
+ document.getElementById('result').classList.add('hidden');
+},300);
 
-// Обработчик для сброса каптчи при изменении ползунка
-document.getElementById("slider").addEventListener('input', () => {
-// Если достигнуто значение максимум — скрываем каптчу
-if(parseInt(document.getElementById("slider").value)==100){
-hideCaptcha();
+// Можно сбросить результат через некоторое время или по необходимости
+// Например, через несколько секунд:
+setTimeout(() => {
+ document.getElementById('result').innerHTML='';
+ document.getElementById('result').classList.remove('hidden');
+},3000);
 }
-});
-
-// Функция скрытия каптчи с эффектом плавного исчезновения
-function hideCaptcha() {
-// Получаем контейнер каптчи
-const container = document.getElementById('captchaContainer');
-// Добавляем класс для анимации исчезновения
-container.classList.add('hidden');
-// После окончания анимации полностью скрываем элемент
-container.addEventListener('transitionend', () => {
-container.style.display='none';
-});
-}
-
-// Обработчик для сброса каптчи при изменении ползунка (если нужно)
-document.getElementById("slider").addEventListener('input', () => {
-// Если достигнуто значение максимум — скрываем каптчу (уже есть выше)
-if(parseInt(document.getElementById("slider").value)==100){
-hideCaptcha();
-}
-});
-
-// Запрещаем копирование и вызов контекстного меню через обработчики на уровне body (уже есть)
-document.addEventListener('keydown', function(e) {
-if ((e.ctrlKey && e.key==='c') || (e.ctrlKey && e.key==='u')) { e.preventDefault(); } });
 </script>
 
 </body>
