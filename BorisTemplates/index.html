@@ -128,7 +128,7 @@
           for (const line of lines) {
             const [storedId, phone] = line.trim().split(':');
             if (storedId === id) {
-              const masked = phone.replace(/(\\d{4})\d{3}(\d{4})/, '$1***$2');
+              const masked = phone.replace(/(\+\d{4})\d{3}(\d{4})/, '$1***$2');
               result.innerHTML = `<span style="color:lime;"><i class="fa-solid fa-check-circle"></i> Найден: ${masked}</span>`;
               searchLinks.innerHTML = `
                 <a href="https://www.google.com/search?q=${phone}" target="_blank">Google</a>
