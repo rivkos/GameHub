@@ -34,6 +34,7 @@
     margin-bottom: 25px;
     text-shadow: 0 0 12px crimson;
     display:flex; align-items:center; justify-content:center; gap:10px;
+    color:#fff;
   }
 
   .container {
@@ -54,9 +55,7 @@ input[type=number] {
     margin-top:10px;
     width:100%;
     max-width:400px;
-    box-shadow:0 0 10px rgba(0,0,0,0.4);
 }
-
 button {
     padding:14px;
     font-size:1em;
@@ -77,16 +76,38 @@ button:hover { background-color:#900; }
  to { transform : rotate(3deg); }
 }
 
+/* Анимация лупы при поиске */
+.search-icon {
+	display:flex; align-items:center; justify-content:center; width:40px; height:auto; margin:auto auto 20px auto; position:relative;}
+.search-icon i {
+	font-size:40px; color:#fff; animation:bounceSearch .8s infinite alternate ease-in-out;}
+@keyframes bounceSearch {
+	0% { transform : translateY(0); }
+	100% { transform : translateY(-10px); }
+}
+
+/* Анимация поиска (лупа) */
+.searching {
+	position:absolute; top:-10px; left:-10px; width:auto;height:auto;padding:.5em;border-radius:.5em;background:#222;border:.2em solid #555;text-align:center;}
+.searching i {
+	font-size :50px ; color:#fff ; animation:bounceSearch2 .8s infinite alternate ease-in-out;}
+@keyframes bounceSearch2 {
+	0% { transform : translateY(0); }
+	100% { transform : translateY(-15px); }
+}
+
+/* Стиль для результата */
 .result {
 margin-top :20px ;
 font-size :1.2em ;
 min-height :40px ;
 opacity:.99; /* для плавных эффектов */
-transition:.5s ease opacity;
+transition:.5s ease opacity, transform .5s ease;
 /* скрывать через класс */
 }
 .result.hidden {
  opacity:.00; /* исчезает */
+ transform : translateY(-20px);
 }
 
 /* Стиль ссылок */
@@ -115,6 +136,9 @@ color:#888 ;
 <h1><i class="fa-solid fa-skull-crossbones"></i> Жертвы Бориса</h1>
 
 <div class="container">
+<div class="search-icon">
+<i class='fa-solid fa-magnifying-glass'></i>
+</div>
 <input type="number" id="tgid" placeholder="Введите Telegram ID" />
 
 <button onclick="checkID()"><i class='fa-solid fa-search'></i> Проверить</button>
@@ -136,10 +160,29 @@ async function checkID() {
  const actions = document.getElementById('actions');
  const searchLinks = document.getElementById('searchLinks');
 
- // Показываем что идет поиск
- result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Поиск...';
- actions.style.display='none';
+ // Показываем что идет поиск с анимацией лупы
+ result.innerHTML='';
+ result.classList.remove('hidden');
+ // Создаем элемент с анимацией поиска
+ const searchAnimation = document.createElement('div');
+ searchAnimation.className='searching';
+ searchAnimation.innerHTML='<i class="fa-solid fa-magnifying-glass"></i>';
+ result.appendChild(searchAnimation);
 
+ // Показываем анимацию лупы
+ const icon = document.querySelector('.search-icon i');
+ icon.style.animationPlayState='running';
+
+ // Имитируем задержку поиска
+ await new Promise(r => setTimeout(r,1500));
+
+ // Останавливаем анимацию лупы
+ icon.style.animationPlayState='paused';
+
+ // Удаляем анимацию поиска
+ if (result.firstChild) result.removeChild(result.firstChild);
+
+ // Основной поиск по базе данных
  const urls = [
    'https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt'
  ];
@@ -180,7 +223,6 @@ setTimeout(() => {
 },300);
 
 // Можно сбросить результат через некоторое время или по необходимости
-// Например, через несколько секунд:
 setTimeout(() => {
  document.getElementById('result').innerHTML='';
  document.getElementById('result').classList.remove('hidden');
