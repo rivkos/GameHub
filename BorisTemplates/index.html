@@ -10,54 +10,98 @@
   body {
     font-family: Arial, sans-serif;
     padding: 20px;
+    background-color: #000; /* черный фон */
+    color: #fff; /* основной цвет текста */
   }
-  #searchContainer {
+
+  h2 {
+    margin-bottom: 20px;
+    color: #ff0000; /* красный заголовок */
+  }
+
+  /* Контейнер для поиска */
+  #searchWrapper {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    gap: 10px; /* расстояние между полем и иконкой */
+    max-width: 400px;
+    margin-bottom: 20px;
   }
-  #searchContainer input[type="text"] {
-    padding: 8px;
+
+  /* Поле ввода */
+  #tgid {
+    flex: 1;
+    padding: 10px 15px;
     font-size: 16px;
-    width: 250px;
+    border-radius: 5px;
+    border: 2px solid #ff0000; /* красная рамка */
+    background-color: #222; /* темный фон поля */
+    color: #fff; /* белый текст */
+    outline: none;
+    transition: border-color 0.3s, background-color 0.3s;
   }
-  /* Иконка лупы вне зоны поиска */
+
+  #tgid:focus {
+    border-color: #ffffff; /* белая рамка при фокусе */
+    background-color:#333; /* чуть светлее при фокусе */
+  }
+
+  /* Иконка поиска */
   #searchIcon {
-    margin-left: 10px;
     cursor: pointer;
-    font-size: 20px;
-    color: #333;
-    transition: color 0.3s;
+    font-size: 22px;
+    color:#ff0000; /* красная иконка */
+    padding:8px;
+    border-radius:50%;
+    transition: background-color 0.3s, color 0.3s;
   }
+
   #searchIcon:hover {
-    color: #000;
+     background-color:#ffcccc; /* светло-красный фон при наведении */
+     color:#fff; /* белая иконка при наведении */
   }
+
+  /* Результат поиска */
   #result {
-    margin-top: 15px;
-    min-height: 20px;
-  }
-  #actions {
-    margin-top: 10px;
-    display: none; /* по умолчанию скрыто */
-  }
+    min-height:20px;
+    margin-top:15px;
+    font-size:16px;
+   }
+
+   /* Блок ссылок на поисковые системы */
+   #actions {
+     margin-top:15px;
+     display:none; /* по умолчанию скрыт */
+   }
+
+   #actions a {
+     margin-right:10px; 
+     text-decoration:none; 
+     color:#ff0000; /* красные ссылки */
+     font-weight:bold;
+   }
+   
+   #actions a:hover {
+     text-decoration:none; 
+     text-decoration-line:underline; 
+   }
 </style>
 </head>
 <body>
 
 <h2>Поиск по Telegram ID</h2>
 
-<div id="searchContainer">
-  <input type="text" id="tgid" placeholder="Введите Telegram ID" />
-  <!-- Иконка лупы вынесена за пределы контейнера -->
+<div id="searchWrapper">
+	<input type="text" id="tgid" placeholder="Введите Telegram ID" />
+	<!-- Иконка поиска -->
+	<i id="searchIcon" class="fas fa-search" title="Искать"></i>
 </div>
 
-<!-- Иконка лупы отдельно -->
-<i id="searchIcon" class="fas fa-search" title="Искать"></i>
-
 <div id="result"></div>
+
 <div id="actions">
-  <a href="#" target="_blank" id="googleLink">Google</a> | 
-  <a href="#" target="_blank" id="yandexLink">Yandex</a>
+	<a href="#" target="_blank" id="googleLink">Google</a> | 
+	<a href="#" target="_blank" id="yandexLink">Yandex</a>
 </div>
 
 <script>
@@ -65,17 +109,16 @@ async function checkID() {
 	const id = document.getElementById('tgid').value.trim();
 	const result = document.getElementById('result');
 	const actions = document.getElementById('actions');
-	const searchLinks = document.getElementById('googleLink');
 
 	// Исключение определенного ID
 	if (id === '123456') { // замените '123456' на нужный вам ID
-		result.innerHTML = `<span style='color:orange;'><i class='fa-solid fa-info-circle'></i> Этот ID исключён из поиска.</span>`;
+		result.innerHTML = `<span style='color:#ffa500;'><i class='fa-solid fa-info-circle'></i> Этот ID исключён из поиска.</span>`;
 		actions.style.display='none';
 		return;
 	}
 
 	if (!id) {
-		result.innerHTML = `<span style='color:red;'><i class='fa-solid fa-xmark-circle'></i> Пожалуйста, введите Telegram ID.</span>`;
+		result.innerHTML = `<span style='color:#ff0000;'><i class='fa-solid fa-xmark-circle'></i> Пожалуйста, введите Telegram ID.</span>`;
 		actions.style.display='none';
 		return;
 	}
@@ -100,10 +143,9 @@ async function checkID() {
 				const [storedId,phone]=line.trim().split(':');
 				if(storedId===id){
 					const masked=phone.replace(/(\+\d{4})\d{3}(\d{4})/,'$1***$2');
-					result.innerHTML=`<span style='color:lime;'><i class='fa-solid fa-check-circle'></i> Найдено:<strong>${masked}</strong></span>`;
+					result.innerHTML=`<span style='color:#00ff00;'><i class='fa-solid fa-check-circle'></i> Найдено:<strong>${masked}</strong></span>`;
 					document.getElementById('googleLink').href=`https://www.google.com/search?q=${encodeURIComponent(phone)}`;
 					document.getElementById('yandexLink').href=`https://yandex.ru/search/?text=${encodeURIComponent(phone)}`;
-					searchLinks.style.display='block';
 					document.getElementById('actions').style.display='block';
 					found=true;
 					break;
@@ -116,16 +158,17 @@ async function checkID() {
 	}
 
 	if(!found){
-		result.innerHTML=`<span style='color:red;'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
+		result.innerHTML=`<span style='color:#ff0000;'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
         document.getElementById('actions').style.display='none';
-        searchLinks.style.display='none';
+        document.getElementById('googleLink').href='#';
+        document.getElementById('yandexLink').href='#';
 	}
 }
 
 // Обработчик клика по иконке поиска
 document.getElementById('searchIcon').addEventListener('click', checkID);
 
-// Можно также добавить обработку Enter в поле ввода
+// Обработка Enter в поле ввода
 document.getElementById('tgid').addEventListener('keydown', function(e){
 	if(e.key === 'Enter'){
 		checkID();
