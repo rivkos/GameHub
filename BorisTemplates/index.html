@@ -4,15 +4,13 @@
   <meta charset="UTF-8">
   <title>Жертвы Бориса</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Russo One', sans-serif;
       background: linear-gradient(-45deg, #0f0f0f, #1a1a1a, #222, #1a1a1a);
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
@@ -27,20 +25,18 @@
       100% {background-position: 0% 50%;}
     }
     h1 {
-      font-size: 3em;
+      font-size: 2.8em;
       margin-bottom: 25px;
       text-shadow: 0 0 12px crimson;
-      animation: fadeIn 1s ease-in-out;
     }
     .container {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.05);
       padding: 30px;
       border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
       max-width: 500px;
       margin: 0 auto;
       backdrop-filter: blur(8px);
-      animation: fadeIn 1s ease-in-out;
     }
     input, button {
       padding: 14px;
@@ -64,44 +60,42 @@
       color: white;
       cursor: pointer;
       justify-content: center;
-      position: relative;
     }
-    button:hover {
-      background: darkred;
-    }
-    button .fa-search {
-      margin-right: 10px;
-      font-size: 1.3em;
-      animation: searchAnimation 1s ease infinite;
-    }
+    button:hover { background: darkred; }
+    .fa-search { margin-right: 10px; animation: searchAnimation 1s infinite; }
     @keyframes searchAnimation {
-      0% {transform: scale(1);}
-      50% {transform: scale(1.2);}
-      100% {transform: scale(1);}
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
     }
     .result {
       margin-top: 20px;
-      font-size: 1.3em;
+      font-size: 1.2em;
       min-height: 40px;
-      word-wrap: break-word;
     }
-    .copy-btn {
-      background: #444;
+    .captcha {
+      margin: 20px 0;
+      text-align: left;
+      color: #ccc;
+    }
+    .captcha input[type="range"] {
+      width: 100%;
+    }
+    .actions { margin-top: 10px; }
+    .search-links a {
+      display: inline-block;
+      margin: 5px;
+      padding: 10px 15px;
+      background: #333;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
       font-size: 0.9em;
-      margin-top: 10px;
-      width: auto;
-      padding: 8px 14px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.4);
     }
-    .copy-btn .fa-copy {
-      margin-right: 8px;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
+    footer {
+      margin-top: 60px;
+      font-size: 0.8em;
+      color: #888;
     }
     @media (max-width: 600px) {
       h1 { font-size: 2em; }
@@ -114,61 +108,71 @@
 
   <div class="container">
     <input type="number" id="tgid" placeholder="Введите Telegram ID">
+    <div class="captcha">
+      <label>Подтвердите, что вы не бот:</label>
+      <input type="range" id="slider" min="0" max="100" value="0">
+    </div>
     <button onclick="checkID()"><i class="fa-solid fa-search"></i> Проверить</button>
     <div class="result" id="result"></div>
-    <button id="copyBtn" class="copy-btn" style="display: none;" onclick="copyNumber()"><i class="fa-solid fa-copy"></i> Скопировать номер</button>
+    <div class="actions" id="actions" style="display:none;">
+      <div class="search-links" id="searchLinks"></div>
+    </div>
   </div>
 
-  <audio id="successSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c1917e9701.mp3?filename=success-1-6297.mp3"></audio>
-  <audio id="errorSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_94627556c7.mp3?filename=error-2-126507.mp3"></audio>
+  <footer>
+    © 2025 Boris Database Viewer. Все права защищены.
+  </footer>
 
   <script>
-    let lastPhone = '';
-
     async function checkID() {
+      const slider = document.getElementById("slider");
+      if (parseInt(slider.value) < 100) {
+        alert("Пожалуйста, потяните ползунок до конца для подтверждения.");
+        return;
+      }
+
       const id = document.getElementById('tgid').value.trim();
       const result = document.getElementById('result');
-      const copyBtn = document.getElementById('copyBtn');
-      result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Проверка...';
-      copyBtn.style.display = 'none';
+      const actions = document.getElementById('actions');
+      const searchLinks = document.getElementById('searchLinks');
+      result.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Поиск...';
+      actions.style.display = 'none';
 
-      try {
-        const res = await fetch('https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt');
-        const text = await res.text();
-        const lines = text.split('\n');
-        let found = false;
+      const urls = [
+        'https://raw.githubusercontent.com/rivkos/BorsBio/main/data.txt'
+        // Дополнительно можно добавить вторую базу, если получишь прямую ссылку
+      ];
 
-        for (const line of lines) {
-          const [storedId, phone] = line.trim().split(':');
-          if (storedId === id) {
-            const masked = maskPhone(phone);
-            result.innerHTML = `<span style="color: lime;"><i class="fa-solid fa-check-circle"></i> Найден номер: <strong>${masked}</strong></span>`;
-            lastPhone = phone;
-            copyBtn.style.display = 'inline-block';
-            document.getElementById('successSound').play();
-            found = true;
-            break;
+      let found = false;
+      for (const url of urls) {
+        try {
+          const res = await fetch(url);
+          const text = await res.text();
+          const lines = text.split('\n');
+
+          for (const line of lines) {
+            const [storedId, phone] = line.trim().split(':');
+            if (storedId === id) {
+              const masked = phone.replace(/(\+\d{4})\d{3}(\d{4})/, '$1***$2');
+              result.innerHTML = `<span style="color:lime;"><i class="fa-solid fa-check-circle"></i> Найден: <strong>${masked}</strong></span>`;
+              searchLinks.innerHTML = `
+                <a href="https://www.google.com/search?q=${phone}" target="_blank">Google</a>
+                <a href="https://yandex.ru/search/?text=${phone}" target="_blank">Yandex</a>
+              `;
+              actions.style.display = 'block';
+              found = true;
+              break;
+            }
           }
+          if (found) break;
+        } catch (e) {
+          console.log("Ошибка чтения: " + url);
         }
-
-        if (!found) {
-          result.innerHTML = '<span style="color: red;"><i class="fa-solid fa-xmark-circle"></i> ID не найден в базе</span>';
-          document.getElementById('errorSound').play();
-        }
-      } catch (err) {
-        result.innerHTML = '<span style="color: orange;"><i class="fa-solid fa-triangle-exclamation"></i> Ошибка при загрузке базы</span>';
-        document.getElementById('errorSound').play();
       }
-    }
 
-    function maskPhone(phone) {
-      return phone.replace(/(\+\d{4})\d{3}(\d{4})/, '$1***$2');
-    }
-
-    function copyNumber() {
-      navigator.clipboard.writeText(lastPhone).then(() => {
-        alert('Номер скопирован: ' + lastPhone);
-      });
+      if (!found) {
+        result.innerHTML = `<span style="color:red;"><i class="fa-solid fa-xmark-circle"></i> ID не найден в базе данных</span>`;
+      }
     }
 
     document.addEventListener('keydown', function(e) {
