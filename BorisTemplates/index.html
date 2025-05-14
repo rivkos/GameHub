@@ -36,10 +36,15 @@
     margin-bottom: 20px;
     color: #ff0000; /* красный цвет */
     text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-  }
+    display:flex;
+    align-items:center;
+}
+h2 i {
+   margin-right:10px; 
+}
 
-  /* Строка поиска */
-  #searchWrapper {
+/* Строка поиска */
+#searchWrapper {
     display: flex;
     align-items: center;
     width: 100%;
@@ -49,14 +54,14 @@
     padding: 10px 20px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     transition: box-shadow 0.3s, background-color 0.3s;
-  }
+}
 
-  #searchWrapper:hover {
+#searchWrapper:hover {
     box-shadow: 0 8px 20px rgba(255,255,255,0.7);
     background-color:#333;
-  }
+}
 
-  /* Поле ввода */
+/* Поле ввода */
 #tgid {
     flex-grow:1;
     border:none;
@@ -71,7 +76,7 @@
    color:#aaa; 
 }
 
- /* Иконка поиска */
+/* Иконка поиска */
 #searchIcon {
    font-size:1.8em; 
    color:#ff0000; 
@@ -110,7 +115,7 @@
    color:#fff; 
 }
 
-/* Футер */
+/* Футер без ссылки "Связаться с нами" */
 footer {
    width:auto;
    padding:15px ;
@@ -118,12 +123,8 @@ footer {
    background-color:#111 ;
    color:#888 ;
 }
-footer a {
-   color:#ff0000 ;
-   text-decoration:none ;
-}
-footer a:hover {
-   text-decoration underline ;
+footer span {
+   display:block ;
 }
 </style>
 </head>
@@ -146,9 +147,9 @@ footer a:hover {
 </div>
 </div>
 
-<!-- Футер -->
+<!-- Футер без ссылки "Связаться с нами" -->
 <footer>
-&copy; Все права защищены | <a href="#">Связаться с нами</a>
+<span>&copy; Все права защищены</span>
 </footer>
 
 <script>
@@ -220,6 +221,22 @@ document.getElementById('tgid').addEventListener('keydown', function(e){
 	if(e.key === 'Enter'){
 		checkID();
 	}
+});
+
+// Защита от копирования
+document.addEventListener('copy', function(e) {
+	e.preventDefault();
+	alert('Копирование запрещено!');
+});
+document.addEventListener('contextmenu', function(e) {
+	e.preventDefault();
+	alert('Контекстное меню отключено!');
+});
+document.addEventListener('keydown', function(e) {
+	if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
+        e.preventDefault();
+        alert('Действие запрещено!');
+      }
 });
 </script>
 
