@@ -2,200 +2,62 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Жертвы Бориса</title>
-<!-- Шрифты и иконки -->
-<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Поиск по Telegram ID</title>
+<!-- Подключение Font Awesome для иконок -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <style>
-  * {
-    box-sizing: border-box;
-  }
   body {
-    margin: 0;
-    font-family: 'Russo One', sans-serif;
-    background: linear-gradient(-45deg, #0f0f0f, #1a1a1a, #222, #1a1a1a);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    font-family: Arial, sans-serif;
     padding: 20px;
   }
-  @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  #searchContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
   }
-
-  .wrapper {
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-    animation: fadeInUp 1s ease-out;
+  #searchContainer input[type="text"] {
+    padding: 8px;
+    font-size: 16px;
+    width: 250px;
   }
-
-  @keyframes fadeInUp {
-    from { opacity:0; transform: translateY(20px); }
-    to { opacity:1; transform: translateY(0); }
+  /* Иконка лупы вне зоны поиска */
+  #searchIcon {
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #333;
+    transition: color 0.3s;
   }
-
-h1 {
-    font-size: calc(2em + 1vw);
-    margin-bottom: 20px;
-    text-shadow: 0 0 12px crimson;
-}
-
-h1 i {
-   margin-right:10px; 
-}
-
-.container {
-    background: rgba(255,255,255,0.05);
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 0 15px rgba(0,0,0,0.5);
-    backdrop-filter: blur(8px);
-}
-
-#searchBox {
-   position:flex; 
-   display:flex; 
-   justify-content:center; 
-   align-items:center; 
-   margin-bottom:20px; 
-   flex-wrap:wrap;
-}
-
-#searchBox input[type="number"] {
-   width:auto; 
-   min-width:200px; 
-   padding:10px; 
-   font-size: calc(1em + .5vw); 
-   border-radius:10px; 
-   border:none; 
-   background:#222; 
-   color:white; 
-   margin-right:10px; 
-   flex-grow :1 ;
-}
-
-button {
-   padding:12px; 
-   font-size:.9em; 
-   border-radius:10px; 
-   border:none; 
-   background:#c00; 
-   color:white; 
-   cursor:pointer; 
-   display:flex; 
-   align-items:center; 
-   justify-content:center;
-   transition:.3s all ease;
-}
-button:hover {
-   background:#900;
-}
-button i {
-   margin-right:8px;
-}
-
-/* Анимация поиска - лупа */
-.search-animation {
- position:absolute ;
- top:-50% ;
- left:-50% ;
- width :200% ;
- height :200% ;
- display:flex ;
- justify-content:center ;
- align-items:center ;
- pointer-events:none ;
- z-index:-1 ;
- animation :searchPulse infinite alternate ease-in-out ;
-}
-@keyframes searchPulse {
- from {transform :scale(1) ; opacity:.7;}
- to {transform :scale(1.2) ; opacity:.3;}
-}
-
-/* Стиль для результата */
-.result {
-margin-top :20px ;
-font-size :calc(1em + .3vw) ;
-min-height :40px ;
-word-wrap : break-word;
-/* Эффект появления */
-animation :fadeInResult .5s ease forwards ;
-opacity :0 ; /* по умолчанию скрыт */
-}
-@keyframes fadeInResult {
- from {opacity :0;}
- to {opacity :1;}
-}
-
-/* Эффекты для ссылок */
-.search-links a {
-display:inline-block ;
-margin :5px ;
-padding :10px15px ;
-background:#333 ;
-color:white ;
-border-radius :8px ;
-text-decoration:none ;
-font-size :.9em ;
-transition:.3s all ease;
-/* Эффект при наведении */
-box-shadow:none;}
-.search-links a:hover{
-background:#555;}
-
-footer {
-margin-top :30px ;
-font-size :.8em ;
-color:#888 ;
-
-/* Анимация появления футера */
-animation :fadeInFooter .5s ease forwards ;
-opacity :0 ; /* по умолчанию скрыт */
-}
-@keyframes fadeInFooter {
- from {opacity :0;}
- to {opacity :1;}
-}
+  #searchIcon:hover {
+    color: #000;
+  }
+  #result {
+    margin-top: 15px;
+    min-height: 20px;
+  }
+  #actions {
+    margin-top: 10px;
+    display: none; /* по умолчанию скрыто */
+  }
 </style>
 </head>
 <body>
 
-<div class="wrapper">
-<h1><i class="fa-solid fa-skull-crossbones"></i> Жертвы Бориса</h1>
+<h2>Поиск по Telegram ID</h2>
 
-<div class="container">
-
-<!-- Область поиска с анимацией -->
-<div id="searchBox">
-<input type="number" id="tgid" placeholder="Введите Telegram ID" />
-<button onclick="checkID()"><i class="fa-solid fa-search"></i> Проверить</button>
-<!-- Анимация поиска -->
-<div class="search-animation">
-<i class="fa-solid fa-magnifying-glass fa-3x" style="color:#c00;"></i>
-</div>
+<div id="searchContainer">
+  <input type="text" id="tgid" placeholder="Введите Telegram ID" />
+  <!-- Иконка лупы вынесена за пределы контейнера -->
 </div>
 
-<div class="result" id="result"></div>
+<!-- Иконка лупы отдельно -->
+<i id="searchIcon" class="fas fa-search" title="Искать"></i>
 
-<div class="actions" id="actions" style="display:none;">
-<div class="search-links" id="searchLinks"></div>
-</div>
-
-</div>
-
-<footer>
-© 2025 Boris Database Viewer. Все права защищены.
-</footer>
+<div id="result"></div>
+<div id="actions">
+  <a href="#" target="_blank" id="googleLink">Google</a> | 
+  <a href="#" target="_blank" id="yandexLink">Yandex</a>
 </div>
 
 <script>
@@ -203,10 +65,18 @@ async function checkID() {
 	const id = document.getElementById('tgid').value.trim();
 	const result = document.getElementById('result');
 	const actions = document.getElementById('actions');
-	const searchLinks = document.getElementById('searchLinks');
+	const searchLinks = document.getElementById('googleLink');
+
+	// Исключение определенного ID
+	if (id === '123456') { // замените '123456' на нужный вам ID
+		result.innerHTML = `<span style='color:orange;'><i class='fa-solid fa-info-circle'></i> Этот ID исключён из поиска.</span>`;
+		actions.style.display='none';
+		return;
+	}
 
 	if (!id) {
 		result.innerHTML = `<span style='color:red;'><i class='fa-solid fa-xmark-circle'></i> Пожалуйста, введите Telegram ID.</span>`;
+		actions.style.display='none';
 		return;
 	}
 
@@ -231,9 +101,9 @@ async function checkID() {
 				if(storedId===id){
 					const masked=phone.replace(/(\+\d{4})\d{3}(\d{4})/,'$1***$2');
 					result.innerHTML=`<span style='color:lime;'><i class='fa-solid fa-check-circle'></i> Найдено:<strong>${masked}</strong></span>`;
-					searchLinks.innerHTML=`
-						<a href='https://www.google.com/search?q=${encodeURIComponent(phone)}' target='_blank'>Google</a>
-						<a href='https://yandex.ru/search/?text=${encodeURIComponent(phone)}' target='_blank'>Yandex</a>`;
+					document.getElementById('googleLink').href=`https://www.google.com/search?q=${encodeURIComponent(phone)}`;
+					document.getElementById('yandexLink').href=`https://yandex.ru/search/?text=${encodeURIComponent(phone)}`;
+					searchLinks.style.display='block';
 					document.getElementById('actions').style.display='block';
 					found=true;
 					break;
@@ -247,14 +117,20 @@ async function checkID() {
 
 	if(!found){
 		result.innerHTML=`<span style='color:red;'><i class='fa-solid fa-xmark-circle'></i> ID не найден в базе данных</span>`;
+        document.getElementById('actions').style.display='none';
+        searchLinks.style.display='none';
 	}
 }
 
-// Запрещаем копирование и вызов контекстного меню
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('copy', e => e.preventDefault());
-document.addEventListener('keydown', function(e) {
-	if ((e.ctrlKey && e.key==='c') || (e.ctrlKey && e.key==='u')) { e.preventDefault(); } });
+// Обработчик клика по иконке поиска
+document.getElementById('searchIcon').addEventListener('click', checkID);
+
+// Можно также добавить обработку Enter в поле ввода
+document.getElementById('tgid').addEventListener('keydown', function(e){
+	if(e.key === 'Enter'){
+		checkID();
+	}
+});
 </script>
 
 </body>
